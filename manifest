@@ -1,0 +1,21 @@
+#appname: Gtasktic
+#publisher: raywang
+#url: http://
+#image: default_app_logo.png
+#appid: app.gtasktic
+#desc: undefined
+#type: desktop
+#guid: d334920e-6e4d-48a0-b3d3-8cd4e456a8fd
+runtime:1.1.0
+tiapp:1.1.0
+tifilesystem:1.1.0
+tiplatform:1.1.0
+tiui:1.1.0
+python:1.1.0
+ticodec:1.1.0
+tidatabase:1.1.0
+timedia:1.1.0
+timonkey:1.1.0
+tinetwork:1.1.0
+tiprocess:1.1.0
+tiworker:1.1.0

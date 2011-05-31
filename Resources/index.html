@@ -1,0 +1,185 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><link rel="stylesheet" href="ti://tiui/default.css" type="text/css">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+	<title>GTasktic</title>
+
+	<link type="text/css" rel="stylesheet" href="css/wunderlist.css">
+	<link type="text/css" rel="stylesheet" href="css/dialogs.css">
+	
+	<script src="lib/json2.js" type="text/javascript" charset="utf-8"></script>
+  	<script src="lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/jquery.tmpl.js" type="text/javascript" charset="utf-8"></script>
+
+	<!-- Loading external libraries -->
+	<script type="text/javascript" src="js/libraries/jquery.ui.1.8.10.min.js"></script>
+	<script type="text/javascript" src="js/libraries/jquery.async.js"></script>
+	<script type="text/javascript" src="js/libraries/shortcuts.js"></script>
+	<script type="text/javascript" src="js/libraries/encoder.js"></script>
+	
+	<!-- helper -->
+	<script type="text/javascript" src="js/helpers/html.js"></script>
+
+	<script src="lib/spine.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/spine.model.local.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script src="app/task.js" type="text/javascript" charset="utf-8"></script>
+	<script src="app/application.js" type="text/javascript" charset="utf-8"></script>
+
+	<script type="text/x-jquery-tmpl" id="taskTemplate">
+		<div class="item {{if done}}done{{/if}}">
+		  <div class="view" title="Double click to edit...">
+		    <input type="checkbox" {{if done}}checked="checked"{{/if}}> 
+		    <span>${name}</span> <a class="destroy"></a>
+		  </div>
+		  
+		  <div class="edit">
+		    <input type="text" value="${name}">
+		  </div>
+		</div>
+	</script>
+
+	<style type="text/css">
+		.roundedlist {
+			margin-bottom: 12px;
+			margin-top: 12px;
+		}
+		
+		.roundedlist li .item {
+			color: #4E4E4E;
+			font-family: Arial, sans-serif;
+			font-size: 12px;
+			-webkit-box-shadow: #333 0px 1px 3px;
+			background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EEE), to(white));
+			border-radius: 5px 5px;
+			cursor: pointer;
+			margin-bottom: 5px;
+			min-height: 20px;
+			overflow: hidden;
+			padding: 7px 0px 0px 8px;
+			position: relative;
+		}
+		
+		#tasks li input[type="text"] {
+		  font-family: inherit;
+		  line-height: 1em;
+		  border: 0;
+		  outline: none;
+		  padding: 2px;
+		  padding-left: 15px;
+		  border-radius: 15px 15px;
+		  
+		  -webkit-box-shadow: #999 1px 1px 3px inset;
+		  
+		  width: 90%;
+		}
+		
+		#tasks input::-webkit-input-placeholder {
+		  font-style: italic;
+		}
+		
+		#tasks .items {
+		  margin: 10px 0;
+		  list-style: none;
+		}
+
+		#tasks .item.done span {
+		  color: #777777;
+		  text-decoration: line-through;
+		}
+		
+		#tasks .item .destroy {
+		  position: absolute;
+		  right: 10px;
+		  top: 16px;
+		  display: none;
+		  cursor: pointer;
+		  width: 20px;
+		  height: 20px;
+		  background: url(../icons/delete_active.png) no-repeat center center;
+		}
+		
+		#tasks .item:hover .destroy {
+		  top: 4px;
+		  display: block;
+		}
+		
+		#tasks .item .edit { display: none; }
+		#tasks .item.editing .edit { display: block; }
+		#tasks .item.editing .view { display: none; }
+		
+		#tasks .item span {
+			margin-left: 15px;
+		}
+		
+		#tasks .done {
+			opacity: 0.3;
+		}
+		
+		
+		.addwrapper #addingdiv  {
+			border: 0px;  
+		}
+		
+	</style>
+
+</head>
+
+<body style="background-image: none; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-position: initial initial; background-repeat: initial initial; " class="osx">
+
+	<div id="bghelp" style="background-image: url(/backgrounds/wood.jpg); background-attachment: fixed; background-origin: initial; background-clip: initial; background-color: rgb(0, 0, 0); display: block; background-position: 50% 0%; background-repeat: no-repeat no-repeat; "></div>
+	
+	<div id="content" style="left: 0px; display: block; right: 0px; ">
+		<div id="listfunctions">
+			
+			<div id="cloudtip"><span class="triangle"></span><span class="copy">COPY LINK</span><span class="link"></span></div></div>
+			
+			
+		  <div id="views">
+		    <div id="tasks">
+		      
+		      <div class="add">
+				<div class="addwrapper">
+					<form>
+						<input type="text" id="addingdiv" class="input-add" placeholder="Add your task here" style="border: 0px;" />
+					</form>
+				</div>
+				<input type="hidden" class="datepicker hasDatepicker" id="dp1306613193510"><img class="ui-datepicker-trigger" src="icons/time.png" alt="" title="">
+			  </div>
+		      
+		      <h1>#inbox</h1>
+		      <div class="items roundedlist"></div>
+		      
+		      <footer>
+		        <a class="clear">Clear completed</a>
+		        <div class="count"><span class="countVal"></span> left</div>
+		      </footer>
+		    </div>
+		  </div>
+		    
+		</div>
+	
+	<div id="menublur"></div>
+	
+	<div id="bottombar">
+		<div id="left">
+				<span id="sync" class="more" rel="Synchronize"><span id="syncing"></span></span>
+				<a id="all" class="filter roundedleft more ui-droppable" rel="All"><img src="icons/filterall.png" alt="all"></a>
+				<a id="starred" class="filter more ui-droppable" rel="Starred"><img src="icons/filterstar.png" alt="all"></a>
+				<a id="done" class="filter roundedright more ui-droppable" rel="Done"><img src="icons/filterdone.png" alt="all"></a>
+				<a id="today" class="filter roundedleft ui-droppable">Today</a>
+				<a id="tomorrow" class="filter ui-droppable">Tomorrow</a>
+				<a id="thisweek" class="filter ui-droppable">Next 7 Days</a>
+				<a id="someday" class="filter ui-droppable">Later</a>
+				<a id="withoutdate" class="filter roundedright ui-droppable">Without Date</a>
+			<div id="login_data"></div>
+		</div>		
+		<div id="right"><a class="backgroundswitcher"><span class="activebackground" style="background-image: url(app://test.app/images/icon_wood.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-position: initial initial; background-repeat: initial initial; "></span></a>
+			<a class="showhelp">?</a>
+			<span id="backgroundList" style="display: none; "><a class="bgeleven">12</a><a class="bgtwelve">11</a><a class="bgten">10</a><a class="bgthree">9</a><a class="bgtwo">8</a><a class="bgeight">7</a><a class="bgfive">6</a><a class="bgnine">5</a><a class="bgone active">4</a><a class="bgfour">3</a><a class="bgseven">2</a><a class="bgsix">1</a><span class="arrow"></span></span>
+			<span class="togglesidebar hidden" title="Toggle Sidebar"></span>	
+			<a class="addlist">Add List</a>
+		</div>
+	</div>
+
+
+<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div></body></html>
