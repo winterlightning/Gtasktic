@@ -26,7 +26,7 @@
 		<div class="item {{if done}}done{{/if}}">
 		  <div class="view" title="Double click to edit...">
 		    <input type="checkbox" {{if done}}checked="checked"{{/if}}> 
-		    <span>${name}</span> <a class="destroy"></a>
+		    <span>${name}</span> <span>${duedate}</span> <a class="destroy"></a>
 		  </div>
 		  
 		  <div class="edit">
@@ -158,11 +158,11 @@
 		      
 		      <div class="add">
 				<div class="addwrapper">
-					<form>
+					<form id="newtask_form">
 						<input type="text" id="addingdiv" class="input-add" placeholder="Add your task here" style="border: 0px;" />
 						<input type="hidden" class="datepicker" id="newtaskdate">
 					</form>
-					<span class="showdate timestamp" rel="1308283200"></span>
+					<span class="showdate timestamp"></span>
 				</div>
 				
 			  </div>

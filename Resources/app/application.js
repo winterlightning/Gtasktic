@@ -72,7 +72,9 @@ jQuery(function($){
       ".items":     "items",
       ".countVal":  "count",
       ".clear":     "clear",
-      "form input": "input"
+      "form input:text": "input",
+      "form input:hidden": "inputdate",
+      ".showdate":  "datedisplay",
     },
     
     init: function(){
@@ -92,8 +94,11 @@ jQuery(function($){
     },
         
     create: function(){
-      Task.create({name: this.input.val(), time: ( new Date().getTime() ).toString(), done: false });
+      alert( this.inputdate.val());
+      Task.create({name: this.input.val(), time: ( new Date().getTime() ).toString(), done: false, duedate: this.inputdate.val() });
       this.input.val("");
+      this.inputdate.val("");
+      this.datedisplay.html("");
       return false;
     },
     
