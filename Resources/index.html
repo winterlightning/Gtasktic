@@ -26,7 +26,7 @@
 		<div class="item {{if done}}done{{/if}}">
 		  <div class="view" title="Double click to edit...">
 		    <input type="checkbox" {{if done}}checked="checked"{{/if}}> 
-		    <span>${name}</span> <span>${duedate}</span> <a class="destroy"></a>
+		    <span>${name}</span> <span class="duedate">${duedate}</span> <a class="destroy"></a>
 		  </div>
 		  
 		  <div class="edit">
@@ -122,6 +122,11 @@
 			left: -25px;
 		}
 		
+		.item .duedate {
+			float: right;
+			margin-right: 50px;
+			font-weight: bold;
+		}
 	</style>
 
 			<script>

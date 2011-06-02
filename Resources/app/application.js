@@ -94,7 +94,6 @@ jQuery(function($){
     },
         
     create: function(){
-      alert( this.inputdate.val());
       Task.create({name: this.input.val(), time: ( new Date().getTime() ).toString(), done: false, duedate: this.inputdate.val() });
       this.input.val("");
       this.inputdate.val("");
