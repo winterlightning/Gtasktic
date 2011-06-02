@@ -7,7 +7,7 @@
 	<link type="text/css" rel="stylesheet" href="css/dialogs.css">
 	
 	<script src="lib/json2.js" type="text/javascript" charset="utf-8"></script>
-  	<script src="lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+  	<script type="text/javascript" src="js/libraries/jquery-1.6.min.js"></script>
 	<script src="lib/jquery.tmpl.js" type="text/javascript" charset="utf-8"></script>
 
 	<!-- Loading external libraries -->
@@ -15,9 +15,6 @@
 	<script type="text/javascript" src="js/libraries/jquery.async.js"></script>
 	<script type="text/javascript" src="js/libraries/shortcuts.js"></script>
 	<script type="text/javascript" src="js/libraries/encoder.js"></script>
-	
-	<!-- helper -->
-	<script type="text/javascript" src="js/helpers/html.js"></script>
 
 	<script src="lib/spine.js" type="text/javascript" charset="utf-8"></script>
 	<script src="lib/spine.model.local.js" type="text/javascript" charset="utf-8"></script>
@@ -95,7 +92,7 @@
 		  cursor: pointer;
 		  width: 20px;
 		  height: 20px;
-		  background: url(../icons/delete_active.png) no-repeat center center;
+		  background: url('icons/delete_active.png') no-repeat center center;
 		}
 		
 		#tasks .item:hover .destroy {
@@ -115,24 +112,46 @@
 			opacity: 0.3;
 		}
 		
-		
 		.addwrapper #addingdiv  {
 			border: 0px;  
 		}
 		
+		div.add .ui-datepicker-trigger {
+			position: absolute;
+			top: 0px;
+			left: -25px;
+		}
+		
 	</style>
+
+			<script>
+			$(function() {
+				$("#newtaskdate").datepicker({
+					constrainInput: true,
+					buttonImage: 'icons/time.png',
+					buttonImageOnly: true,
+					buttonText: '',
+					showOn: 'both',
+					onSelect: function(dateText, inst) {
+						if ($(this).parent().parent().find('.showdate').length == 1){
+							$(this).parent().parent().find('.showdate').html(dateText);
+						};
+					}
+				});
+	
+			});
+			</script>
 
 </head>
 
 <body style="background-image: none; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-position: initial initial; background-repeat: initial initial; " class="osx">
 
-	<div id="bghelp" style="background-image: url(/backgrounds/wood.jpg); background-attachment: fixed; background-origin: initial; background-clip: initial; background-color: rgb(0, 0, 0); display: block; background-position: 50% 0%; background-repeat: no-repeat no-repeat; "></div>
+	<div id="bghelp" style="background-image: url('backgrounds/wood.jpg'); background-attachment: fixed; background-origin: initial; background-clip: initial; background-color: rgb(0, 0, 0); display: block; background-position: 50% 0%; background-repeat: no-repeat no-repeat; "></div>
 	
 	<div id="content" style="left: 0px; display: block; right: 0px; ">
 		<div id="listfunctions">
 			
 			<div id="cloudtip"><span class="triangle"></span><span class="copy">COPY LINK</span><span class="link"></span></div></div>
-			
 			
 		  <div id="views">
 		    <div id="tasks">
@@ -141,9 +160,11 @@
 				<div class="addwrapper">
 					<form>
 						<input type="text" id="addingdiv" class="input-add" placeholder="Add your task here" style="border: 0px;" />
+						<input type="hidden" class="datepicker" id="newtaskdate">
 					</form>
+					<span class="showdate timestamp" rel="1308283200"></span>
 				</div>
-				<input type="hidden" class="datepicker hasDatepicker" id="dp1306613193510"><img class="ui-datepicker-trigger" src="icons/time.png" alt="" title="">
+				
 			  </div>
 		      
 		      <h1>#inbox</h1>
@@ -154,8 +175,8 @@
 		        <div class="count"><span class="countVal"></span> left</div>
 		      </footer>
 		    </div>
-		  </div>
-		    
+		  </div>		
+				
 		</div>
 	
 	<div id="menublur"></div>

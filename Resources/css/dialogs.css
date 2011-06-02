@@ -4,8 +4,8 @@
 .ui-datepicker .ui-datepicker-header { position:relative; padding:.2em 0; }
 .ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next { position:absolute; top: 12px; width: 18px; height: 19px; background:#000;}
 .ui-datepicker .ui-datepicker-prev:hover, .ui-datepicker .ui-datepicker-next:hover {cursor:pointer}
-.ui-datepicker .ui-datepicker-prev { background: url(/images/datenav.png); left:10px; }
-.ui-datepicker .ui-datepicker-next { background: url(/images/datenav.png); right:10px; background-position:-18px 0px}
+.ui-datepicker .ui-datepicker-prev { background: url(../images/datenav.png); left:10px; }
+.ui-datepicker .ui-datepicker-next { background: url(../images/datenav.png); right:10px; background-position:-18px 0px}
 .ui-datepicker .ui-datepicker-next:hover {background-position:-18px -19px} 
 .ui-datepicker .ui-datepicker-prev span, .ui-datepicker .ui-datepicker-next span {display: none; position: absolute; left: 50%; margin-left: -8px; top: 50%; margin-top: -8px;  }
 
@@ -33,7 +33,7 @@
 /* Close Dialog Button */			
 
 .ui-dialog .ui-dialog-titlebar-close { 
-width:18px; height:19px; background:url(/images/close.png);position: absolute; top:12px; right:12px}
+width:18px; height:19px; background:url(../images/close.png);position: absolute; top:12px; right:12px}
 
 .ui-dialog .ui-dialog-titlebar-close span { display:none}
 
@@ -74,7 +74,7 @@ a.facebooklogin {
 cursor:pointer;
 text-indent: -23981px;
 float:right; 
-background:url(/images/facebooklogin.png) no-repeat;
+background:url(../images/facebooklogin.png) no-repeat;
 display:block;
 height:31px;
 width:84px;
@@ -147,7 +147,7 @@ position:relative;
 border-top-left-radius: 5px;
 border-top-right-radius: 5px;
 height:20px !important;
-background: url(/images/dialoghead.png) -1px center;
+background: url(../images/dialoghead.png) -1px center;
 border:none ;border-bottom:1px solid #9ea0a6;
 font-weight:bold;
 color:#4b4e54 ;font-size:14px ; padding:15px 12px 9px 12px; text-shadow:0px 1px 1px #fff}
@@ -231,7 +231,7 @@ top:-80px;
 text-indent: -29856px;
 width:162px;
 height:223px;
-background:url(/images/registertutorial.png)}
+background:url(../images/registertutorial.png)}
 
 	.forgotpwbuttons {position:relative}
 
@@ -258,7 +258,7 @@ word-wrap: break-word}
 
 .dialog-notes .savednote {overflow:auto}
 
-.dialog-notes .savednote .inner {background: url(/images/notebg.png); padding:5px 20px 0px 20px; color:#333; min-height:98%}
+.dialog-notes .savednote .inner {background: url(../images/notebg.png); padding:5px 20px 0px 20px; color:#333; min-height:98%}
 
 .dialog-notes .savednote span.openApp { color:#1389D3}
 .dialog-notes .savednote span.openApp:hover { color:#1389D3; cursor: pointer; text-decoration: underline}
@@ -312,7 +312,7 @@ position:absolute; top: 50% !important; left: 50% !important; margin-left: -250p
 
 .dialog-social .invitefriends { font-size:16px; font-weight:bold; margin-top:12px; color:#333}
 
-.dialog-social .wunderlistlogo {width:128px; background:url(/images/wlicon.png) no-repeat}
+.dialog-social .wunderlistlogo {width:128px; background:url(../images/wlicon.png) no-repeat}
 
 .dialog-social input {margin-left:0px; margin-right:0px}
 
@@ -341,10 +341,10 @@ box-shadow:inset 0px 1px 3px #999;
 border-radius:5px}
 
 p.socialmedia span.icons a:hover , .followus p a:hover { -webkit-box-shadow:0px 2px 3px #444; box-shadow:0px 2px 3px #444; -moz-box-shadow:0px 2px 3px #444}
-p.socialmedia span.icons a.facebook,  .followfacebook  { background:url(/images/icons/facebook.png)}
-p.socialmedia span.icons a.twitter, .followtwitter { background:url(/images/icons/twitter.png)}
-p.socialmedia span.icons a.stumbleupon { background:url(/images/icons/stumbleupon.png)}
-p.socialmedia span.icons a.digg { background:url(/images/icons/digg.png)}
+p.socialmedia span.icons a.facebook,  .followfacebook  { background:url(../images/icons/facebook.png)}
+p.socialmedia span.icons a.twitter, .followtwitter { background:url(../images/icons/twitter.png)}
+p.socialmedia span.icons a.stumbleupon { background:url(../images/icons/stumbleupon.png)}
+p.socialmedia span.icons a.digg { background:url(../images/icons/digg.png)}
 
 .textarea-dialog {
 width: 323px; height:50px; padding:10px; margin-top:6px; margin-bottom:-6px;
@@ -375,7 +375,7 @@ border:1px solid #9c9ea4; font-size:11px; color:#777}
 		
 		.dialog-sharelist ul li:hover {-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";opacity:1.0;-moz-opacity: 1.0}
 		
-		.dialog-sharelist li span { background:url(/images/icons/delete_white.png); cursor:pointer; margin-right:4px; width:14px; height:14px; float:right; opacity:0.5}
+		.dialog-sharelist li span { background:url(../images/icons/delete_white.png); cursor:pointer; margin-right:4px; width:14px; height:14px; float:right; opacity:0.5}
 		.dialog-sharelist li span:hover {opacity:1.0}
 
 		.dialog-sharelist input.input-sharelist {width:96%; padding:5px 2%}
@@ -400,23 +400,23 @@ border:1px solid #9c9ea4; font-size:11px; color:#777}
 
 .dialog-login, .dialog-login div {overflow:visible}
 
-.followus p {position:absolute; bottom:-190px; left: -50px; background:url(/images/followus.png) 0px 10px no-repeat; padding-left:80px; width:460px}
+.followus p {position:absolute; bottom:-190px; left: -50px; background:url(../images/followus.png) 0px 10px no-repeat; padding-left:80px; width:460px}
 .followus p a { margin-left:2px; margin-right:8px; -webkit-box-shadow:0px 1px 3px #666; -moz-box-shadow:0px 1px 3px #666; box-shadow:0px 1px 3px #666; float:left;}
 .followus p a:hover { -webkit-box-shadow:0px 1px 3px #333; box-shadow:0px 1px 3px #333; box-shadow:0px 1px 3px #333}
 
 /* HEADLINE @ LOGIN DIALOG --------------------------------------------------------------------------- */
 
-.dialog-login h1 {text-indent: -9678px; height:57px; width:303px; position:absolute; left:85px;  top: -72px; background:url(/images/headline.png) no-repeat}
+.dialog-login h1 {text-indent: -9678px; height:57px; width:303px; position:absolute; left:85px;  top: -72px; background:url(../images/headline.png) no-repeat}
 .dialog-login h2, .dialog-login h3 {display:none}
 
-.seefeatures {Position:absolute; height:44px; width:179px; top:-70px; left:150px;background:url(/images/seefeatures.png) no-repeat; text-indent: -45123px}
+.seefeatures {Position:absolute; height:44px; width:179px; top:-70px; left:150px;background:url(../images/seefeatures.png) no-repeat; text-indent: -45123px}
 .seefeatures:hover {background-position:0px -44px}
 
-.wkseparator {position:absolute; width:560px; height:2px; background:url(/images/wkseparator.png); left:-30px; bottom:-130px;}
+.wkseparator {position:absolute; width:560px; height:2px; background:url(../images/wkseparator.png); left:-30px; bottom:-130px;}
 
 .wkdownload {position:absolute; width:570px; height:88px; left:-44px; bottom:-110px; text-align:center}
 
-	.wkdownload a {width:114px; height:88px; display:inline-block; text-indent: -23718px; background:url(/images/download.png);}
+	.wkdownload a {width:114px; height:88px; display:inline-block; text-indent: -23718px; background:url(../images/download.png);}
 	
 		.wkdownload .iphone {background-position: 0px -88px}
 		.wkdownload .iphone:hover {background-position: 0px 0px}
@@ -436,12 +436,12 @@ border:1px solid #9c9ea4; font-size:11px; color:#777}
 		.wkdownload .notyet {opacity:0.5}
 		.wkdownload .notyet:hover {background-position: 342px -88px; cursor:default}
 
-.wklogo {position:absolute; width:580px; height:50px; background: url(/images/wklogo.png) 247px 9px no-repeat; 
+.wklogo {position:absolute; width:580px; height:50px; background: url(../images/wklogo.png) 247px 9px no-repeat; 
 bottom:-190px; left:-38px; cursor: pointer; text-indent: -34129px}
 
-.wklogowhite {display: block; width:329px; height:49px; position:absolute; left:191px; bottom:-185px; background: url(/images/wklogowhite.png); text-indent: -34129px}
+.wklogowhite {display: block; width:329px; height:49px; position:absolute; left:191px; bottom:-185px; background: url(../images/wklogowhite.png); text-indent: -34129px}
 
-.freewunderlist {background:url(/images/free.png);width:95px;height:103px;position:absolute;top:-3px;right:-16px; text-indent: -4303px}
+.freewunderlist {background:url(../images/free.png);width:95px;height:103px;position:absolute;top:-3px;right:-16px; text-indent: -4303px}
 
 /* DATEPICKER DIALOG ------------------------------------------------------------------------------------ */
 
@@ -459,10 +459,10 @@ border:1px solid #ccc}
 color:#fff !important;
 border: 1px solid #59a6e7 !important;
 font-weight:bold !important;
-background:url(/images/bottombar_active_light.png) top left repeat-x !important;}
+background:url(../images/bottombar_active_light.png) top left repeat-x !important;}
 
 .ui-datepicker-calendar .ui-datepicker-current-day .ui-state-active {
-background:url(/images/bottombar_active.png) top left repeat-x !important;
+background:url(../images/bottombar_active.png) top left repeat-x !important;
 border: 1px solid #4580b1 !important;
 font-weight:bold;
 color:#fff !important}
@@ -502,3 +502,8 @@ margin-bottom:5px}
 .ui-helper-clearfix { display:block; }
 /* end clearfix */
 .ui-helper-zfix { width: 100%; height: 100%; top: 0; left: 0; position: absolute; opacity: 0; filter:Alpha(Opacity=0); }
+
+/*Project changes*/
+.ui-datepicker table {
+	margin-bottom: 20px;
+}

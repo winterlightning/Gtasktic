@@ -80,7 +80,7 @@ a {color:#393939}
 
 #sidebar {
 right:0px;
-background:url(/images/sidebar.png) right repeat-y;
+background:url(../images/sidebar.png) right repeat-y;
 width:269px;
 height:100%;
 top:0px;
@@ -118,7 +118,7 @@ border:1px solid #c8cddd;
 -webkit-border-radius:15px;
 -moz-border-radius:15px;
 border-radius:15px;
-background:#fff url(/images/searchicon.png) 5% 50% no-repeat}
+background:#fff url(../images/searchicon.png) 5% 50% no-repeat}
 
 #sidebar .searchside input {
 border:none;
@@ -134,7 +134,7 @@ position:absolute;
 -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
 opacity:0.7; 
 -moz-opacity: 0.7;
-background:url(/images/icons/delete_active.png);
+background:url(../images/icons/delete_active.png);
 position:absolute;
 right:100px;
 top:4px;
@@ -159,43 +159,43 @@ padding-bottom:10px;
 height:26px}
 
 #sidebar div.deletep { 
-background:url(/images/icons/delete_active.png); cursor:pointer; margin-right:4px; width:14px; height:14px; float:right; display:none; 
+background:url(../images/icons/delete_active.png); cursor:pointer; margin-right:4px; width:14px; height:14px; float:right; display:none; 
 -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 opacity:0.5; 
 -moz-opacity: 0.5}
 
 #sidebar div.deletep:hover {opacity:1.0}
 
-#sidebar div.editp { background:url(/images/icons/edit_active.png); cursor:pointer; margin-right:4px; width:14px; height:14px; float:right; display:none;
+#sidebar div.editp { background:url(../images/icons/edit_active.png); cursor:pointer; margin-right:4px; width:14px; height:14px; float:right; display:none;
 -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 opacity:0.5; 
 -moz-opacity: 0.5}
 
 #sidebar div.editp:hover {opacity:1.0}
 
-#sidebar div.savep { background:url(/images/icons/editdone_active.png); cursor:pointer; margin-right:4px; width:14px; height:14px; float:right; display:none;
+#sidebar div.savep { background:url(../images/icons/editdone_active.png); cursor:pointer; margin-right:4px; width:14px; height:14px; float:right; display:none;
 -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 opacity:0.5; 
 -moz-opacity: 0.5}
 
 #sidebar div.savep:hover {opacity:1.0}
 
-#sidebar b.inbox {padding-left:24px; background:url(/images/icons/inbox.png) no-repeat; background-position:0px 0px;}
+#sidebar b.inbox {padding-left:24px; background:url(../images/icons/inbox.png) no-repeat; background-position:0px 0px;}
 
 /* Share List Icon Behavior */
 
 #sidebar b.sharep {padding-right:22px;position:relative}
 
 #sidebar b.sharep .sharelist, #sidebar b.sharep .sharedlist {
-position:absolute; right:0px; top:-1px; width:17px; height:17px; background:url(/images/icons/sharelist.png) top right no-repeat; cursor:pointer !important}
+position:absolute; right:0px; top:-1px; width:17px; height:17px; background:url(../images/icons/sharelist.png) top right no-repeat; cursor:pointer !important}
 
 #sidebar b.sharep .sharelist {display:none}
 
 #sidebar .list:hover .sharelist {display:block; opacity:0.6}
 
-#sidebar .ui-state-disabled .sharelist {background:url(/images/icons/sharelist_white.png) top right no-repeat !important}
+#sidebar .ui-state-disabled .sharelist {background:url(../images/icons/sharelist_white.png) top right no-repeat !important}
 
-#sidebar .ui-state-disabled .sharedlist {background:url(/images/icons/sharelist_white.png) top right no-repeat !important; opacity:1.0 !important}
+#sidebar .ui-state-disabled .sharedlist {background:url(../images/icons/sharelist_white.png) top right no-repeat !important; opacity:1.0 !important}
 
 #sidebar b.sharep .sharedlist:hover, #sidebar b.sharep .sharelist:hover {opacity:1.0}
 
@@ -247,9 +247,9 @@ background: #21638c; color:#fff;
 -moz-box-shadow: inset 1px 1px 3px #174460;
 box-shadow: inset 1px 1px 3px #174460}
 
-#sidebar .ui-state-disabled div.deletep , #sidebar .ui-dropped-disabled div.deletep {background:url(/images/icons/delete_white.png)}
-#sidebar .ui-state-disabled div.editp , #sidebar .ui-dropped-disabled div.editp {background:url(/images/icons/edit_white.png)}
-#sidebar .ui-state-disabled div.savep , #sidebar .ui-dropped-disabled div.savep {background:url(/images/icons/editdone_white.png)}
+#sidebar .ui-state-disabled div.deletep , #sidebar .ui-dropped-disabled div.deletep {background:url(../images/icons/delete_white.png)}
+#sidebar .ui-state-disabled div.editp , #sidebar .ui-dropped-disabled div.editp {background:url(../images/icons/edit_white.png)}
+#sidebar .ui-state-disabled div.savep , #sidebar .ui-dropped-disabled div.savep {background:url(../images/icons/editdone_white.png)}
 #sidebar .ui-state-disabled b.inbox , #sidebar .ui-dropped-disabled b.inbox {background-position:0px -14px}
 
 #sidebar .ui-state-disabled div , #sidebar .ui-dropped-disabled div {
@@ -270,12 +270,12 @@ border-bottom:1px solid #177bbd; color:#fff;text-shadow: #125a8a 0px 1px 2px}
 opacity:1.0; 
 -moz-opacity: 1.0}
 
-#sidebar .ui-state-disabled span, #sidebar .ui-dropped-disabled span {background:url(/images/taskcounth.png) no-repeat}
+#sidebar .ui-state-disabled span, #sidebar .ui-dropped-disabled span {background:url(../images/taskcounth.png) no-repeat}
 
 .list span {
 text-shadow:none; font-size:11px;
 float:right; width:31px; height:16px;
-background:url(/images/taskcount.png) no-repeat;
+background:url(../images/taskcount.png) no-repeat;
 text-align:center; display:block;
 padding-top:3px;
 margin-top:-3px;
@@ -295,7 +295,7 @@ width: 259px}
 text-align:center;
 cursor:pointer;
 font-weight:bold;
-background:url(/images/overdue.png) top left no-repeat;
+background:url(../images/overdue.png) top left no-repeat;
 margin:0 auto;
 height:19px;
 text-shadow: 0px 1px 1px #2c0a0a;
@@ -306,7 +306,7 @@ color:#fff}
 /* LEFT BOTTOM BAR -------------------------------------------------------------------------------*/
 
 #bottombar {
-background:url(/images/bottombar.png) repeat-x;
+background:url('../images/bottombar.png') repeat-x;
 position:fixed;
 bottom:0px;
 left:0px;
@@ -321,7 +321,7 @@ width:100%}
 box-shadow:0px 1px 1px #676767;
 padding:0px 8px;
 text-shadow: #333 0px 1px 2px;
-background:url(/images/bottombar_menu.png) repeat-x;
+background:url(../images/bottombar_menu.png) repeat-x;
 font-size:10px;
 padding-top:3px;
 border-left:1px solid #434343;
@@ -365,7 +365,7 @@ margin-right:6px;
 position:relative;}
 
 #left .loggedinas span {
-background:url(/images/menuopen.png);
+background:url(../images/menuopen.png);
 width:6px;
 height:4px;
 top:8px;
@@ -374,35 +374,35 @@ position:absolute}
 
 #left a.filter:hover, #left a.active, #left a.droppable {
 color:#fff;
-background:url(/images/bottombar_active.png) top left repeat-x;
+background:url(../images/bottombar_active.png) top left repeat-x;
 text-shadow:0px 1px 1px #176ea5}
 
 #sync {
 position:fixed; bottom:6px; left:9px;
-background:url(/images/sync_green.png);
+background:url(../images/sync_green.png);
 height:22px; width:22px;
 cursor:pointer}
 
-#sync.sync_red {background:url(/images/sync_red.png);	}
+#sync.sync_red {background:url(../images/sync_red.png);	}
 
 #syncing {
 position:fixed; bottom:11px; left:14px;
 height:14px;
 width:14px;
-background-image: url(/images/sync_arrow.png)}
+background-image: url(../images/sync_arrow.png)}
 
 .togglesidebar {
 width:19px;
 height:19px;
 cursor:pointer;
 position:fixed;
-background:url(/images/sidebartogglen.png) no-repeat;
+background:url(../images/sidebartogglen.png) no-repeat;
 right:21px;
 bottom:7px}
 
 .hidden {background-position: -19px 0px}
 
-.togglesidebar:hover {background-image:url(/images/sidebartoggleh.png)}
+.togglesidebar:hover {background-image:url(../images/sidebartoggleh.png)}
 
 /* RIGHT BOTTOMBAR ------------------------------------------------------------*/
 
@@ -460,21 +460,21 @@ border-radius:10px;
 -moz-border-radius:10px;
 height:16px !important;
 color:#fff !important;
-background:url(/images/bottombar_active.png) top left repeat-x;
+background:url(../images/bottombar_active.png) top left repeat-x;
 text-shadow:0px 1px 1px #135680 !important; /*176ea5*/
 font-weight:bold;
 opacity:1.0 !important}
 
 /* Show Help */
 
-.showhelp {margin:0px 10px 0px 6px !important;background:url(/images/showhelp.png);width:19px !important;height:19px}
+.showhelp {margin:0px 10px 0px 6px !important;background:url(../images/showhelp.png);width:19px !important;height:19px}
 
 .showhelp:hover {background-position: 19px 0px}
 
 /* BG Switcher START */
 
 .backgroundswitcher {
-opacity:1.0 !important; background:url(/images/bgswitch.png); height:19px; width:17px; padding-left:17px; background-repeat: no-repeat !important}
+opacity:1.0 !important; background:url(../images/bgswitch.png); height:19px; width:17px; padding-left:17px; background-repeat: no-repeat !important}
 
 .backgroundswitcher:hover, .backgroundswitcheractive {background-position: 0px -19px}
 
@@ -482,19 +482,19 @@ opacity:1.0 !important; background:url(/images/bgswitch.png); height:19px; width
 
 #bottombar #right a:hover { cursor:pointer}
 
-#bottombar .bgone { background:url(/images/icon_wood.png)}
-#bottombar .bgtwo { background:url(/images/icon_wheat.png)}
-#bottombar .bgthree { background:url(/images/icon_bokeh.png)}
-#bottombar .bgfour { background:url(/images/icon_blue.png)}
-#bottombar .bgfive { background:url(/images/icon_royal_purple.png)}
-#bottombar .bgsix { background:url(/images/icon_darkfade.png)}
-#bottombar .bgseven { background:url(/images/icon_whitefade.png)}
-#bottombar .bgeight { background:url(/images/icon_monster.png)}
-#bottombar .bgnine { background:url(/images/icon_darkwood.png)}
+#bottombar .bgone { background:url(../images/icon_wood.png)}
+#bottombar .bgtwo { background:url(../images/icon_wheat.png)}
+#bottombar .bgthree { background:url(../images/icon_bokeh.png)}
+#bottombar .bgfour { background:url(../images/icon_blue.png)}
+#bottombar .bgfive { background:url(../images/icon_royal_purple.png)}
+#bottombar .bgsix { background:url(../images/icon_darkfade.png)}
+#bottombar .bgseven { background:url(../images/icon_whitefade.png)}
+#bottombar .bgeight { background:url(../images/icon_monster.png)}
+#bottombar .bgnine { background:url(../images/icon_darkwood.png)}
 
-#bottombar .bgten { background:url(/images/icon_chalkboard.png)}
-#bottombar .bgeleven { background:url(/images/icon_forrest.png)}
-#bottombar .bgtwelve { background:url(/images/icon_leaf.png)}
+#bottombar .bgten { background:url(../images/icon_chalkboard.png)}
+#bottombar .bgeleven { background:url(../images/icon_forrest.png)}
+#bottombar .bgtwelve { background:url(../images/icon_leaf.png)}
 
 span#credits { float:right; font-weight: bold; padding:2px 5px; cursor:pointer}
 
@@ -531,7 +531,7 @@ margin-bottom:5px}
 div.add {
 margin-bottom:20px;
 position:relative; height:33px;
-background:url(/images/addbar.png) repeat-x;
+background:url(../images/addbar.png) repeat-x;
 -webkit-border-radius:6px;
 border-radius:6px;
 -moz-border-radius:6px}
@@ -574,7 +574,7 @@ div.dragging {
 z-index:1000 !important;
 width:35px !important;
 height:35px !important;
-background:url(/images/dragging.png) !important}
+background:url(../images/dragging.png) !important}
 
 #content .description {
 white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:absolute;
@@ -593,7 +593,7 @@ right:132px;left:52px;top:0px;padding-top: 7px;height: 27px;display:block;color:
 font-weight:normal; font-size:11px;
 cursor:pointer; width: 200px; margin:30px auto 0px auto;
 display:block; float:none;
-background:url(/images/task.jpg);
+background:url(../images/task.jpg);
 -webkit-box-shadow:0px 1px 3px #333;
 -moz-box-shadow:0px 1px 3px #333;
 box-shadow:0px 1px 3px #333;
@@ -665,20 +665,20 @@ border-radius:15px;}
 
 #content span.icon {height:14px; display:block; float:left; width:14px; margin-right:7px}
 
-#content span.delete {background:url(/images/icons/delete_active.png); opacity:0.5; float:right; display: none; cursor:pointer; height:16px}
+#content span.delete {background:url(../images/icons/delete_active.png); opacity:0.5; float:right; display: none; cursor:pointer; height:16px}
 #content span.delete:hover {opacity:1.0;}
 
-#content span.note {position:absolute;right:19px;top:7px;background:url(/images/icons/note.png); display:none; cursor:pointer; height:16px; width:16px; margin-top:-1px; text-indent: -8765px; overflow:hidden; color:transparent}
-#content span.note:hover {background:url(/images/icons/note.png);}
+#content span.note {position:absolute;right:19px;top:7px;background:url(../images/icons/note.png); display:none; cursor:pointer; height:16px; width:16px; margin-top:-1px; text-indent: -8765px; overflow:hidden; color:transparent}
+#content span.note:hover {background:url(../images/icons/note.png);}
 
 #content .mainlist li:hover span.note {display:block}
 
-#content span.activenote {display:block;background:url(/images/icons/note.png);}
+#content span.activenote {display:block;background:url(../images/icons/note.png);}
 
-#content span.fav {width:16px; height:24px; margin-top:-9px;background:url(/images/icons/important.png);cursor:pointer}
-#content span.favina {width:16px; height:14px; margin-top:-1px;background:url(/images/icons/star.png) no-repeat;cursor:pointer}
+#content span.fav {width:16px; height:24px; margin-top:-9px;background:url(../images/icons/important.png);cursor:pointer}
+#content span.favina {width:16px; height:14px; margin-top:-1px;background:url(../images/icons/star.png) no-repeat;cursor:pointer}
 
-.mainlist li .ui-datepicker-trigger {position:absolute; right:44px; top:7px; display:none; background:url(/images/icons/star.png)}
+.mainlist li .ui-datepicker-trigger {position:absolute; right:44px; top:7px; display:none; background:url(../images/icons/star.png)}
 #content .mainlist li:hover .ui-datepicker-trigger {display:block}
 
 /* -- Share Functions Of Lists ---------------------------------------------------------------- */
@@ -697,14 +697,14 @@ border-radius:15px;}
 	opacity:1.0; 
 	-moz-opacity: 1.0}
 
-	#listfunctions .list-print {background:url(/images/icons/print.png) no-repeat}
-	#listfunctions .list-email {background:url(/images/icons/sendmail.png) no-repeat}
-	#listfunctions .list-cloud {background:url(/images/icons/cloudapp.png) no-repeat}
-	#listfunctions .list-share {background:url(/images/icons/sharelist_white.png) no-repeat}
+	#listfunctions .list-print {background:url(../images/icons/print.png) no-repeat}
+	#listfunctions .list-email {background:url(../images/icons/sendmail.png) no-repeat}
+	#listfunctions .list-cloud {background:url(../images/icons/cloudapp.png) no-repeat}
+	#listfunctions .list-share {background:url(../images/icons/sharelist_white.png) no-repeat}
 
 /* -- CUSTOM CHECKBOXES ---------------------------------------------------------------- */
 
-.checkboxcon {width:15px;height:15px;background:url(/images/checkbox.png) no-repeat;
+.checkboxcon {width:15px;height:15px;background:url(../images/checkbox.png) no-repeat;
 cursor:pointer;overflow:hidden;position:relative; float:left; margin-right:8px; margin-top:-1px}
 
 .input-checked {position:relative;left:30px}
@@ -790,7 +790,7 @@ padding:5px 10px}
 #left ul ul {position:absolute;left:150px;bottom:0px}
 
 /* Active Menu and Indicator for Children */
-#left ul li.hasChild {position:relative; background:#4b4b4b url(/images/icons/hasChild.png) 128px no-repeat!important}
+#left ul li.hasChild {position:relative; background:#4b4b4b url(../images/icons/hasChild.png) 128px no-repeat!important}
 
 #left ul li.currenttree, #left ul li:hover {
 -webkit-box-shadow:inset 0px 1px 1px #84c7f4; 
@@ -807,15 +807,15 @@ background: -moz-linear-gradient(top,  #32a3f0,  #1389d3) !important}
 
 /* Icon Menus */
 #left ul li a.icon {padding-left:32px;background-repeat:no-repeat !important; background-position:10px 4px !important; width:98px;}
-#left ul li a.settings {background-image:url(/images/icons/settings.png) !important}
-#left ul li a.logout {background-image:url(/images/icons/logout.png) !important}
-#left ul li a.downloads {background-image:url(/images/icons/downloads.png) !important}
-#left ul li a.aboutus {background-image:url(/images/icons/about.png) !important}
+#left ul li a.settings {background-image:url(../images/icons/settings.png) !important}
+#left ul li a.logout {background-image:url(../images/icons/logout.png) !important}
+#left ul li a.downloads {background-image:url(../images/icons/downloads.png) !important}
+#left ul li a.aboutus {background-image:url(../images/icons/about.png) !important}
 
 /* SIDEBAR LEFT ---------------------------------------------------------------------------- */
 
 .sidebarleft #content {right:0px}
-.sidebarleft #sidebar {background:url(/images/sidebar_left.png)}
+.sidebarleft #sidebar {background:url(../images/sidebar_left.png)}
 .sidebarleft h3 {left:0px; right:auto}
 .sidebarleft .searchside {left:-10px}
 
