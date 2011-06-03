@@ -26,7 +26,10 @@
 		<div class="item {{if done}}done{{/if}}">
 		  <div class="view" title="Double click to edit...">
 		    <input type="checkbox" {{if done}}checked="checked"{{/if}}> 
-		    <span>${name}</span> <span class="duedate">${duedate}</span> <a class="destroy"></a>
+		    <span>${name}</span> <span class="duedate">${duedate}</span> 
+		    <input type="hidden" class="datepicker" value="${duedate}" />
+		    <input type="hidden" class="id" value="${id}" />
+		    <a class="destroy"></a>
 		  </div>
 		  
 		  <div class="edit">
@@ -127,6 +130,11 @@
 			margin-right: 50px;
 			font-weight: bold;
 		}
+		
+		.item .datepicker {
+			float: right;
+		}
+		
 	</style>
 
 			<script>
@@ -143,7 +151,24 @@
 						};
 					}
 				});
-	
+				
+				/*$(".datepicker").datepicker({
+					constrainInput: true,
+					buttonImage: 'icons/time.png',
+					buttonImageOnly: true,
+					buttonText: '',
+					showOn: 'both',
+					onSelect: function(dateText, inst) {
+						if ($(this).parent().parent().find('.duedate').length == 1){
+							$(this).parent().parent().find('.duedate').html(dateText);
+						};
+						
+						id = $(this).parent().parent().find('.id').val();
+						var thisone = Task.find( id );
+						thisone.updateAttributes({ duedate: dateText });
+					}
+				});*/
+				
 			});
 			</script>
 
@@ -165,7 +190,7 @@
 				<div class="addwrapper">
 					<form id="newtask_form">
 						<input type="text" id="addingdiv" class="input-add" placeholder="Add your task here" style="border: 0px;" />
-						<input type="hidden" class="datepicker" id="newtaskdate">
+						<input type="hidden" id="newtaskdate" />
 					</form>
 					<span class="showdate timestamp"></span>
 				</div>

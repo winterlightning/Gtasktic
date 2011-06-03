@@ -832,3 +832,7 @@ background: -moz-linear-gradient(top,  #32a3f0,  #1389d3) !important}
 .sidebarleft # {}
 
 .sidebarleft .showhelp {margin:0px 8px 0px 0px!important}
+
+#content h1 {
+	text-align: left;
+}

@@ -10,12 +10,12 @@ jQuery(function($){
       "click    .destroy":             "destroy",
       "dblclick .view":                "edit",
       "keypress input[type=text]":     "blurOnEnter",
-      "blur     input[type=text]":     "close"
+      "blur     input[type=text]":     "close",
     },
     
     elements: {
       "input[type=text]": "input",
-      ".item": "wrapper"
+      ".item": "wrapper",
     },
     
     init: function(){
@@ -27,6 +27,24 @@ jQuery(function($){
       var elements = $("#taskTemplate").tmpl(this.item);
       this.el.html(elements);
       this.refreshElements();
+      
+      var a = this.item;
+      
+      this.el.find('.datepicker').datepicker({
+		constrainInput: true,
+		buttonImage: 'icons/time.png',
+		buttonImageOnly: true,
+		buttonText: '',
+		showOn: 'both',
+		onSelect: function(dateText, inst) {
+			if ($(this).parent().parent().find('.duedate').length == 1){
+				$(this).parent().parent().find('.duedate').html(dateText);
+			};
+			
+			a.updateAttributes({duedate: dateText });
+		}
+	  });				
+      
       return this;
     },
     
