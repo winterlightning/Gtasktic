@@ -26,14 +26,28 @@
 		<div class="item {{if done}}done{{/if}}">
 		  <div class="view" title="Double click to edit...">
 		    <input type="checkbox" {{if done}}checked="checked"{{/if}}> 
-		    <span>${name}</span> <span class="duedate">${duedate}</span> 
-		    <input type="hidden" class="datepicker" value="${duedate}" />
+		    <span>${name}</span>{{if note}}<img src="famfamicons/note.png" class="noteimage" />{{/if}} <span class="duedate">${duedate}</span> 
 		    <input type="hidden" class="id" value="${id}" />
 		    <a class="destroy"></a>
 		  </div>
 		  
 		  <div class="edit">
-		    <input type="text" value="${name}">
+  			<form class="edittask_form">
+	  			<table class="editform">
+	  				<tr>
+	  					<td class="header"><input type="checkbox" {{if done}}checked="checked"{{/if}}></td>
+	  					<td><input class="name" type="text" value="${name}"></td>
+	  				</tr>
+	  				<tr>
+	  					<td class="header" style="vertical-align: top;"><img src="famfamicons/note.png" /></td>
+	  					<td><textarea class="note" rows="2" placeholder="Add a note here" >${note}</textarea></td>
+	  				</tr>
+	  				<tr>
+	  					<td class="header last"><img src="famfamicons/calendar.png" /></td>
+	  					<td class="last"><input type="text" class="datepicker" placeholder="Due date" value="${duedate}" /><input class="editsave" type="submit" value="Save" /></td>
+	  				</tr>
+	  			</table>
+  			</form>
 		  </div>
 		</div>
 	</script>
@@ -54,8 +68,8 @@
 			cursor: pointer;
 			margin-bottom: 5px;
 			min-height: 20px;
-			overflow: hidden;
-			padding: 7px 0px 0px 8px;
+			overflow: visible;
+			padding: 7px 0px 0px 0px;
 			position: relative;
 		}
 		
@@ -135,13 +149,91 @@
 			float: right;
 		}
 		
+		.editform {
+			width: 100%;
+			border-collapse:collapse;
+			margin: 3px 0px;
+		}
+		
+		.editform td {
+			border-bottom: 1px solid #ddd;
+			padding: 3px 5px;
+			height: 25px;
+		}
+		
+		.editform input {
+			float: left;
+			position: relative;
+			left: -5px;
+		}
+
+		.editform .header {
+			width: 20px;
+		}
+	
+		.editform td.last {
+			border-bottom: 0px;
+		}
+	
+		.header img {
+			position: relative;
+			left: 0px;
+		} 
+		
+		#tasks .editform input[type="text"], #tasks .editform textarea {
+			border-radius: 0px;
+			border: 0px;
+			-webkit-box-shadow: none;
+			padding: 0px;
+			margin: 0px;
+			background: transparent;
+			width: 90%;
+			float: left;
+			margin-left: 5px;
+		}
+		
+		#tasks .editform textarea {
+			margin-left: 2px;
+		}
+		
+		.editform input.editsave {
+			background-color: #888;
+			color: #fff;
+			padding: 2px 7px;
+			border-radius: 5px 5px;
+			float: right;
+			margin-right: 5px;
+			margin-top: 1px;
+		}
+		
+		.roundedlist li .editing {
+			padding-top: 2px;
+		}
+		
+		.editform .name {
+			position: relative;
+			top: -2px;
+		}
+		
+		.editform .datepicker {
+			position: relative;
+			top: 2px;
+		}
+		
+		.view .noteimage {
+			margin-left: 5px;
+			vertical-align: middle;
+			position: relative;
+			top: -2px;
+		}
+		
 	</style>
 
 			<script>
 			$(function() {
 				$("#newtaskdate").datepicker({
 					constrainInput: true,
-					buttonImage: 'icons/time.png',
+					buttonImage: 'famfamicons/calendar.png',
 					buttonImageOnly: true,
 					buttonText: '',
 					showOn: 'both',
@@ -179,9 +271,6 @@
 	<div id="bghelp" style="background-image: url('backgrounds/wood.jpg'); background-attachment: fixed; background-origin: initial; background-clip: initial; background-color: rgb(0, 0, 0); display: block; background-position: 50% 0%; background-repeat: no-repeat no-repeat; "></div>
 	
 	<div id="content" style="left: 0px; display: block; right: 0px; ">
-		<div id="listfunctions">
-			
-			<div id="cloudtip"><span class="triangle"></span><span class="copy">COPY LINK</span><span class="link"></span></div></div>
 			
 		  <div id="views">
 		    <div id="tasks">
@@ -213,22 +302,11 @@
 	
 	<div id="bottombar">
 		<div id="left">
-				<span id="sync" class="more" rel="Synchronize"><span id="syncing"></span></span>
-				<a id="all" class="filter roundedleft more ui-droppable" rel="All"><img src="icons/filterall.png" alt="all"></a>
-				<a id="starred" class="filter more ui-droppable" rel="Starred"><img src="icons/filterstar.png" alt="all"></a>
-				<a id="done" class="filter roundedright more ui-droppable" rel="Done"><img src="icons/filterdone.png" alt="all"></a>
-				<a id="today" class="filter roundedleft ui-droppable">Today</a>
-				<a id="tomorrow" class="filter ui-droppable">Tomorrow</a>
-				<a id="thisweek" class="filter ui-droppable">Next 7 Days</a>
-				<a id="someday" class="filter ui-droppable">Later</a>
-				<a id="withoutdate" class="filter roundedright ui-droppable">Without Date</a>
-			<div id="login_data"></div>
+			<a class="bottombutton">Sync</a>
+			<a class="bottombutton">Settings</a>
 		</div>		
-		<div id="right"><a class="backgroundswitcher"><span class="activebackground" style="background-image: url(app://test.app/images/icon_wood.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-position: initial initial; background-repeat: initial initial; "></span></a>
-			<a class="showhelp">?</a>
-			<span id="backgroundList" style="display: none; "><a class="bgeleven">12</a><a class="bgtwelve">11</a><a class="bgten">10</a><a class="bgthree">9</a><a class="bgtwo">8</a><a class="bgeight">7</a><a class="bgfive">6</a><a class="bgnine">5</a><a class="bgone active">4</a><a class="bgfour">3</a><a class="bgseven">2</a><a class="bgsix">1</a><span class="arrow"></span></span>
-			<span class="togglesidebar hidden" title="Toggle Sidebar"></span>	
-			<a class="addlist">Add List</a>
+		<div id="right">
+			<a class="addlist">Set Background</a>
 		</div>
 	</div>
 

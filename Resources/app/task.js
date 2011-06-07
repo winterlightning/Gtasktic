@@ -1,5 +1,5 @@
 // Create the Task model.
-var Task = Spine.Model.setup("Task", ["name", "done", "time", "duedate"]);
+var Task = Spine.Model.setup("Task", ["name", "done", "time", "duedate", "note"]);
 
 // Persist model between page reloads.
 Task.extend(Spine.Model.Local);

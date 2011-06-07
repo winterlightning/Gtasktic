@@ -833,6 +833,39 @@ background: -moz-linear-gradient(top,  #32a3f0,  #1389d3) !important}
 
 .sidebarleft .showhelp {margin:0px 8px 0px 0px!important}
 
+/*project adds */
+
 #content h1 {
 	text-align: left;
+}
+
+#bottombar a.bottombutton {
+	-webkit-box-shadow: 0px 1px 1px #676767;
+	-moz-box-shadow: 0px 1px 1px #676767;
+	box-shadow: 0px 1px 1px #676767;
+	padding: 0px 10px;
+	font-size: 10px;
+	padding-top: 3px;
+	width: auto !important;
+	color: #CCC !important;
+	display: block;
+	text-indent: 0px !important;
+	cursor: pointer;
+	font-size: 11px;
+	border: 1px solid #343434;
+	margin-top: -2px;
+	border-radius: 3px;
+	height: 16px !important;
+	color: white !important;
+	background: url(../images/bottombar_active.png) top left repeat-x;
+	text-shadow: 0px 1px 1px #135680 !important;
+	font-weight: bold;
+	opacity: 1.0 !important;	
+	float: left;
+	margin-right: 5px;
+	margin-top: 0px;
+}
+
+#left {
+	padding-left: 20px;
 }

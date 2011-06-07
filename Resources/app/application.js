@@ -8,14 +8,17 @@ jQuery(function($){
     events: {
       "change   input[type=checkbox]": "toggle",
       "click    .destroy":             "destroy",
-      "dblclick .view":                "edit",
+      "dblclick .item":                "edit",
       "keypress input[type=text]":     "blurOnEnter",
-      "blur     input[type=text]":     "close",
+      "submit .edittask_form": "close",
+      //"blur     input[type=text]":     "close",
     },
     
     elements: {
-      "input[type=text]": "input",
+      "input.name": "input",
       ".item": "wrapper",
+      ".datepicker": "inputdate",
+      "textarea.note": "textarea",
     },
     
     init: function(){
@@ -32,17 +35,13 @@ jQuery(function($){
       
       this.el.find('.datepicker').datepicker({
 		constrainInput: true,
-		buttonImage: 'icons/time.png',
-		buttonImageOnly: true,
-		buttonText: '',
-		showOn: 'both',
-		onSelect: function(dateText, inst) {
+		/*onSelect: function(dateText, inst) {
 			if ($(this).parent().parent().find('.duedate').length == 1){
 				$(this).parent().parent().find('.duedate').html(dateText);
 			};
 			
 			a.updateAttributes({duedate: dateText });
-		}
+		}*/
 	  });				
       
       return this;
@@ -68,7 +67,8 @@ jQuery(function($){
     
     close: function(){
       this.wrapper.removeClass("editing");
-      this.item.updateAttributes({name: this.input.val(), time: ( new Date().getTime() ).toString() });
+      
+      this.item.updateAttributes({name: this.input.val(), time: ( new Date().getTime() ).toString(), duedate: this.inputdate.val(), note: this.textarea.val() });
     },
     
     remove: function(){
@@ -82,7 +82,7 @@ jQuery(function($){
     proxied: ["addOne", "addAll", "renderCount"],
 
     events: {
-      "submit form":   "create",
+      "submit #newtask_form":   "create",
       "click  .clear": "clear"
     },
 
