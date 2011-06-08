@@ -1,3 +1,7 @@
+Task.ordersort = function(a, b){ 
+    return (a.order < b.order) ? -1 : 1;
+};
+
 jQuery(function($){
   
   window.Tasks = Spine.Controller.create({
@@ -31,17 +35,11 @@ jQuery(function($){
       this.el.html(elements);
       this.refreshElements();
       
-      var a = this.item;
+      //Store the id of the element in the item itself
+      this.el.data('id', this.item.id);
       
       this.el.find('.datepicker').datepicker({
 		constrainInput: true,
-		/*onSelect: function(dateText, inst) {
-			if ($(this).parent().parent().find('.duedate').length == 1){
-				$(this).parent().parent().find('.duedate').html(dateText);
-			};
-			
-			a.updateAttributes({duedate: dateText });
-		}*/
 	  });				
       
       return this;
@@ -108,11 +106,20 @@ jQuery(function($){
     },
 
     addAll: function() {
-      Task.each(this.addOne);
+      var ordered = Task.all().sort(Task.ordersort);
+      //Task.each(this.addOne);
+      
+      var a = this.items;
+      
+      $.each(ordered, function(key, value) {
+     	var view = Tasks.init({item: value});
+      	a.append(view.render().el);
+	  });
+      
     },
         
     create: function(){
-      Task.create({name: this.input.val(), time: ( new Date().getTime() ).toString(), done: false, duedate: this.inputdate.val() });
+      Task.create({name: this.input.val(), time: ( new Date().getTime() ).toString(), done: false, duedate: this.inputdate.val(), order: Task.all().length + 1 });
       this.input.val("");
       this.inputdate.val("");
       this.datedisplay.html("");

@@ -1,5 +1,5 @@
 // Create the Task model.
-var Task = Spine.Model.setup("Task", ["name", "done", "time", "duedate", "note"]);
+var Task = Spine.Model.setup("Task", ["name", "done", "time", "duedate", "note", "order"]);
 
 // Persist model between page reloads.
 Task.extend(Spine.Model.Local);
@@ -19,4 +19,5 @@ Task.extend({
   destroyDone: function(){
     this.done().forEach(function(rec){ rec.destroy() });
   }
+  
 });
