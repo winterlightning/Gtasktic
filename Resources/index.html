@@ -3,6 +3,8 @@
 
 	<title>GTasktic</title>
 
+	<script type="text/python" src="gtask.py"/>
+
 	<link type="text/css" rel="stylesheet" href="css/wunderlist.css">
 	<link type="text/css" rel="stylesheet" href="css/dialogs.css">
 	
@@ -241,36 +243,9 @@
 		}
 	</style>
 
-			<script>
-			$(function() {
-				$("#newtaskdate").datepicker({
-					constrainInput: true,
-					buttonImage: 'famfamicons/calendar.png',
-					buttonImageOnly: true,
-					buttonText: '',
-					showOn: 'both',
-					onSelect: function(dateText, inst) {
-						if ($(this).parent().parent().find('.showdate').length == 1){
-							$(this).parent().parent().find('.showdate').html(dateText);
-						};
-					}
-				});
-				
-				//drag and drop on the list
-				$( ".roundedlist" ).sortable({
-			        update: function(event, ui) {
-			            $(".roundedlist li").each (function(index) {
-    						//retrieve current task
-    						var current = Task.find($(this).data("id"));
-    						current.order = $(this).index();
-    						current.save();
-  						});
-  
-			        }
-			    });
-				
-			});
-			</script>
+<script>
+	a = initial_login( {} );
+</script>
 
 </head>
 
