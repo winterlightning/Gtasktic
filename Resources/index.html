@@ -243,6 +243,30 @@
 		}
 	</style>
 
+	<script>
+		function Sync (){
+			b = Task.all()
+			
+			a = initial_login( b );	
+			$.each(a, function(index, value) {
+				if ( Task.exists( value.id ) ) {
+					var editable = Task.find( value.id );
+					editable.name = value.title;
+					editable.save();
+				}
+				else {
+					var task = Task.init( { name: value.title, done: false } );
+					task.id = value.id;
+					task.save();
+				};
+			});
+		};
+		
+		Task.fetch();
+		Sync();
+	
+	</script>
+
 </head>
 
 <body style="background-image: none; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-position: initial initial; background-repeat: initial initial; " class="osx">
@@ -281,7 +305,7 @@
 	
 	<div id="bottombar">
 		<div id="left">
-			<a class="bottombutton">Sync</a>
+			<a class="bottombutton" onclick="Sync()">Sync</a>
 			<a class="bottombutton">Settings</a>
 		</div>		
 		<div id="right">

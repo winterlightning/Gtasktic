@@ -122,21 +122,23 @@ def run(flow, storage):
     oauth_callback = 'oob'
   authorize_url = flow.step1_get_authorize_url(oauth_callback)
 
-  print 'Go to the following link in your browser:'
-  print authorize_url
-  print
+#  print 'Go to the following link in your browser:'
+#  print authorize_url
+#  print
+#
+#  if FLAGS.auth_local_webserver:
+#    httpd.handle_request()
+#    if 'error' in httpd.query_params:
+#      sys.exit('Authentication request was rejected.')
+#    if 'code' in httpd.query_params:
+#      code = httpd.query_params['code']
+#  else:
+#    accepted = 'n'
+#    while accepted.lower() == 'n':
+#      accepted = raw_input('Have you authorized me? (y/n) ')
+#    code = raw_input('What is the verification code? ').strip()
 
-  if FLAGS.auth_local_webserver:
-    httpd.handle_request()
-    if 'error' in httpd.query_params:
-      sys.exit('Authentication request was rejected.')
-    if 'code' in httpd.query_params:
-      code = httpd.query_params['code']
-  else:
-    accepted = 'n'
-    while accepted.lower() == 'n':
-      accepted = raw_input('Have you authorized me? (y/n) ')
-    code = raw_input('What is the verification code? ').strip()
+  code = "4/AAKvo5nuBvuSQDzp2bCM9I1sr2Zm"
 
   try:
     credentials = flow.step2_exchange(code)

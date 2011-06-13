@@ -30,6 +30,8 @@ def initial_login( current_tasks ):
         scope='https://www.googleapis.com/auth/tasks',
         user_agent='YOUR_APPLICATION_NAME/YOUR_APPLICATION_VERSION')
     
+    print "A"
+    
     # To disable the local server feature, uncomment the following line:
     # FLAGS.auth_local_webserver = False
     
@@ -39,7 +41,13 @@ def initial_login( current_tasks ):
     storage = Storage('tasks.dat')
     credentials = storage.get()
     if credentials is None or credentials.invalid == True:
-      credentials = run(FLOW, storage)
+        credentials = run(FLOW, storage)
+        print "#### NO CREDENTIALS"
+        return {};
+    else:
+        pass
+    
+    print "B"
     
     # Create an httplib2.Http object to handle our HTTP requests and authorize it
     # with our good Credentials.
@@ -53,10 +61,7 @@ def initial_login( current_tasks ):
            developerKey='AIzaSyDjOuKvvMRHiTYJsOu1xMnTbFFedpOoOPM')
 
     tasks = service.tasks().list(tasklist='@default').execute()
-    
-    return tasks
-  
-def testing ():
-    print "TESTING YO"
-    
-print "######  testing"
+    for task in tasks['items']:
+        print task
+        
+    return tasks['items']
