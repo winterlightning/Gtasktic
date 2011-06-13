@@ -35,7 +35,8 @@ except ImportError: # pragma: no cover
     from django.utils import simplejson
   except ImportError:
     # Should work for Python2.6 and higher.
-    import json as simplejson
+    import gapi.simplejson as simplejson
+    #import json as simplejson
 
 try:
     from urlparse import parse_qsl

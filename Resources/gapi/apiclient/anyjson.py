@@ -26,7 +26,9 @@ try: # pragma: no cover
 except ImportError: # pragma: no cover
   try:
     # Try to import from django, should work on App Engine
-    from django.utils import simplejson
+    import gapi.simplejson as simplejson
   except ImportError:
+    print ImportError
     # Should work for Python2.6 and higher.
-    import json as simplejson
+    import gapi.simplejson as simplejson
+    #import json as simplejson

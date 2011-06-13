@@ -2690,9 +2690,9 @@ def DEFINE_multi_int(name, default, help, lower_bound=None, upper_bound=None,
 # Now register the flags that we want to exist in all applications.
 # These are all defined with allow_override=1, so user-apps can use
 # these flagnames for their own purposes, if they want.
-DEFINE_flag(HelpFlag())
-DEFINE_flag(HelpshortFlag())
-DEFINE_flag(HelpXMLFlag())
+#DEFINE_flag(HelpFlag())
+#DEFINE_flag(HelpshortFlag())
+#DEFINE_flag(HelpXMLFlag())
 
 # Define special flags here so that help may be generated for them.
 # NOTE: Please do NOT use _SPECIAL_FLAGS from outside this module.
