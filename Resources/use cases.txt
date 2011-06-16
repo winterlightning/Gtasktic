@@ -1,0 +1,15 @@
+Adding:
+	Cloud to local:
+	If a tasks is not there locally but is there in the cloud, it is added as a local task
+	
+	Local to Cloud:
+	If a task is there locally, and the sync flag is false, it should be added to the cloud as a new task. 
+	The task that was there will be deleted and replaced with the task with the Gtask id.
+
+Deletion:
+	Local to cloud:
+	A locally deleted task will be checked for synced if it's deleted, if it is, it will be added to the deleted queue. When syncing happens, things
+	in the queue will be deleted.
+	
+	Cloud to local:
+	If a tasks is in the local and the sync flag is yes but it's not in the cloud, it should be deleted.
