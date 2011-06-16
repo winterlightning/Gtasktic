@@ -19,6 +19,7 @@
 	<script type="text/javascript" src="js/libraries/encoder.js"></script>
 
 	<script src="lib/spine.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/dateformat.js" type="text/javascript" charset="utf-8"></script>
 	<script src="lib/spine.model.local.js" type="text/javascript" charset="utf-8"></script>
 	
 	<script src="app/task.js" type="text/javascript" charset="utf-8"></script>
@@ -248,8 +249,6 @@
 			b = Task.all()
 			d = Deletion.all()
 			
-			alert(d);
-			
 			a = initial_login( b, d );	
 			
 			current = a.current;
@@ -260,20 +259,29 @@
 				value.destroy();
 			});
 			
-			
+			//Delete tasks that are marked for deletion
 			$.each(deleted, function(index, value) {
 				var deleteTask = Task.find( value );
 				deleteTask.destroy();
 			});
 			
 			$.each(current, function(index, value) {
+				
+				var duedate = null;
+				
+				if (value.hasOwnProperty('due')) {
+					duedate = (new Date( value.due )).format('mm/dd/yyyy');
+				};
+				
 				if ( Task.exists( value.id ) ) {
 					var editable = Task.find( value.id );
 					editable.name = value.title;
+					editable.done = (value.status == 'completed');
+					editable.duedate = duedate;
 					editable.save();
 				}
 				else {
-					var task = Task.init( { name: value.title, synced: true, done: false } );
+					var task = Task.init( { name: value.title, synced: true, done: (value.status == 'completed'), duedate: duedate } );
 					task.id = value.id;
 					task.save();
 				};

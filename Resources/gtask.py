@@ -8,7 +8,6 @@ from gapi.oauth2client.file import Storage
 from gapi.oauth2client.client import OAuth2WebServerFlow
 from gapi.oauth2client.tools import run
 
-
 service = None
 
 #create a task
@@ -81,8 +80,6 @@ def initial_login( current_tasks, deletions ):
 
     #get all the tasks
     tasks = service.tasks().list(tasklist='@default').execute()
-    for task in tasks['items']:
-        print task
     
     deleted  = []
     
@@ -112,5 +109,11 @@ def initial_login( current_tasks, deletions ):
             deleted.append(task_b.id)
     
     tasks = service.tasks().list(tasklist='@default').execute()
+    
+    for task in tasks['items']:
+        if task.has_key('due'):
+            task['due'] = task['due'][0:10].replace("-", "/")
+            print task['due']
+        print task
     
     return { 'current': tasks['items'], 'deletion': deleted }
