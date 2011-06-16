@@ -246,16 +246,34 @@
 	<script>
 		function Sync (){
 			b = Task.all()
+			d = Deletion.all()
 			
-			a = initial_login( b );	
-			$.each(a, function(index, value) {
+			alert(d);
+			
+			a = initial_login( b, d );	
+			
+			current = a.current;
+			deleted = a.deletion;
+			
+			//Delete the deletions since they are synced
+			$.each(d, function(index, value) {
+				value.destroy();
+			});
+			
+			
+			$.each(deleted, function(index, value) {
+				var deleteTask = Task.find( value );
+				deleteTask.destroy();
+			});
+			
+			$.each(current, function(index, value) {
 				if ( Task.exists( value.id ) ) {
 					var editable = Task.find( value.id );
 					editable.name = value.title;
 					editable.save();
 				}
 				else {
-					var task = Task.init( { name: value.title, done: false } );
+					var task = Task.init( { name: value.title, synced: true, done: false } );
 					task.id = value.id;
 					task.save();
 				};
@@ -263,6 +281,7 @@
 		};
 		
 		Task.fetch();
+		Deletion.fetch();
 		Sync();
 	
 	</script>

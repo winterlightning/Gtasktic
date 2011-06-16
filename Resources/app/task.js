@@ -1,5 +1,5 @@
 // Create the Task model.
-var Task = Spine.Model.setup("Task", ["name", "done", "time", "duedate", "note", "order"]);
+var Task = Spine.Model.setup("Task", ["name", "done", "time", "duedate", "note", "order", "synced"]);
 
 // Persist model between page reloads.
 Task.extend(Spine.Model.Local);
@@ -21,3 +21,7 @@ Task.extend({
   }
   
 });
+
+//Deletion queue for tasks
+var Deletion = Spine.Model.setup("Deletion", ["deletion_id"]);
+Deletion.extend(Spine.Model.Local); 

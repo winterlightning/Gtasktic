@@ -51,6 +51,9 @@ jQuery(function($){
     },
     
     destroy: function(){
+      if (this.item.synced == true) {
+      	Deletion.create({ deletion_id: this.item.id });
+      };
       this.item.destroy();
     },
     
@@ -119,7 +122,7 @@ jQuery(function($){
     },
         
     create: function(){
-      Task.create({name: this.input.val(), time: ( new Date().getTime() ).toString(), done: false, duedate: this.inputdate.val(), order: Task.all().length + 1 });
+      Task.create({name: this.input.val(), time: ( new Date().getTime() ).toString(), done: false, duedate: this.inputdate.val(), order: Task.all().length + 1, synced: false });
       this.input.val("");
       this.inputdate.val("");
       this.datedisplay.html("");

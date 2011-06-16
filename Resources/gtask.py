@@ -9,12 +9,29 @@ from gapi.oauth2client.client import OAuth2WebServerFlow
 from gapi.oauth2client.tools import run
 
 
+service = None
+
+#create a task
+def create_task ( task, tasklist='@default' ):
+    global service
+    
+    result = service.tasks().insert(tasklist=tasklist, body=task).execute()
+    print result['id']
+    
+    return result
+
+#delete a task
+def delete_task ( task, tasklist='@default' ):
+    global service
+    
+    service.tasks().delete(tasklist=tasklist, task=task).execute()
+
 #1. Initial login
 #a. check for all spreadsheet starts with taskstrike_
 #b. for each of them, read all the task out
 #c. return the tasks in a array
 #d. Initialize into the first one as the one being written to
-def initial_login( current_tasks ):
+def initial_login( current_tasks, deletions ):
     global service
 
     # Set up a Flow object to be used if we need to authenticate. This
@@ -29,8 +46,6 @@ def initial_login( current_tasks ):
         client_secret='u4K1AZXSj8P9hIlEddLsMi6d',
         scope='https://www.googleapis.com/auth/tasks',
         user_agent='YOUR_APPLICATION_NAME/YOUR_APPLICATION_VERSION')
-    
-    print "A"
     
     # To disable the local server feature, uncomment the following line:
     # FLAGS.auth_local_webserver = False
@@ -47,8 +62,6 @@ def initial_login( current_tasks ):
     else:
         pass
     
-    print "B"
-    
     # Create an httplib2.Http object to handle our HTTP requests and authorize it
     # with our good Credentials.
     http = httplib2.Http()
@@ -60,8 +73,39 @@ def initial_login( current_tasks ):
     service = build(serviceName='tasks', version='v1', http=http,
            developerKey='AIzaSyDjOuKvvMRHiTYJsOu1xMnTbFFedpOoOPM')
 
+    #delete the ones that are synced
+    print deletions
+    for x in deletions:
+        print "DELETED " + x.deletion_id
+        delete_task(x.deletion_id)
+
+    #get all the tasks
     tasks = service.tasks().list(tasklist='@default').execute()
     for task in tasks['items']:
         print task
+    
+    deleted  = []
+    
+    #ii. If a task is local but not in the cloud, write it back to the cloud. If a task is updated, write it back to the cloud
+    for task_b in current_tasks:
+        found = False
+        updated = False
         
-    return tasks['items']
+        print task_b.id
+        
+        for task in tasks['items']: 
+            if task['id'] == task_b.id:
+                found = True
+                #if task_b.time <= task['timestamp']:
+                #    updated = True
+    
+        if not found or updated:
+            print "ADDED" + task_b.name
+            a = create_task( { 'title': task_b.name } )
+            print a
+            
+            deleted.append(task_b.id)
+    
+    tasks = service.tasks().list(tasklist='@default').execute()
+    
+    return { 'current': tasks['items'], 'deletion': deleted }
