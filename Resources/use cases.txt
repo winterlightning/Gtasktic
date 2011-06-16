@@ -13,3 +13,10 @@ Deletion:
 	
 	Cloud to local:
 	If a tasks is in the local and the sync flag is yes but it's not in the cloud, it should be deleted.
+
+Updating:
+	Local to cloud:
+	A locally made task will be checked for update stamp, if it's greater than the cloud version, the cloud version will be updated.
+
+	Cloud to Local:
+	This just force rewrites everything so there could be no mistakes

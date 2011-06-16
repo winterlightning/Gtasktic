@@ -17,7 +17,12 @@ Task.extend({
   
   // Clear all done tasks.
   destroyDone: function(){
-    this.done().forEach(function(rec){ rec.destroy() });
+    this.done().forEach(function(rec){ 
+    	if (rec.synced == true) {
+      		Deletion.create({ deletion_id: rec.id });
+      	};
+    	rec.destroy() 
+    });
   }
   
 });

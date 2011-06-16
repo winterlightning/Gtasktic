@@ -278,11 +278,20 @@
 					editable.name = value.title;
 					editable.done = (value.status == 'completed');
 					editable.duedate = duedate;
+					
+					if (value.hasOwnProperty('notes')) {
+						editable.note = value.notes;
+					};
+					
 					editable.save();
 				}
 				else {
 					var task = Task.init( { name: value.title, synced: true, done: (value.status == 'completed'), duedate: duedate } );
 					task.id = value.id;
+					if (value.hasOwnProperty('notes')) {
+						task.note = value.notes;
+					};
+					
 					task.save();
 				};
 			});
