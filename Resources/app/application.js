@@ -47,6 +47,7 @@ jQuery(function($){
     
     toggle: function(){
       this.item.done = !this.item.done;
+      this.item.time = ( new Date().getTime() ).toString();
       this.item.save();      
     },
     

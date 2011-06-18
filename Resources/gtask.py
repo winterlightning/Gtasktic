@@ -8,6 +8,8 @@ from gapi.oauth2client.file import Storage
 from gapi.oauth2client.client import OAuth2WebServerFlow
 from gapi.oauth2client.tools import run
 
+import datetime
+
 service = None
 
 #create a task
@@ -24,6 +26,27 @@ def delete_task ( task, tasklist='@default' ):
     global service
     
     service.tasks().delete(tasklist=tasklist, task=task).execute()
+    
+#update a task
+def update_task ( task, updating, tasklist='@default' ):
+    global service
+    
+    # First retrieve the task to update.
+    task = service.tasks().get(tasklist=tasklist, task=task).execute()
+    
+    if task['status'] == "completed" and updating['status'] == "needsAction":
+        print task
+        del task['completed']
+    
+    for k, v in updating.iteritems():
+        task[k] = v
+    
+    print task
+    
+    result = service.tasks().update(tasklist=tasklist, task=task['id'], body=task).execute()
+    # Print the completed date.
+    print result
+
 
 #1. Initial login
 #a. check for all spreadsheet starts with taskstrike_
@@ -91,8 +114,45 @@ def initial_login( current_tasks, deletions ):
         print task_b.id
         
         for task in tasks['items']: 
+            
             if task['id'] == task_b.id:
                 found = True
+                
+                #check both timestamp for local and cloud is there
+                if task_b.time and task['updated']:
+                    local_time = datetime.datetime.fromtimestamp( int( task_b.time )/1000 )
+                    parsed = task['updated'][0:task['updated'].find(".")]
+                    cloud_time = datetime.datetime.strptime(parsed, '%Y-%m-%dT%H:%M:%S') - datetime.timedelta(hours=4)
+                    
+                    print "time comparison ", (local_time > cloud_time)
+                    
+                    #if the local update stamp 
+                    if (local_time > cloud_time):
+                        
+                        print local_time, " local and cloud ", cloud_time, " ", task_b.name
+                        
+                        print "NEED TO UPDATE " + task["title"]
+                        
+                        print "task done ", task_b.done 
+                        
+                        if task_b.done:
+                            status = "completed"
+                        else:
+                            status = "needsAction"
+
+                        print status
+                        
+                        entry = { 'status': status, 'title': task_b.name, 'notes': task_b.note }
+                        
+                        print task_b.duedate
+                        
+                        if task_b.duedate:
+                            entry['due'] = datetime.datetime.strptime('06/17/2011', '%m/%d/%Y').isoformat()+".000Z"
+                        
+                        print entry
+                        
+                        update_task ( task['id'], entry )
+                
                 #if task_b.time <= task['timestamp']:
                 #    updated = True
     
