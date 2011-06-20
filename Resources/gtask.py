@@ -6,7 +6,7 @@ import gapi.httplib2 as httplib2
 from gapi.apiclient.discovery import build
 from gapi.oauth2client.file import Storage
 from gapi.oauth2client.client import OAuth2WebServerFlow
-from gapi.oauth2client.tools import run
+from gapi.oauth2client.tools import run, create_url
 
 import datetime
 
@@ -47,6 +47,39 @@ def update_task ( task, updating, tasklist='@default' ):
     # Print the completed date.
     print result
 
+def create_link():
+    # Set up a Flow object to be used if we need to authenticate. This
+    # sample uses OAuth 2.0, and we set up the OAuth2WebServerFlow with
+    # the information it needs to authenticate. Note that it is called
+    # the Web Server Flow, but it can also handle the flow for native
+    # applications
+    # The client_id and client_secret are copied from the API Access tab on
+    # the Google APIs Console
+    FLOW = OAuth2WebServerFlow(
+        client_id='784374432524.apps.googleusercontent.com',
+        client_secret='u4K1AZXSj8P9hIlEddLsMi6d',
+        scope='https://www.googleapis.com/auth/tasks',
+        user_agent='YOUR_APPLICATION_NAME/YOUR_APPLICATION_VERSION')
+    
+    return create_url(FLOW)
+
+def validate_code(code):
+    FLOW = OAuth2WebServerFlow(
+    client_id='784374432524.apps.googleusercontent.com',
+    client_secret='u4K1AZXSj8P9hIlEddLsMi6d',
+    scope='https://www.googleapis.com/auth/tasks',
+    user_agent='YOUR_APPLICATION_NAME/YOUR_APPLICATION_VERSION')
+    
+    storage = Storage('tasks.dat')
+    
+    credential = run(FLOW, storage, code=code)    
+
+    if credentials is None or credentials.invalid == True:
+        print "### CREDENTIAL INVALID"
+    else:
+        print "### CREDENTAIL Validated"
+    
+    return credential
 
 #1. Initial login
 #a. check for all spreadsheet starts with taskstrike_
@@ -78,7 +111,6 @@ def initial_login( current_tasks, deletions ):
     storage = Storage('tasks.dat')
     credentials = storage.get()
     if credentials is None or credentials.invalid == True:
-        credentials = run(FLOW, storage)
         print "#### NO CREDENTIALS"
         return {};
     else:
@@ -152,9 +184,7 @@ def initial_login( current_tasks, deletions ):
                         print entry
                         
                         update_task ( task['id'], entry )
-                
-                #if task_b.time <= task['timestamp']:
-                #    updated = True
+
     
         if not found or updated:
             #check the sync flag, if the sync flag is yes, that means it should be deleted, else it should be added

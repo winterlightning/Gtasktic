@@ -90,8 +90,14 @@ class ClientRedirectHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     """Do not log messages to stdout while running as command line program."""
     pass
 
+def create_url(flow):
 
-def run(flow, storage):
+    oauth_callback = 'oob'
+    authorize_url = flow.step1_get_authorize_url(oauth_callback)
+    
+    return authorize_url
+
+def run(flow, storage, code=""):
   """Core code for a command-line application.
 
   Args:
@@ -137,8 +143,6 @@ def run(flow, storage):
 #    while accepted.lower() == 'n':
 #      accepted = raw_input('Have you authorized me? (y/n) ')
 #    code = raw_input('What is the verification code? ').strip()
-
-  code = "4/AAKvo5nuBvuSQDzp2bCM9I1sr2Zm"
 
   try:
     credentials = flow.step2_exchange(code)

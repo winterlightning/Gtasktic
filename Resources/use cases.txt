@@ -20,3 +20,13 @@ Updating:
 
 	Cloud to Local:
 	This just force rewrites everything so there could be no mistakes
+
+Credential validation:
+
+The user clicks on or copy and paste an URL into a browser and validates the app. He or she get a code back which she copy and paste into the setting 
+window. He then click on validate. 
+
+Function: 
+
+-Generate the URL
+-Validate and generate the credential after the confirmation

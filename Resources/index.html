@@ -3,8 +3,6 @@
 
 	<title>GTasktic</title>
 
-	<script type="text/python" src="gtask.py"/>
-
 	<link type="text/css" rel="stylesheet" href="css/wunderlist.css">
 	<link type="text/css" rel="stylesheet" href="css/dialogs.css">
 	
@@ -244,6 +242,8 @@
 		}
 	</style>
 
+	<script type="text/python" src="gtask.py"/>
+	
 	<script>
 		function Sync (){
 			b = Task.all()
@@ -299,8 +299,45 @@
 		
 		Task.fetch();
 		Deletion.fetch();
-		Sync();
-	
+		
+		var setting_url = "";
+		
+		keys = Key.all();
+		if (keys.length != 0) {
+			setting_url = keys[0].url;
+		}
+		else {
+			setting_url = create_link();
+			Key.create({ url: setting_url });
+		};
+		
+		$(function() {
+			$("#newtaskdate").datepicker({
+				constrainInput: true,
+				buttonImage: 'famfamicons/calendar.png',
+				buttonImageOnly: true,
+				buttonText: '',
+				showOn: 'both',
+				onSelect: function(dateText, inst) {
+					if ($(this).parent().parent().find('.showdate').length == 1){
+						$(this).parent().parent().find('.showdate').html(dateText);
+					};
+				}
+			});
+			
+			$('#googleurl').val(setting_url);
+		});
+		
+		function setting_windows() {
+			$("#dialog").dialog({ modal: true, title: 'Settings for sync' });
+		};
+		
+		function v_code() {
+			code = $('#validation').val();
+			alert(code);
+			validate_code(code);
+		};
+		
 	</script>
 
 </head>
@@ -342,12 +379,26 @@
 	<div id="bottombar">
 		<div id="left">
 			<a class="bottombutton" onclick="Sync()">Sync</a>
-			<a class="bottombutton">Settings</a>
+			<a class="bottombutton" onclick="setting_windows()">Settings</a>
 		</div>		
 		<div id="right">
 			<a class="addlist">Set Background</a>
 		</div>
 	</div>
 
+	<div id="dialog" style="display: none">
+		<p>Copy and paste the following link in your browser: <br />
+		<input class="input-login" type="text" id="googleurl" name="email" placeholder="URL"></p>
+		<p>Copy and paste the validation code from Google; Paste it into here and press validate. <br />
+		<input class="input-login" type="text" id="validation" name="email" placeholder="Validation Code"></p>
+		
+		<div id="account-buttons" class="ui-dialog-buttonset">        
+	        <!-- LOGIN BUTTONS -->
+	        <div class="loginbuttons">
+	         	<input class="input-button register button-login" type="submit" id="validate" onclick="v_code()" value="Validate Code">          	        
+	        </div>
+	    </div>
+		
+	</div>
 
 <div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div></body></html>

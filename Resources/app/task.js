@@ -30,3 +30,7 @@ Task.extend({
 //Deletion queue for tasks
 var Deletion = Spine.Model.setup("Deletion", ["deletion_id"]);
 Deletion.extend(Spine.Model.Local); 
+
+//Key storage for validation key storing
+var Key = Spine.Model.setup("Key", ["url"]);
+Key.extend(Spine.Model.Local); 
