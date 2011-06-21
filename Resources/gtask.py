@@ -72,14 +72,17 @@ def validate_code(code):
     
     storage = Storage('tasks.dat')
     
-    credential = run(FLOW, storage, code=code)    
+    credentials = run(FLOW, storage, code=code)    
 
+    flag = None
     if credentials is None or credentials.invalid == True:
+        flag = False
         print "### CREDENTIAL INVALID"
     else:
+        flag = True
         print "### CREDENTAIL Validated"
     
-    return credential
+    return { "creds": credentials, "flag": flag }
 
 #1. Initial login
 #a. check for all spreadsheet starts with taskstrike_

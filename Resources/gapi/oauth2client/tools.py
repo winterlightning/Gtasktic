@@ -107,25 +107,7 @@ def run(flow, storage, code=""):
   Returns:
     Credentials, the obtained credential.
   """
-  if FLAGS.auth_local_webserver:
-    success = False
-    port_number = 0
-    for port in FLAGS.auth_host_port:
-      port_number = port
-      try:
-        httpd = BaseHTTPServer.HTTPServer((FLAGS.auth_host_name, port),
-            ClientRedirectHandler)
-      except socket.error, e:
-        pass
-      else:
-        success = True
-        break
-    FLAGS.auth_local_webserver = success
-
-  if FLAGS.auth_local_webserver:
-    oauth_callback = 'http://%s:%s/' % (FLAGS.auth_host_name, port_number)
-  else:
-    oauth_callback = 'oob'
+  oauth_callback = 'oob'
   authorize_url = flow.step1_get_authorize_url(oauth_callback)
 
 #  print 'Go to the following link in your browser:'
