@@ -14,7 +14,7 @@ html {background:#333; height:100%}
 
 
 body {
-background:#000 url(/backgrounds/wood.jpg) top center no-repeat fixed;
+/* background:#000 url(/backgrounds/wood.jpg) top center no-repeat fixed; */
 /*-webkit-background-size: cover;
 -moz-background-size: cover;
 -o-background-size: cover;
@@ -24,7 +24,8 @@ font-family: Arial, sans-serif;
 overflow:hidden;
 height:100%;
 font-size: 12px;
-color:#4e4e4e}
+color:#4e4e4e
+}
 
 #bghelp {position:fixed; top:0px; left:0px; right: 0px; bottom:0px; width:100%; height:100%;
 /*-webkit-background-size: cover;
@@ -504,7 +505,7 @@ span#credits { float:right; font-weight: bold; padding:2px 5px; cursor:pointer}
 padding:20px 20px 20px 20px;
 color:#4e4e4e;
 overflow:auto;
-position:fixed; left:0px; right:259px; bottom: 36px; top:0px}
+position:fixed; left:0px; right:259px; bottom: 36px; top:40px}
 
 	#content ul {min-width:300px !important}
 
