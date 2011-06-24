@@ -1,10 +1,13 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><link rel="stylesheet" href="ti://tiui/default.css" type="text/css">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+	<link rel="stylesheet" href="ti://tiui/default.css" type="text/css">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 
 	<title>GTasktic</title>
 
 	<link type="text/css" rel="stylesheet" href="css/wunderlist.css">
 	<link type="text/css" rel="stylesheet" href="css/dialogs.css">
+	<link type="text/css" rel="stylesheet" href="css/ui.notify.css">
 	
 	<script src="lib/json2.js" type="text/javascript" charset="utf-8"></script>
   	<script type="text/javascript" src="js/libraries/jquery-1.6.min.js"></script>
@@ -19,6 +22,7 @@
 	<script src="lib/spine.js" type="text/javascript" charset="utf-8"></script>
 	<script src="lib/dateformat.js" type="text/javascript" charset="utf-8"></script>
 	<script src="lib/spine.model.local.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/jquery.notify.min.js" type="text/javascript" charset="utf-8"></script>
 	
 	<script src="app/task.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/application.js" type="text/javascript" charset="utf-8"></script>
@@ -328,16 +332,27 @@
 			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(249,249,249,1)), color-stop(6%,rgba(249,249,249,1)), color-stop(22%,rgba(242,241,242,1)), color-stop(83%,rgba(204,204,204,1)), color-stop(100%,rgba(196,195,196,1)));			
 		}
 		
+		#iconbar .icon:active {
+			-webkit-box-shadow: inset 0 0 2px 2px #d3d3d3;
+		}
+		
 		#content {
 			bottom: 0px;
 		}
-						
+		.ui-notify {
+			width: 350px;
+			position: fixed;
+			top: 50px;
+			right: 20px;
+		}						
 	</style>
 
 	<script type="text/python" src="gtask.py"/>
 	
 	<script>
-		function Sync (){
+		function Sync () {
+			sync_window = create("sticky", { title:'Sync with Google Cloud', text:'We are currently syncing.'},{ expires:false });
+			
 			b = Task.all()
 			d = Deletion.all()
 			
@@ -387,6 +402,9 @@
 					task.save();
 				};
 			});
+			
+			sync_window.close();
+			create("default", { title:'Successful Sync', text:'Your todos have successfully synced with Google'});
 		};
 		
 		Task.fetch();
@@ -401,6 +419,10 @@
 		else {
 			setting_url = create_link();
 			Key.create({ url: setting_url });
+		};
+		
+		function create( template, vars, opts ){
+			return $container.notify("create", template, vars, opts);
 		};
 		
 		$(function() {
@@ -418,6 +440,7 @@
 			});
 			
 			$('#googleurl').val(setting_url);
+			$container = $("#container").notify();
 		});
 		
 		function setting_windows() {
@@ -501,7 +524,44 @@
 	         	<input class="input-button register button-login" type="submit" id="validate" onclick="v_code()" value="Validate Code">          	        
 	        </div>
 	    </div>
-		
+	</div>
+
+	<!--- container to hold notifications, and default templates --->
+	<div id="container" style="display:none">
+
+		<div id="default">
+			<h1>#{title}</h1>
+			<p>#{text}</p>
+		</div>
+
+		<div id="sticky">
+			<a class="ui-notify-close ui-notify-cross" href="#">x</a>
+			<h1>#{title}</h1>
+			<p>#{text}</p>
+		</div>
+
+		<div id="themeroller" class="ui-state-error" style="padding:10px; -moz-box-shadow:0 0 6px #980000; -webkit-box-shadow:0 0 6px #980000; box-shadow:0 0 6px #980000;">
+			<a class="ui-notify-close" href="#"><span class="ui-icon ui-icon-close" style="float:right"></span></a>
+			<span style="float:left; margin:0 5px 0 0;" class="ui-icon ui-icon-alert"></span>
+			<h1>#{title}</h1>
+			<p>#{text}</p>
+			<p style="text-align:center"><a class="ui-notify-close" href="#">Close Me</a></p>
+		</div>
+
+		<div id="withIcon">
+			<a class="ui-notify-close ui-notify-cross" href="#">x</a>
+			<div style="float:left;margin:0 10px 0 0"><img src="#{icon}" alt="warning" /></div>
+			<h1>#{title}</h1>
+			<p>#{text}</p>
+		</div>
+
+		<div id="buttons">
+			<h1>#{title}</h1>
+			<p>#{text}</p>
+			<p style="margin-top:10px;text-align:center">
+				<input type="button" class="confirm" value="Close Dialog" />
+			</p>
+		</div>
 	</div>
 
 <div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div></body></html>
