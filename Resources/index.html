@@ -449,7 +449,16 @@
 		
 		function v_code() {
 			code = $('#validation').val();
-			validate_code(code);
+			var a = validate_code(code);
+			var flag = a.flag;
+			
+			if (flag == true) {
+				$("#dialog").dialog("close");
+				create("default", { title:'Successful Validation', text:'You may use sync now'});
+			}
+			else {
+				create("default", { title:'Failed validation', text:'Please try again'});
+			};
 		};
 		
 	</script>
@@ -538,14 +547,6 @@
 			<a class="ui-notify-close ui-notify-cross" href="#">x</a>
 			<h1>#{title}</h1>
 			<p>#{text}</p>
-		</div>
-
-		<div id="themeroller" class="ui-state-error" style="padding:10px; -moz-box-shadow:0 0 6px #980000; -webkit-box-shadow:0 0 6px #980000; box-shadow:0 0 6px #980000;">
-			<a class="ui-notify-close" href="#"><span class="ui-icon ui-icon-close" style="float:right"></span></a>
-			<span style="float:left; margin:0 5px 0 0;" class="ui-icon ui-icon-alert"></span>
-			<h1>#{title}</h1>
-			<p>#{text}</p>
-			<p style="text-align:center"><a class="ui-notify-close" href="#">Close Me</a></p>
 		</div>
 
 		<div id="withIcon">
