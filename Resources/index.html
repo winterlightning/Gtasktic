@@ -1,6 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 	<head>
-	<link rel="stylesheet" href="ti://tiui/default.css" type="text/css">
+	<!-- <link rel="stylesheet" href="ti://tiui/default.css" type="text/css"> -->
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 
 	<title>GTasktic</title>
@@ -425,6 +425,7 @@
 			return $container.notify("create", template, vars, opts);
 		};
 		
+		//Initial page setup
 		$(function() {
 			$("#newtaskdate").datepicker({
 				constrainInput: true,
@@ -441,6 +442,19 @@
 			
 			$('#googleurl').val(setting_url);
 			$container = $("#container").notify();
+			
+			//drag and drop on the list
+			$( ".roundedlist" ).sortable({
+		        update: function(event, ui) {
+		            $(".roundedlist li").each (function(index) {
+						//retrieve current task
+						var current = Task.find($(this).data("id"));
+    						current.order = $(this).index();
+    						current.save();
+  						});
+  
+			        }
+			});
 		});
 		
 		function setting_windows() {
