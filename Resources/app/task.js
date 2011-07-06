@@ -1,5 +1,5 @@
 // Create the Task model.
-var Task = Spine.Model.setup("Task", ["name", "done", "time", "duedate", "note", "order", "synced"]);
+var Task = Spine.Model.setup("Task", ["name", "done", "time", "duedate", "note", "order", "synced", "listid"]);
 
 // Persist model between page reloads.
 Task.extend(Spine.Model.Local);
@@ -34,3 +34,6 @@ Deletion.extend(Spine.Model.Local);
 //Key storage for validation key storing
 var Key = Spine.Model.setup("Key", ["url"]);
 Key.extend(Spine.Model.Local); 
+
+var List = Spine.Model.setup("List", ["name"]);
+List.extend(Spine.Model.Local);

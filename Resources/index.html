@@ -353,8 +353,8 @@
 		function Sync () {
 			sync_window = create("sticky", { title:'Sync with Google Cloud', text:'We are currently syncing.'},{ expires:false });
 			
-			b = Task.all()
-			d = Deletion.all()
+			b = JSON.stringify(Task);
+			d = JSON.stringify(Deletion);
 			
 			a = initial_login( b, d );	
 			
@@ -362,7 +362,7 @@
 			deleted = a.deletion;
 			
 			//Delete the deletions since they are synced
-			$.each(d, function(index, value) {
+			$.each(Deletion.all(), function(index, value) {
 				value.destroy();
 			});
 			

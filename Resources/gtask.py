@@ -9,8 +9,13 @@ from gapi.oauth2client.client import OAuth2WebServerFlow
 from gapi.oauth2client.tools import run, create_url
 
 import datetime
+import pickle
+import gapi.simplejson as json
+
+import os
 
 service = None
+task_dict= {}
 
 #create a task
 def create_task ( task, tasklist='@default' ):
@@ -25,11 +30,18 @@ def create_task ( task, tasklist='@default' ):
 def delete_task ( task, tasklist='@default' ):
     global service
     
-    service.tasks().delete(tasklist=tasklist, task=task).execute()
+    try:
+        tasklist = task_dict[task]
+        print "tasklist: ", tasklist
+        service.tasks().delete(tasklist=tasklist, task=task).execute()
+    except:
+        print "task ", task, " does not exist"
     
 #update a task
 def update_task ( task, updating, tasklist='@default' ):
     global service
+    
+    tasklist = task_dict[(task['id'])]
     
     # First retrieve the task to update.
     task = service.tasks().get(tasklist=tasklist, task=task).execute()
@@ -84,6 +96,45 @@ def validate_code(code):
     
     return { "creds": credentials, "flag": flag }
 
+def get_all_tasks():
+    global service
+    global task_dict
+    
+    #get all the tasks
+    tasklists = service.tasklists().list().execute()
+
+    tasks = []
+    for tasklist in tasklists['items']:
+        this_list = service.tasks().list(tasklist=tasklist['id'] ).execute()
+        print tasklist
+        if this_list.has_key("items"):
+            tasks = tasks + this_list['items']
+        
+            for task in this_list['items']:
+                task_dict[(task['id'])] = tasklist['id']
+        
+    return tasks
+
+def store_input( data ):
+    print "here 1"
+    output = open('/data.pkl', 'wb')
+    
+    print output
+    print "current dir: ", os.pardir
+    
+    pickle.dump(data, output)
+    
+    print "here 3"
+    output.close()
+    
+def open_storage():
+    pkl_file = open('/data.pkl', 'rb')
+    
+    data = pickle.load(pkl_file)    
+    pkl_file.close()    
+
+    return data
+
 #1. Initial login
 #a. check for all spreadsheet starts with taskstrike_
 #b. for each of them, read all the task out
@@ -92,6 +143,14 @@ def validate_code(code):
 def initial_login( current_tasks, deletions ):
     global service
 
+    print current_tasks
+    print deletions
+
+    #store_input( [current_tasks, deletions] ) # this is for debugging, you can pickle the inputs and put them out again
+    
+    current_tasks = json.loads(current_tasks)
+    deletions = json.loads( deletions )
+    
     # Set up a Flow object to be used if we need to authenticate. This
     # sample uses OAuth 2.0, and we set up the OAuth2WebServerFlow with
     # the information it needs to authenticate. Note that it is called
@@ -129,33 +188,33 @@ def initial_login( current_tasks, deletions ):
     # to get a developerKey for your own application.
     service = build(serviceName='tasks', version='v1', http=http,
            developerKey='AIzaSyDjOuKvvMRHiTYJsOu1xMnTbFFedpOoOPM')
-
+    
+    deleted  = []
+    
+    tasks = get_all_tasks()
+    
     #delete the ones that are synced
     print deletions
     for x in deletions:
-        print "DELETED " + x.deletion_id
-        delete_task(x.deletion_id)
-
-    #get all the tasks
-    tasks = service.tasks().list(tasklist='@default').execute()
-    
-    deleted  = []
+        print "This ARRAY ", x
+        print "DELETED " + x["deletion_id"]
+        delete_task(x["deletion_id"])
     
     #ii. If a task is local but not in the cloud, write it back to the cloud. If a task is updated, write it back to the cloud
     for task_b in current_tasks:
         found = False
         updated = False
         
-        print task_b.id
+        print task_b["id"]
         
-        for task in tasks['items']: 
+        for task in tasks: 
             
-            if task['id'] == task_b.id:
+            if task['id'] == task_b["id"]:
                 found = True
                 
                 #check both timestamp for local and cloud is there
-                if task_b.time and task['updated']:
-                    local_time = datetime.datetime.fromtimestamp( int( task_b.time )/1000 )
+                if task_b.has_key("time") and task.has_key('updated'):
+                    local_time = datetime.datetime.fromtimestamp( int( task_b["time"] )/1000 )
                     parsed = task['updated'][0:task['updated'].find(".")]
                     cloud_time = datetime.datetime.strptime(parsed, '%Y-%m-%dT%H:%M:%S') - datetime.timedelta(hours=4)
                     
@@ -201,12 +260,21 @@ def initial_login( current_tasks, deletions ):
     
             deleted.append(task_b.id)
     
-    tasks = service.tasks().list(tasklist='@default').execute()
+    tasks = get_all_tasks()
     
-    for task in tasks['items']:
+    for task in tasks:
         if task.has_key('due'):
             task['due'] = task['due'][0:10].replace("-", "/")
             print task['due']
         print task
     
-    return { 'current': tasks['items'], 'deletion': deleted }
+    return { 'current': tasks, 'deletion': deleted }
+
+#login with the latest stored data
+def test_login():
+    a = open_storage()
+    print a[0]
+    print a[1]
+
+    a = initial_login(a[0], a[1])
+    print a
