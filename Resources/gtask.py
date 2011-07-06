@@ -41,7 +41,7 @@ def delete_task ( task, tasklist='@default' ):
 def update_task ( task, updating, tasklist='@default' ):
     global service
     
-    tasklist = task_dict[(task['id'])]
+    tasklist = task_dict[task]
     
     # First retrieve the task to update.
     task = service.tasks().get(tasklist=tasklist, task=task).execute()
@@ -112,6 +112,7 @@ def get_all_tasks():
         
             for task in this_list['items']:
                 task_dict[(task['id'])] = tasklist['id']
+                task["listid"] = tasklist['id']
         
     return tasks
 
@@ -146,7 +147,7 @@ def initial_login( current_tasks, deletions ):
     print current_tasks
     print deletions
 
-    #store_input( [current_tasks, deletions] ) # this is for debugging, you can pickle the inputs and put them out again
+    store_input( [current_tasks, deletions] ) # this is for debugging, you can pickle the inputs and put them out again
     
     current_tasks = json.loads(current_tasks)
     deletions = json.loads( deletions )
@@ -223,24 +224,23 @@ def initial_login( current_tasks, deletions ):
                     #if the local update stamp 
                     if (local_time > cloud_time):
                         
-                        print local_time, " local and cloud ", cloud_time, " ", task_b.name
+                        print local_time, " local and cloud ", cloud_time, " ", task_b["name"]
                         
                         print "NEED TO UPDATE " + task["title"]
                         
-                        print "task done ", task_b.done 
+                        print "task done ", task_b["done"] 
                         
-                        if task_b.done:
-                            status = "completed"
+                        entry = { 'title': task_b["name"] }
+                        
+                        if task_b["done"]:
+                            entry["status"] = "completed"
                         else:
-                            status = "needsAction"
-
-                        print status
+                            entry["status"] = "needsAction"
                         
-                        entry = { 'status': status, 'title': task_b.name, 'notes': task_b.note }
+                        if task_b.has_key("note"):
+                            entry["notes"] = task_b["note"]
                         
-                        print task_b.duedate
-                        
-                        if task_b.duedate:
+                        if task_b.has_key("duedate"):
                             entry['due'] = datetime.datetime.strptime('06/17/2011', '%m/%d/%Y').isoformat()+".000Z"
                         
                         print entry
@@ -278,3 +278,5 @@ def test_login():
 
     a = initial_login(a[0], a[1])
     print a
+    
+test_login()

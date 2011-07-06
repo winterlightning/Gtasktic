@@ -15,6 +15,10 @@ Task.extend({
     return(this.select(function(item){ return !!item.done; }));    
   },
   
+  list: function(id) {
+  	return(this.select(function(item){ return (item.listid == id); }));
+  },
+  
   // Clear all done tasks.
   destroyDone: function(){
     this.done().forEach(function(rec){ 

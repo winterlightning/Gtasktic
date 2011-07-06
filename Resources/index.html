@@ -356,21 +356,31 @@
 			b = JSON.stringify(Task);
 			d = JSON.stringify(Deletion);
 			
+			alert("test A");
+			
 			a = initial_login( b, d );	
+			
+			alert("test B");
 			
 			current = a.current;
 			deleted = a.deletion;
+			
+			alert("test 1");
 			
 			//Delete the deletions since they are synced
 			$.each(Deletion.all(), function(index, value) {
 				value.destroy();
 			});
 			
+			alert("test 2");
+			
 			//Delete tasks that are marked for deletion
 			$.each(deleted, function(index, value) {
 				var deleteTask = Task.find( value );
 				deleteTask.destroy();
 			});
+			
+			alert("test 3");
 			
 			$.each(current, function(index, value) {
 				
@@ -385,6 +395,7 @@
 					editable.name = value.title;
 					editable.done = (value.status == 'completed');
 					editable.duedate = duedate;
+					editable.listid = value.listid;
 					
 					if (value.hasOwnProperty('notes')) {
 						editable.note = value.notes;
@@ -393,7 +404,7 @@
 					editable.save();
 				}
 				else {
-					var task = Task.init( { name: value.title, time: ( new Date().getTime() ).toString(), synced: true, done: (value.status == 'completed'), duedate: duedate } );
+					var task = Task.init( { name: value.title, time: ( new Date().getTime() ).toString(), synced: true, done: (value.status == 'completed'), duedate: duedate, listid: value.listid } );
 					task.id = value.id;
 					if (value.hasOwnProperty('notes')) {
 						task.note = value.notes;
@@ -402,6 +413,8 @@
 					task.save();
 				};
 			});
+			
+			alert("test 5");
 			
 			sync_window.close();
 			create("default", { title:'Successful Sync', text:'Your todos have successfully synced with Google'});
@@ -511,8 +524,10 @@
 				
 			  </div>
 		      
-		      <h1>#inbox</h1>
-		      <div class="items roundedlist"></div>
+		      <div id="listone">
+			      <h1 class="title">#inbox</h1>
+			      <div class="items roundedlist"></div>
+		      </div>
 		      
 		      <footer>
 		        <a class="clear listbutton">Clear completed</a>

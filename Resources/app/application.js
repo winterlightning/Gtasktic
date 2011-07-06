@@ -78,7 +78,7 @@ jQuery(function($){
     }
   });
   
-  window.TaskApp = Spine.Controller.create({
+  /*window.TaskApp = Spine.Controller.create({
     el: $("#tasks"),
     
     proxied: ["addOne", "addAll", "renderCount"],
@@ -143,5 +143,36 @@ jQuery(function($){
     }
   });
   
+  window.App = TaskApp.init(); */
+ 
+  window.TaskApp = Spine.Controller.create({
+    el: $("#listone"),
+    
+    proxied: ["addAll"],
+    
+    elements: {
+      ".items":     "items",
+    },
+    
+    init: function(){
+      Task.bind("refresh", this.addAll);
+      Task.fetch();
+    },
+    
+    addAll: function() {
+      var ordered = Task.all().sort(Task.ordersort);
+      
+      var a = this.items;
+      
+      $.each(ordered, function(key, value) {
+     	var view = Tasks.init({item: value});
+      	a.append(view.render().el);
+	  });
+      
+    },
+       
+  });
+
   window.App = TaskApp.init();
+ 
 });
