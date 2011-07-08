@@ -278,5 +278,3 @@ def test_login():
 
     a = initial_login(a[0], a[1])
     print a
-    
-test_login()

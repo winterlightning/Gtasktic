@@ -146,33 +146,66 @@ jQuery(function($){
   window.App = TaskApp.init(); */
  
   window.TaskApp = Spine.Controller.create({
-    el: $("#listone"),
+    tag: "div",
     
-    proxied: ["addAll"],
+    proxied: ["addAll", "render"],
     
     elements: {
       ".items":     "items",
     },
     
     init: function(){
-      Task.bind("refresh", this.addAll);
+      //Task.bind("refresh", this.addAll);
       Task.fetch();
     },
     
     addAll: function() {
-      var ordered = Task.all().sort(Task.ordersort);
-      
-      var a = this.items;
-      
-      $.each(ordered, function(key, value) {
+      alert("executed addAll");	
+      	
+	  var ordered = Task.all().sort(Task.ordersort);
+
+	  a = this.el;
+
+	  $.each(ordered, function(key, value) {
      	var view = Tasks.init({item: value});
-      	a.append(view.render().el);
+      	a.find('.items').append(view.render().el);
 	  });
+	 
+	 
+    },
+    
+    render: function() {
+   	  alert("executed render");
+   	  
+   	  var elements = $("#listTemplate").tmpl(this.item);
+      this.el.html(elements);	
+      this.refreshElements();
+	        
+      return this;
+    },
+     
+  });
+
+  window.allLists = Spine.Controller.create({
+    el: $("#listsoftasks"),
+    
+    proxied: ["render"],
+    
+    init: function(){
+    	this.render();
+    },
+    
+    render: function() {
+      alert("executed allLists");
       
+      var list = TaskApp.init();
+      
+      this.el.append( list.render().el );
+      list.addAll();
     },
        
   });
-
-  window.App = TaskApp.init();
+ 
+  window.App = allLists.init();
  
 });
