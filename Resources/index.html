@@ -1,6 +1,5 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 	<head>
-	<!-- <link rel="stylesheet" href="ti://tiui/default.css" type="text/css"> -->
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 
 	<title>GTasktic</title>
@@ -59,7 +58,7 @@
 
 	<script type="text/x-jquery-tmpl" id="listTemplate">
 	  <div id="listone" class="listdiv">
-	      <h1 class="title">#inbox</h1>
+	      <h1 class="title">${name}</h1>
 	      <div class="items roundedlist"></div>
       </div>
 	</script>
@@ -364,23 +363,37 @@
 			b = JSON.stringify(Task);
 			d = JSON.stringify(Deletion);
 			
-			alert("test A");
-			
 			a = initial_login( b, d );	
-			
-			alert("test B");
 			
 			current = a.current;
 			deleted = a.deletion;
+			tasklist = a.tasklist;
 			
-			alert("test 1");
+			//Sync task list
+			$.each(tasklist, function(index, value) {
+				alert(tasklist);
+				
+				if ( List.exists( value.id ) ) {
+					alert("test b");
+					
+					var editable = List.find( value.id );
+					editable.name = value.title;
+					
+					editable.save();
+				}
+				else {
+					alert("test a");
+					var list = List.init( { name: value.title } );
+					list.id = value.id;
+					
+					list.save();
+				};				
+			});
 			
 			//Delete the deletions since they are synced
 			$.each(Deletion.all(), function(index, value) {
 				value.destroy();
 			});
-			
-			alert("test 2");
 			
 			//Delete tasks that are marked for deletion
 			$.each(deleted, function(index, value) {
@@ -388,7 +401,6 @@
 				deleteTask.destroy();
 			});
 			
-			alert("test 3");
 			
 			$.each(current, function(index, value) {
 				
@@ -421,8 +433,6 @@
 					task.save();
 				};
 			});
-			
-			alert("test 5");
 			
 			sync_window.close();
 			create("default", { title:'Successful Sync', text:'Your todos have successfully synced with Google'});

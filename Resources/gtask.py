@@ -114,7 +114,7 @@ def get_all_tasks():
                 task_dict[(task['id'])] = tasklist['id']
                 task["listid"] = tasklist['id']
         
-    return tasks
+    return [tasks, tasklists['items']]
 
 def store_input( data ):
     print "here 1"
@@ -192,7 +192,7 @@ def initial_login( current_tasks, deletions ):
     
     deleted  = []
     
-    tasks = get_all_tasks()
+    [tasks, tasklist] = get_all_tasks()
     
     #delete the ones that are synced
     print deletions
@@ -260,7 +260,7 @@ def initial_login( current_tasks, deletions ):
     
             deleted.append(task_b.id)
     
-    tasks = get_all_tasks()
+    [tasks, tasklist] = get_all_tasks()
     
     for task in tasks:
         if task.has_key('due'):
@@ -268,7 +268,9 @@ def initial_login( current_tasks, deletions ):
             print task['due']
         print task
     
-    return { 'current': tasks, 'deletion': deleted }
+    print tasklist
+    
+    return { 'current': tasks, 'deletion': deleted, 'tasklist':tasklist }
 
 #login with the latest stored data
 def test_login():

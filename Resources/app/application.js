@@ -162,8 +162,8 @@ jQuery(function($){
     addAll: function() {
       alert("executed addAll");	
       	
-	  var ordered = Task.all().sort(Task.ordersort);
-
+	  var ordered = Task.list(this.item.id).sort(Task.ordersort);
+	  
 	  a = this.el;
 
 	  $.each(ordered, function(key, value) {
@@ -192,16 +192,22 @@ jQuery(function($){
     proxied: ["render"],
     
     init: function(){
+    	List.fetch();
     	this.render();
     },
     
     render: function() {
       alert("executed allLists");
       
-      var list = TaskApp.init();
+      var lists = List.all();
+      a = this.el;
       
-      this.el.append( list.render().el );
-      list.addAll();
+      $.each(lists, function(key, value) {
+	      var list = TaskApp.init({"item": value});
+	      a.append( list.render().el );
+	      list.addAll();
+	  });
+      
     },
        
   });
