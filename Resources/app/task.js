@@ -6,13 +6,13 @@ Task.extend(Spine.Model.Local);
 
 Task.extend({
   // Return all active tasks.
-  active: function(){
-    return(this.select(function(item){ return !item.done; }));
+  active: function(id){
+    return(this.select(function(item){ return !item.done && (item.listid == id); }));
   },
   
   // Return all done tasks.
-  done: function(){
-    return(this.select(function(item){ return !!item.done; }));    
+  done: function(id){
+    return(this.select(function(item){ return !!item.done && (item.listid == id); }));    
   },
   
   list: function(id) {
@@ -20,8 +20,8 @@ Task.extend({
   },
   
   // Clear all done tasks.
-  destroyDone: function(){
-    this.done().forEach(function(rec){ 
+  destroyDone: function(id){
+    this.done(id).forEach(function(rec){ 
     	if (rec.synced == true) {
       		Deletion.create({ deletion_id: rec.id });
       	};

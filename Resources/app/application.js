@@ -130,10 +130,6 @@ jQuery(function($){
       return false;
     },
     
-    clear: function(){
-      Task.destroyDone();
-    },
-    
     renderCount: function(){
       var active = Task.active().length;
       this.count.text(active);
@@ -148,20 +144,25 @@ jQuery(function($){
   window.TaskApp = Spine.Controller.create({
     tag: "div",
     
-    proxied: ["addAll", "render"],
+    proxied: ["addAll", "render", "renderCount"],
+
+    events: {
+      "click  .clear": "clear"
+    },
     
     elements: {
       ".items":     "items",
+      ".countVal":  "count",
+      ".clear":     "clear",
     },
     
     init: function(){
       //Task.bind("refresh", this.addAll);
+      Task.bind("change", this.renderCount);
       Task.fetch();
     },
     
     addAll: function() {
-      alert("executed addAll");	
-      	
 	  var ordered = Task.list(this.item.id).sort(Task.ordersort);
 	  
 	  a = this.el;
@@ -171,17 +172,26 @@ jQuery(function($){
       	a.find('.items').append(view.render().el);
 	  });
 	 
-	 
     },
     
     render: function() {
-   	  alert("executed render");
-   	  
    	  var elements = $("#listTemplate").tmpl(this.item);
       this.el.html(elements);	
       this.refreshElements();
 	        
+	  this.renderCount();
       return this;
+    },
+    
+    renderCount: function() {
+      var active = Task.active(this.item.id).length;
+      this.count.text(active);
+      
+      var inactive = Task.done(this.item.id).length;
+    },
+
+    clear: function(){
+      Task.destroyDone(this.item.id);
     },
      
   });
@@ -197,8 +207,6 @@ jQuery(function($){
     },
     
     render: function() {
-      alert("executed allLists");
-      
       var lists = List.all();
       a = this.el;
       
