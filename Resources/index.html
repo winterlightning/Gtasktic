@@ -57,11 +57,12 @@
 	</script>
 
 	<script type="text/x-jquery-tmpl" id="listTemplate">
-	  <div id="listone" class="listdiv">
+	  <div id="${id}" class="listdiv">
 	      <h1 class="title">${name}</h1>
 	      <div class="items roundedlist"></div>
 	      
       	  <footer>
+      	  	<a class="add listbutton">Add Task</a>
 	        <a class="clear listbutton">Clear completed</a>
 	        <div class="count listbutton"><span class="countVal"></span> left</div>
 	      </footer>
@@ -376,10 +377,8 @@
 			
 			//Sync task list
 			$.each(tasklist, function(index, value) {
-				alert(tasklist);
 				
 				if ( List.exists( value.id ) ) {
-					alert("test b");
 					
 					var editable = List.find( value.id );
 					editable.name = value.title;
@@ -387,7 +386,6 @@
 					editable.save();
 				}
 				else {
-					alert("test a");
 					var list = List.init( { name: value.title } );
 					list.id = value.id;
 					
@@ -535,17 +533,6 @@
 		
 		  <div id="views">
 		    <div id="tasks">
-		      
-		      <div class="add">
-				<div class="addwrapper">
-					<form id="newtask_form">
-						<input type="text" id="addingdiv" class="input-add" placeholder="Add your task here" style="border: 0px; position: relative; left: 5px;" />
-						<input type="hidden" id="newtaskdate" />
-					</form>
-					<span class="showdate timestamp"></span>
-				</div>
-				
-			  </div>
 		     
 		      <div id="listsoftasks">
 		      </div>

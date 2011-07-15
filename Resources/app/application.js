@@ -147,18 +147,21 @@ jQuery(function($){
     proxied: ["addAll", "render", "renderCount"],
 
     events: {
-      "click  .clear": "clear"
+      "click  .clear": "clear",
+      "click  .add": "addOne",
     },
     
     elements: {
       ".items":     "items",
       ".countVal":  "count",
       ".clear":     "clear",
+      ".add": 		"add"
     },
     
     init: function(){
       //Task.bind("refresh", this.addAll);
       Task.bind("change", this.renderCount);
+      
       Task.fetch();
     },
     
@@ -178,6 +181,9 @@ jQuery(function($){
    	  var elements = $("#listTemplate").tmpl(this.item);
       this.el.html(elements);	
       this.refreshElements();
+	  
+	  //Store the id of the element in the item itself
+      this.el.data('id', this.item.id);
 	        
 	  this.renderCount();
       return this;
@@ -193,6 +199,12 @@ jQuery(function($){
     clear: function(){
       Task.destroyDone(this.item.id);
     },
+    
+    addOne: function() {
+    	new_task = Task.create({name: "", time: ( new Date().getTime() ).toString(), done: false, order: Task.all().length + 1, synced: false, listid: this.item.id });
+		var view = Tasks.init({item: new_task});
+      	this.items.append(view.render().el);
+    }
      
   });
 
@@ -208,11 +220,11 @@ jQuery(function($){
     
     render: function() {
       var lists = List.all();
-      a = this.el;
+      cur_el = this.el;
       
       $.each(lists, function(key, value) {
 	      var list = TaskApp.init({"item": value});
-	      a.append( list.render().el );
+	      cur_el.append( list.render().el );
 	      list.addAll();
 	  });
       
