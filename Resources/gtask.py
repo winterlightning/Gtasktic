@@ -317,15 +317,15 @@ def initial_login( current_tasks, deletions ):
     
         if not found or updated:
             #check the sync flag, if the sync flag is yes, that means it should be deleted, else it should be added
-            if task_b.synced: #this is a local task that needs to be deleted
+            if task_b["synced"]: #this is a local task that needs to be deleted
                 pass 
             else: #this is a local task that needs to be added
-                print "ADDED" + task_b.name
+                print "ADDED" + task_b["name"]
                 
-                a = create_task( { 'title': task_b.name } )
+                a = create_task( { 'title': task_b["name"] } )
                 print a
     
-            deleted.append(task_b.id)
+            deleted.append(task_b["id"])
     
     [tasks, tasklist] = get_all_tasks()
     
