@@ -136,6 +136,73 @@ def open_storage():
 
     return data
 
+#Sync the model given a local data set, and a cloud data set
+#1. Both model must have a timestamp
+#2. Local model must have a synced flag
+def sync_model(local, cloud):
+    
+    #1. If a task is local but not in the cloud, write it back to the cloud. If a task is updated, write it back to the cloud
+    for task_b in current_tasks:
+        found = False
+        updated = False
+        
+        print task_b["id"]
+        
+        for task in tasks: 
+            
+            if task['id'] == task_b["id"]:
+                found = True
+                
+                #check both timestamp for local and cloud is there
+                if task_b.has_key("time") and task.has_key('updated'):
+                    local_time = datetime.datetime.fromtimestamp( int( task_b["time"] )/1000 )
+                    parsed = task['updated'][0:task['updated'].find(".")]
+                    cloud_time = datetime.datetime.strptime(parsed, '%Y-%m-%dT%H:%M:%S') - datetime.timedelta(hours=4)
+                    
+                    print "time comparison ", (local_time > cloud_time)
+                    
+                    #if the local update stamp 
+                    if (local_time > cloud_time):
+                        
+                        print local_time, " local and cloud ", cloud_time, " ", task_b["name"]
+                        
+                        print "NEED TO UPDATE " + task["title"]
+                        
+                        print "task done ", task_b["done"] 
+                        
+                        entry = { 'title': task_b["name"] }
+                        
+                        if task_b["done"]:
+                            entry["status"] = "completed"
+                        else:
+                            entry["status"] = "needsAction"
+                        
+                        if task_b.has_key("note"):
+                            entry["notes"] = task_b["note"]
+                        
+                        if task_b.has_key("duedate"):
+                            entry['due'] = datetime.datetime.strptime('06/17/2011', '%m/%d/%Y').isoformat()+".000Z"
+                        
+                        print entry
+                        
+                        update_task ( task['id'], entry )
+
+    
+        if not found or updated:
+            #check the sync flag, if the sync flag is yes, that means it should be deleted, else it should be added
+            if task_b.synced: #this is a local task that needs to be deleted
+                pass 
+            else: #this is a local task that needs to be added
+                print "ADDED" + task_b.name
+                
+                a = create_task( { 'title': task_b.name } )
+                print a
+    
+            deleted.append(task_b.id)
+    
+    pass
+
+
 #1. Initial login
 #a. check for all spreadsheet starts with taskstrike_
 #b. for each of them, read all the task out

@@ -204,6 +204,7 @@ jQuery(function($){
     	new_task = Task.create({name: "", time: ( new Date().getTime() ).toString(), done: false, order: Task.all().length + 1, synced: false, listid: this.item.id });
 		var view = Tasks.init({item: new_task});
       	this.items.append(view.render().el);
+      	view.edit();
     }
      
   });
