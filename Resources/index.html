@@ -58,7 +58,14 @@
 
 	<script type="text/x-jquery-tmpl" id="listTemplate">
 	  <div id="${id}" class="listdiv">
-	      <h1 class="title">${name}</h1>
+	  	  <div class="list_header" style="margin-top: 15px;">
+	  	  	  <h1 class="title" style="display: inline; width: 100%; margin-right: 5px;">${name}</h1>
+		      <div class="list_bar" style="display: inline; width: 100%; background-color: #fff; -webkit-box-shadow: #333 0px 1px 3px; background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EEE), to(white)); border-radius: 10px 10px; padding-top: 7px; padding-right: 7px; padding-left: 7px;">
+		      	<a href="#"><img src="famfamicons/delete.png" height="14px"/></a>
+		      	<a href="#"><img src="famfamicons/pencil.png" height="14px"/></a>
+		      </div>
+	      </div>
+	      
 	      <div class="items roundedlist"></div>
 	      
       	  <footer>
