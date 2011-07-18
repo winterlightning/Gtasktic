@@ -58,9 +58,9 @@
 
 	<script type="text/x-jquery-tmpl" id="listTemplate">
 	  <div id="${id}" class="listdiv">
-	  	  <div class="list_header" style="margin-top: 15px;">
-	  	  	  <h1 class="title" style="display: inline; width: 100%; margin-right: 5px;">${name}</h1>
-		      <div class="list_bar" style="display: inline; width: 100%; background-color: #fff; -webkit-box-shadow: #333 0px 1px 3px; background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EEE), to(white)); border-radius: 10px 10px; padding-top: 7px; padding-right: 7px; padding-left: 7px;">
+	  	  <div class="list_header">
+	  	  	  <h1 class="title" style="">${name}</h1>
+		      <div class="list_bar">
 		      	<a href="#"><img src="famfamicons/delete.png" height="14px"/></a>
 		      	<a href="#"><img src="famfamicons/pencil.png" height="14px"/></a>
 		      </div>
@@ -364,7 +364,35 @@
 			position: fixed;
 			top: 50px;
 			right: 20px;
-		}						
+		}		
+		
+		/* list header */
+		.list_header {
+			margin-top: 15px;
+		}
+			
+		.listdiv .list_bar {
+			width: 100%; 
+			background-color: #fff; 
+			-webkit-box-shadow: #333 0px 1px 3px; 
+			background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EEE), to(white)); 
+			border-radius: 10px 10px; 
+			padding-top: 7px; 
+			padding-right: 7px; 
+			padding-left: 7px;
+			display:none;
+		}
+		
+		.listdiv .title {
+			display: inline; 
+			width: 100%; 
+			margin-right: 5px;
+		}
+		
+		.listdiv:hover .list_bar {
+			display: inline; 
+		}
+		
 	</style>
 
 	<script type="text/python" src="gtask.py"/>
