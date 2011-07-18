@@ -102,6 +102,8 @@ def get_all_tasks():
     global service
     global task_dict
     
+    print service
+    
     #get all the tasks
     tasklists = service.tasklists().list().execute()
 

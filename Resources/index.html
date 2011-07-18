@@ -375,24 +375,6 @@
 			deleted = a.deletion;
 			tasklist = a.tasklist;
 			
-			//Sync task list
-			$.each(tasklist, function(index, value) {
-				
-				if ( List.exists( value.id ) ) {
-					
-					var editable = List.find( value.id );
-					editable.name = value.title;
-					
-					editable.save();
-				}
-				else {
-					var list = List.init( { name: value.title } );
-					list.id = value.id;
-					
-					list.save();
-				};				
-			});
-			
 			//Delete the deletions since they are synced
 			$.each(Deletion.all(), function(index, value) {
 				value.destroy();
@@ -435,6 +417,24 @@
 					
 					task.save();
 				};
+			});
+			
+			//Sync task list
+			$.each(tasklist, function(index, value) {
+				
+				if ( List.exists( value.id ) ) {
+					
+					var editable = List.find( value.id );
+					editable.name = value.title;
+					
+					editable.save();
+				}
+				else {
+					var list = List.init( { name: value.title } );
+					list.id = value.id;
+					
+					list.save();
+				};				
 			});
 			
 			sync_window.close();

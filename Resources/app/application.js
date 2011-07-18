@@ -160,6 +160,9 @@ jQuery(function($){
     
     init: function(){
       //Task.bind("refresh", this.addAll);
+      this.item.bind("update",  this.render);
+      this.item.bind("destroy", this.remove);
+      
       Task.bind("change", this.renderCount);
       
       Task.fetch();
@@ -184,6 +187,8 @@ jQuery(function($){
 	  
 	  //Store the id of the element in the item itself
       this.el.data('id', this.item.id);
+	  
+	  this.addAll();
 	        
 	  this.renderCount();
       return this;
@@ -205,6 +210,10 @@ jQuery(function($){
 		var view = Tasks.init({item: new_task});
       	this.items.append(view.render().el);
       	view.edit();
+    },
+    
+    remove: function(){
+      this.el.remove();
     }
      
   });
@@ -226,7 +235,6 @@ jQuery(function($){
       $.each(lists, function(key, value) {
 	      var list = TaskApp.init({"item": value});
 	      cur_el.append( list.render().el );
-	      list.addAll();
 	  });
       
     },
