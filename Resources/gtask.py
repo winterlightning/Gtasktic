@@ -29,6 +29,7 @@ def create_task ( task, tasklist='@default' ):
 #delete a task
 def delete_task ( task, tasklist='@default' ):
     global service
+    global task_dict
     
     try:
         tasklist = task_dict[task]
@@ -40,6 +41,7 @@ def delete_task ( task, tasklist='@default' ):
 #update a task
 def update_task ( task, updating, tasklist='@default' ):
     global service
+    global task_dict
     
     tasklist = task_dict[task]
     
@@ -136,10 +138,31 @@ def open_storage():
 
     return data
 
+#transform a task form the local to the cloud version for updates
+def local_to_cloud_trans_task(local_unit, entry):
+    print local_unit
+    
+    entry['title']= local_unit["name"]
+    
+    if local_unit["done"]:
+        entry["status"] = "completed"
+    else:
+        entry["status"] = "needsAction"
+    
+    if local_unit.has_key("note") and local_unit["note"]:
+        entry["notes"] = local_unit["note"]
+    
+    if local_unit.has_key("duedate") and local_unit["duedate"]:
+        entry['due'] = datetime.datetime.strptime(local_unit["duedate"], '%m/%d/%Y').isoformat()+".000Z"
+    
+    print entry
+    
+    return entry
+
 #Sync the model given a local data set, and a cloud data set
 #1. Both model must have a timestamp
 #2. Local model must have a synced flag
-def sync_model(local, cloud):
+def sync_model(local, cloud, deleted):
     
     #1. If a task is local but not in the cloud, write it back to the cloud. If a task is updated, write it back to the cloud
     for local_unit in local:
@@ -166,37 +189,24 @@ def sync_model(local, cloud):
                     if (local_time > cloud_time):
                         
                         print local_time, " local and cloud ", cloud_time, " ", local_unit["name"]
+                    
+                        entry = local_to_cloud_trans_task(local_unit, {})
                         
-                        print "task done ", local_unit["done"] 
-                        
-                        entry = { 'title': local_unit["name"] }
-                        
-                        if local_unit["done"]:
-                            entry["status"] = "completed"
-                        else:
-                            entry["status"] = "needsAction"
-                        
-                        if local_unit.has_key("note"):
-                            entry["notes"] = local_unit["note"]
-                        
-                        if local_unit.has_key("duedate"):
-                            entry['due'] = datetime.datetime.strptime('06/17/2011', '%m/%d/%Y').isoformat()+".000Z"
-                        
-                        print entry
-                        
-                        update_task ( task['id'], entry )
+                        update_task ( local_unit['id'], entry )
     
         if not found or updated:
             #check the sync flag, if the sync flag is yes, that means it should be deleted, else it should be added
-            if local_unit.synced: #this is a local task that needs to be deleted
+            if local_unit["synced"]: #this is a local task that needs to be deleted
                 pass 
             else: #this is a local task that needs to be added
-                print "ADDED" + local_unit.name
+                print "ADDED" + local_unit["name"]
                 
-                a = create_task( { 'title': local_unit.name } )
+                entry = local_to_cloud_trans_task(local_unit, {})
+                
+                a = create_task( entry, local_unit["listid"] )
                 print a
     
-            deleted.append(local_unit.id)
+            deleted.append(local_unit["id"])
 
 
 #1. Initial login
@@ -253,7 +263,7 @@ def initial_login( current_tasks, deletions ):
     service = build(serviceName='tasks', version='v1', http=http,
            developerKey='AIzaSyDjOuKvvMRHiTYJsOu1xMnTbFFedpOoOPM')
     
-    deleted  = []
+    deleted_tasks  = []
     
     [tasks, tasklist] = get_all_tasks()
     
@@ -264,66 +274,7 @@ def initial_login( current_tasks, deletions ):
         print "DELETED " + x["deletion_id"]
         delete_task(x["deletion_id"])
 
-    sync_model(current_tasks, tasks)
-    
-#    #ii. If a task is local but not in the cloud, write it back to the cloud. If a task is updated, write it back to the cloud
-#    for task_b in current_tasks:
-#        found = False
-#        updated = False
-#        
-#        print task_b["id"]
-#        
-#        for task in tasks: 
-#            
-#            if task['id'] == task_b["id"]:
-#                found = True
-#                
-#                #check both timestamp for local and cloud is there
-#                if task_b.has_key("time") and task.has_key('updated'):
-#                    local_time = datetime.datetime.fromtimestamp( int( task_b["time"] )/1000 )
-#                    parsed = task['updated'][0:task['updated'].find(".")]
-#                    cloud_time = datetime.datetime.strptime(parsed, '%Y-%m-%dT%H:%M:%S') - datetime.timedelta(hours=4)
-#                    
-#                    print "time comparison ", (local_time > cloud_time)
-#                    
-#                    #if the local update stamp 
-#                    if (local_time > cloud_time):
-#                        
-#                        print local_time, " local and cloud ", cloud_time, " ", task_b["name"]
-#                        
-#                        print "NEED TO UPDATE " + task["title"]
-#                        
-#                        print "task done ", task_b["done"] 
-#                        
-#                        entry = { 'title': task_b["name"] }
-#                        
-#                        if task_b["done"]:
-#                            entry["status"] = "completed"
-#                        else:
-#                            entry["status"] = "needsAction"
-#                        
-#                        if task_b.has_key("note"):
-#                            entry["notes"] = task_b["note"]
-#                        
-#                        if task_b.has_key("duedate"):
-#                            entry['due'] = datetime.datetime.strptime('06/17/2011', '%m/%d/%Y').isoformat()+".000Z"
-#                        
-#                        print entry
-#                        
-#                        update_task ( task['id'], entry )
-#
-#    
-#        if not found or updated:
-#            #check the sync flag, if the sync flag is yes, that means it should be deleted, else it should be added
-#            if task_b["synced"]: #this is a local task that needs to be deleted
-#                pass 
-#            else: #this is a local task that needs to be added
-#                print "ADDED" + task_b["name"]
-#                
-#                a = create_task( { 'title': task_b["name"] } )
-#                print a
-#    
-#            deleted.append(task_b["id"])
+    sync_model(current_tasks, tasks, deleted_tasks)
     
     [tasks, tasklist] = get_all_tasks()
     
@@ -335,7 +286,7 @@ def initial_login( current_tasks, deletions ):
     
     print tasklist
     
-    return { 'current': tasks, 'deletion': deleted, 'tasklist':tasklist }
+    return { 'current': tasks, 'deletion': deleted_tasks, 'tasklist':tasklist }
 
 #login with the latest stored data
 def test_login():
@@ -345,5 +296,3 @@ def test_login():
 
     a = initial_login(a[0], a[1])
     print a
-    
-test_login()
