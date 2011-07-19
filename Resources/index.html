@@ -357,7 +357,7 @@
 		}
 		
 		#content {
-			bottom: 0px;
+			bottom: 38px;
 		}
 		.ui-notify {
 			width: 350px;
@@ -391,6 +391,17 @@
 		
 		.listdiv:hover .list_bar {
 			display: inline; 
+		}
+		
+		div.add {
+			background: none;
+			height: 17px;
+		}
+		
+		.largebutton {
+			font-size: 14px;
+			padding: 4px 12px;
+			border-radius: 10px 10px;
 		}
 		
 	</style>
@@ -566,7 +577,11 @@
    	</header>
 	
 	<div id="content" style="left: 0px; display: block; right: 0px;">
-		
+
+	      <div class="add">
+			<a class="add listbutton largebutton"><img src="famfamicons/add.png" style="top: 3px; position: relative; left: -4px;" />Add List</a>
+		  </div>
+
 		  <div id="views">
 		    <div id="tasks">
 		     
@@ -579,6 +594,16 @@
 		</div>
 	
 	<div id="menublur"></div>
+
+	<div id="bottombar">
+		<div id="left">
+			<a class="bottombutton" onclick="Sync()">Sync</a>
+			<a class="bottombutton" onclick="setting_windows()">Settings</a>
+		</div>		
+		<div id="right">
+			<a class="addlist">Set Background</a>
+		</div>
+	</div>
 
 	<div id="dialog" style="display: none">
 		<p>Copy and paste the following link in your browser: <br />
