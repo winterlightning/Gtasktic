@@ -194,7 +194,7 @@ def sync_model(local, cloud, deleted, create_function, update_function):
                     
                         entry = local_to_cloud_trans_task(local_unit, {})
                         
-                        update_task ( local_unit['id'], entry )
+                        update_function ( local_unit['id'], entry )
     
         if not found or updated:
             #check the sync flag, if the sync flag is yes, that means it should be deleted, else it should be added
@@ -205,7 +205,7 @@ def sync_model(local, cloud, deleted, create_function, update_function):
                 
                 entry = local_to_cloud_trans_task(local_unit, {})
                 
-                a = create_task( entry, local_unit["listid"] )
+                a = create_function( entry, local_unit["listid"] )
                 print a
     
             deleted.append(local_unit["id"])
@@ -276,7 +276,7 @@ def initial_login( current_tasks, deletions, list, deletedlist ):
         print "DELETED " + x["deletion_id"]
         delete_task(x["deletion_id"])
 
-    sync_model(current_tasks, tasks, deleted_tasks)
+    sync_model(current_tasks, tasks, deleted_tasks, create_task, update_task)
     
     [tasks, tasklist] = get_all_tasks()
     
