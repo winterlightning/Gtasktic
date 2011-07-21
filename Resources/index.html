@@ -76,6 +76,9 @@
       </div>
 	</script>
 
+	<script type="text/x-jquery-tmpl" id="listwindowTemplate">
+		
+	</script>
 
 	<style type="text/css">
 		.roundedlist {
@@ -436,6 +439,15 @@
 		.bottom_button:hover .icon {
 			opacity: 0.7;
 		}
+		
+		.edit #addlistbutton {
+			display: none;
+		}
+		
+		.add #editlistbutton {
+			display: none;
+		}
+		
 	</style>
 
 	<!-- <script type="text/python" src="gtask.py"/> -->
@@ -574,7 +586,9 @@
 		};
 		
 		function addlist_window() {
-			$("#dialog_addlist").dialog({ modal: true, title: 'Add A New List' });
+			$('#list_name').val("");
+			$('#list_description').val("");
+			$("#dialog_addlist").dialog({ modal: true, title: 'Add A New List', dialogClass: "add" });
 		};
 		
 		function v_code() {
@@ -602,6 +616,14 @@
 			javascript:location.reload(true);
 		};
 		
+		function edit_list() {
+			curr_list = List.find($("#dialog_addlist").data("id"));
+			curr_list.name = $('#list_name').val();
+			curr_list.description = $('#list_description').val();
+			curr_list.save();
+			
+			$("#dialog_addlist").dialog("close");
+		};
 	</script>
 
 </head>
@@ -679,7 +701,8 @@
 		<div id="account-buttons" class="ui-dialog-buttonset">        
 	        <!-- LOGIN BUTTONS -->
 	        <div class="loginbuttons">
-	         	<input class="input-button register button-login" type="submit" id="validate" onclick="add_list()" value="Add List">          	        
+	         	<input class="input-button register button-login" type="submit" id="addlistbutton" onclick="add_list()" value="Add List">  
+	         	<input class="input-button register button-login" type="submit" id="editlistbutton" onclick="edit_list()" value="Save">        	        
 	        </div>
 	    </div>
 	</div>

@@ -86,7 +86,8 @@ jQuery(function($){
     events: {
       "click  .clear": "clear",
       "click  .add": "addOne",
-      "click  .deletelist": "deletelist"
+      "click  .deletelist": "deletelist",
+      "click  .editlist": "editlist",
     },
     
     elements: {
@@ -167,7 +168,16 @@ jQuery(function($){
       	this.item.destroy();
       };
     },
+    
+    editlist: function() {
+    	$('#list_name').val(this.item.name);
+		$('#list_description').val(this.item.description);
+		
+    	d = $("#dialog_addlist").dialog({ modal: true, title: 'Edit this list', dialogClass: "edit" });
+    	d.data('id', this.item.id);
+    },
      
+    
   });
 
   window.allLists = Spine.Controller.create({
