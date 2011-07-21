@@ -165,6 +165,11 @@ jQuery(function($){
 	  	});
 
 		this.el.remove();
+		
+		if (this.item.synced == true) {
+			DeletedList.create({ deletion_id: value.id });
+		};
+		
       	this.item.destroy();
       };
     },

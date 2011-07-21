@@ -164,7 +164,7 @@ def local_to_cloud_trans_task(local_unit, entry):
 #Sync the model given a local data set, and a cloud data set
 #1. Both model must have a timestamp
 #2. Local model must have a synced flag
-def sync_model(local, cloud, deleted):
+def sync_model(local, cloud, deleted, create_function, update_function):
     
     #1. If a task is local but not in the cloud, write it back to the cloud. If a task is updated, write it back to the cloud
     for local_unit in local:
@@ -216,7 +216,7 @@ def sync_model(local, cloud, deleted):
 #b. for each of them, read all the task out
 #c. return the tasks in a array
 #d. Initialize into the first one as the one being written to
-def initial_login( current_tasks, deletions ):
+def initial_login( current_tasks, deletions, list, deletedlist ):
     global service
 
     print current_tasks
@@ -296,5 +296,5 @@ def test_login():
     print a[0]
     print a[1]
 
-    a = initial_login(a[0], a[1])
+    a = initial_login(a[0], a[1], [], [])
     print a

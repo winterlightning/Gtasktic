@@ -35,9 +35,12 @@ Task.extend({
 var Deletion = Spine.Model.setup("Deletion", ["deletion_id"]);
 Deletion.extend(Spine.Model.Local); 
 
+var DeletedList = Spine.Model.setup("Deletion", ["deletion_id"]);
+DeletedList.extend(Spine.Model.Local);
+
 //Key storage for validation key storing
 var Key = Spine.Model.setup("Key", ["url"]);
 Key.extend(Spine.Model.Local); 
 
-var List = Spine.Model.setup("List", ["name", "description"]);
+var List = Spine.Model.setup("List", ["name", "description", "synced", "time"]);
 List.extend(Spine.Model.Local);

@@ -450,7 +450,7 @@
 		
 	</style>
 
-	<!-- <script type="text/python" src="gtask.py"/> -->
+	<script type="text/python" src="gtask.py"/>
 	
 	<script>
 		function Sync () {
@@ -458,8 +458,10 @@
 			
 			b = JSON.stringify(Task);
 			d = JSON.stringify(Deletion);
+			e = JSON.stringify(List);
+			f = JSON.stringify(DeletedList);
 			
-			//a = initial_login( b, d );	
+			a = initial_login( b, d, e, f );	
 			
 			current = a.current;
 			deleted = a.deletion;
@@ -533,6 +535,7 @@
 		
 		Task.fetch();
 		Deletion.fetch();
+		List.fetch();
 		
 		var setting_url = "";
 		
