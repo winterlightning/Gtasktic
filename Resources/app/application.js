@@ -77,69 +77,6 @@ jQuery(function($){
       this.el.remove();
     }
   });
-  
-  /*window.TaskApp = Spine.Controller.create({
-    el: $("#tasks"),
-    
-    proxied: ["addOne", "addAll", "renderCount"],
-
-    events: {
-      "submit #newtask_form":   "create",
-      "click  .clear": "clear"
-    },
-
-    elements: {
-      ".items":     "items",
-      ".countVal":  "count",
-      ".clear":     "clear",
-      "form input:text": "input",
-      "form input:hidden": "inputdate",
-      ".showdate":  "datedisplay",
-    },
-    
-    init: function(){
-      Task.bind("create",  this.addOne);
-      Task.bind("refresh", this.addAll);
-      Task.bind("refresh change", this.renderCount);
-      Task.fetch();
-    },
-    
-    addOne: function(task) {
-      var view = Tasks.init({item: task});
-      this.items.append(view.render().el);
-    },
-
-    addAll: function() {
-      var ordered = Task.all().sort(Task.ordersort);
-      //Task.each(this.addOne);
-      
-      var a = this.items;
-      
-      $.each(ordered, function(key, value) {
-     	var view = Tasks.init({item: value});
-      	a.append(view.render().el);
-	  });
-      
-    },
-        
-    create: function(){
-      Task.create({name: this.input.val(), time: ( new Date().getTime() ).toString(), done: false, duedate: this.inputdate.val(), order: Task.all().length + 1, synced: false });
-      this.input.val("");
-      this.inputdate.val("");
-      this.datedisplay.html("");
-      return false;
-    },
-    
-    renderCount: function(){
-      var active = Task.active().length;
-      this.count.text(active);
-      
-      var inactive = Task.done().length;
-      this.clear[inactive ? "show" : "hide"]();
-    }
-  });
-  
-  window.App = TaskApp.init(); */
  
   window.TaskApp = Spine.Controller.create({
     tag: "div",

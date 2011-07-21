@@ -434,7 +434,7 @@
 		}
 	</style>
 
-	<script type="text/python" src="gtask.py"/>
+	<!-- <script type="text/python" src="gtask.py"/> -->
 	
 	<script>
 		function Sync () {
@@ -443,7 +443,7 @@
 			b = JSON.stringify(Task);
 			d = JSON.stringify(Deletion);
 			
-			a = initial_login( b, d );	
+			//a = initial_login( b, d );	
 			
 			current = a.current;
 			deleted = a.deletion;
@@ -569,6 +569,10 @@
 			$("#dialog").dialog({ modal: true, title: 'Settings for sync' });
 		};
 		
+		function addlist_window() {
+			$("#dialog_addlist").dialog({ modal: true, title: 'Add A New List' });
+		};
+		
 		function v_code() {
 			code = $('#validation').val();
 			var a = validate_code(code);
@@ -581,6 +585,13 @@
 			else {
 				create("default", { title:'Failed validation', text:'Please try again'});
 			};
+		};
+		
+		function add_list() {
+			name = $('#list_name').val();
+			description = $('#list_description').val();
+			
+			
 		};
 		
 	</script>
@@ -625,7 +636,7 @@
 
 	<div id="bottombar">
 		<div id="left">
-			<a onclick="" class="bottom_button">
+			<a onclick="addlist_window()" class="bottom_button">
 				<img class="icon" src="images/16-plus.png" style="" />
 				<span class="text">Add List</span>
 			</a>
@@ -647,6 +658,20 @@
 	        <!-- LOGIN BUTTONS -->
 	        <div class="loginbuttons">
 	         	<input class="input-button register button-login" type="submit" id="validate" onclick="v_code()" value="Validate Code">          	        
+	        </div>
+	    </div>
+	</div>
+
+	<div id="dialog_addlist" style="display: none">
+		<p>Name of the list: <br />
+		<input class="input-login" type="text" id="list_name" name="name" placeholder="name"></p>
+		<p>Description for the list: <br />
+		<input class="input-login" type="text" id="list_description" name="description" placeholder="description"></p>
+		
+		<div id="account-buttons" class="ui-dialog-buttonset">        
+	        <!-- LOGIN BUTTONS -->
+	        <div class="loginbuttons">
+	         	<input class="input-button register button-login" type="submit" id="validate" onclick="v_code()" value="Add List">          	        
 	        </div>
 	    </div>
 	</div>
