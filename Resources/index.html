@@ -591,7 +591,11 @@
 			name = $('#list_name').val();
 			description = $('#list_description').val();
 			
+			newlist = List.init( { name: name, description: description } );
 			
+			newlist.save();
+			
+			javascript:location.reload(true);
 		};
 		
 	</script>
@@ -671,7 +675,7 @@
 		<div id="account-buttons" class="ui-dialog-buttonset">        
 	        <!-- LOGIN BUTTONS -->
 	        <div class="loginbuttons">
-	         	<input class="input-button register button-login" type="submit" id="validate" onclick="v_code()" value="Add List">          	        
+	         	<input class="input-button register button-login" type="submit" id="validate" onclick="add_list()" value="Add List">          	        
 	        </div>
 	    </div>
 	</div>

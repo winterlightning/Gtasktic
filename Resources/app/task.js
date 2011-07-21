@@ -39,5 +39,5 @@ Deletion.extend(Spine.Model.Local);
 var Key = Spine.Model.setup("Key", ["url"]);
 Key.extend(Spine.Model.Local); 
 
-var List = Spine.Model.setup("List", ["name"]);
+var List = Spine.Model.setup("List", ["name", "description"]);
 List.extend(Spine.Model.Local);
