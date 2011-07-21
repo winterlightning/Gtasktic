@@ -86,6 +86,7 @@ jQuery(function($){
     events: {
       "click  .clear": "clear",
       "click  .add": "addOne",
+      "click  .deletelist": "deletelist"
     },
     
     elements: {
@@ -98,7 +99,6 @@ jQuery(function($){
     init: function(){
       //Task.bind("refresh", this.addAll);
       this.item.bind("update",  this.render);
-      this.item.bind("destroy", this.remove);
       
       Task.bind("change", this.renderCount);
       
@@ -149,9 +149,24 @@ jQuery(function($){
       	view.edit();
     },
     
-    remove: function(){
-      this.el.remove();
-    }
+    deletelist: function() {
+      var r = confirm("Are you sure you want to delete this list and all it's tasks");
+	  
+	  if (r) {
+	  	tasks = Task.list(this.item.id);
+	  	
+	  	$.each(tasks, function(key, value) {
+	  		if (value.synced == true) {
+      			Deletion.create({ deletion_id: value.id });
+      		};
+	  		
+	    	value.destroy();
+	  	});
+
+		this.el.remove();
+      	this.item.destroy();
+      };
+    },
      
   });
 

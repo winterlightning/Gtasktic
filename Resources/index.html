@@ -61,8 +61,8 @@
 	  	  <div class="list_header">
 	  	  	  <h1 class="title" style="">${name}</h1>
 		      <div class="list_bar">
-		      	<a href="#"><img src="famfamicons/delete.png" height="14px"/></a>
-		      	<a href="#"><img src="famfamicons/pencil.png" height="14px"/></a>
+		      	<a class="deletelist"><img src="famfamicons/delete.png" height="14px"/></a>
+		      	<a class="editlist"><img src="famfamicons/pencil.png" height="14px"/></a>
 		      </div>
 	      </div>
 	      
@@ -381,6 +381,10 @@
 			padding-right: 7px; 
 			padding-left: 7px;
 			display:none;
+		}
+		
+		.list_bar a {
+			cursor: hand;
 		}
 		
 		.listdiv .title {
