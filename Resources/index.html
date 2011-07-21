@@ -440,11 +440,11 @@
 			opacity: 0.7;
 		}
 		
-		.edit #addlistbutton {
+		.editing #addlistbutton {
 			display: none;
 		}
 		
-		.add #editlistbutton {
+		.adding #editlistbutton {
 			display: none;
 		}
 		
@@ -591,7 +591,7 @@
 		function addlist_window() {
 			$('#list_name').val("");
 			$('#list_description').val("");
-			$("#dialog_addlist").dialog({ modal: true, title: 'Add A New List', dialogClass: "add" });
+			$("#dialog_addlist").dialog({ modal: true, title: 'Add A New List', dialogClass: "adding" });
 		};
 		
 		function v_code() {

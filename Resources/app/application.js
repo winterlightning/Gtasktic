@@ -178,7 +178,7 @@ jQuery(function($){
     	$('#list_name').val(this.item.name);
 		$('#list_description').val(this.item.description);
 		
-    	d = $("#dialog_addlist").dialog({ modal: true, title: 'Edit this list', dialogClass: "edit" });
+    	d = $("#dialog_addlist").dialog({ modal: true, title: 'Edit this list', dialogClass: "editing" });
     	d.data('id', this.item.id);
     },
      
