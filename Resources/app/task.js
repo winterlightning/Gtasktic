@@ -35,7 +35,7 @@ Task.extend({
 var Deletion = Spine.Model.setup("Deletion", ["deletion_id"]);
 Deletion.extend(Spine.Model.Local); 
 
-var DeletedList = Spine.Model.setup("Deletion", ["deletion_id"]);
+var DeletedList = Spine.Model.setup("DeletedList", ["deletion_id"]);
 DeletedList.extend(Spine.Model.Local);
 
 //Key storage for validation key storing

@@ -14,7 +14,7 @@ jQuery(function($){
       "click    .destroy":             "destroy",
       "dblclick .item":                "edit",
       "keypress input[type=text]":     "blurOnEnter",
-      "submit .edittask_form": "close",
+      "submit .edittask_form": "close"
       //"blur     input[type=text]":     "close",
     },
     
@@ -22,7 +22,7 @@ jQuery(function($){
       "input.name": "input",
       ".item": "wrapper",
       ".datepicker": "inputdate",
-      "textarea.note": "textarea",
+      "textarea.note": "textarea"
     },
     
     init: function(){
@@ -39,7 +39,7 @@ jQuery(function($){
       this.el.data('id', this.item.id);
       
       this.el.find('.datepicker').datepicker({
-		constrainInput: true,
+		constrainInput: true
 	  });				
       
       return this;
@@ -87,7 +87,7 @@ jQuery(function($){
       "click  .clear": "clear",
       "click  .add": "addOne",
       "click  .deletelist": "deletelist",
-      "click  .editlist": "editlist",
+      "click  .editlist": "editlist"
     },
     
     elements: {
@@ -100,6 +100,7 @@ jQuery(function($){
     init: function(){
       //Task.bind("refresh", this.addAll);
       this.item.bind("update",  this.render);
+      this.item.bind("destroy", this.remove);
       
       Task.bind("change", this.renderCount);
       
@@ -154,7 +155,12 @@ jQuery(function($){
       var r = confirm("Are you sure you want to delete this list and all it's tasks");
 	  
 	  if (r) {
-	  	tasks = Task.list(this.item.id);
+		this.remove();
+      };
+    },
+    
+    remove: function() {
+    	tasks = Task.list(this.item.id);
 	  	
 	  	$.each(tasks, function(key, value) {
 	  		if (value.synced == true) {
@@ -167,11 +173,13 @@ jQuery(function($){
 		this.el.remove();
 		
 		if (this.item.synced == true) {
-			DeletedList.create({ deletion_id: value.id });
+			alert("synced true");
+			DeletedList.create({ deletion_id: this.item.id });
+			
+			alert(DeletedList.all());
 		};
 		
       	this.item.destroy();
-      };
     },
     
     editlist: function() {
@@ -180,9 +188,8 @@ jQuery(function($){
 		
     	d = $("#dialog_addlist").dialog({ modal: true, title: 'Edit this list', dialogClass: "editing" });
     	d.data('id', this.item.id);
-    },
-     
-    
+    }
+  
   });
 
   window.allLists = Spine.Controller.create({
@@ -205,6 +212,11 @@ jQuery(function($){
 	  });
       
     },
+    
+    render_new: function( item ) {
+    	 var list = TaskApp.init({"item": item});
+    	 this.el.append(list.render().el);
+    }
        
   });
  

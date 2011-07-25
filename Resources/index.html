@@ -453,7 +453,7 @@
 	<script type="text/python" src="gtask.py"/>
 	
 	<script>
-		function Sync () {
+		function Sync () {			
 			sync_window = create("sticky", { title:'Sync with Google Cloud', text:'We are currently syncing.'},{ expires:false });
 			
 			b = JSON.stringify(Task);
@@ -461,14 +461,23 @@
 			e = JSON.stringify(List);
 			f = JSON.stringify(DeletedList);
 			
+			alert("testing one two three")
+			alert(f);
+			
 			a = initial_login( b, d, e, f );	
 			
 			current = a.current;
 			deleted = a.deletion;
 			tasklist = a.tasklist;
+			deleted_list = a.list_deletions;
 			
 			//Delete the deletions since they are synced
 			$.each(Deletion.all(), function(index, value) {
+				value.destroy();
+			});
+			
+			//Delete the deletions since they are synced
+			$.each(DeletedList.all(), function(index, value) {
 				value.destroy();
 			});
 			
@@ -478,6 +487,11 @@
 				deleteTask.destroy();
 			});
 			
+			//Delete task list that are marked for deletion
+			$.each(deleted_list, function(index, value) {
+				var deleteList = List.find( value );
+				deleteList.destroy();
+			});			
 			
 			$.each(current, function(index, value) {
 				
@@ -519,18 +533,25 @@
 					var editable = List.find( value.id );
 					editable.name = value.title;
 					
+					editable.synced = true;
+					
 					editable.save();
 				}
 				else {
-					var list = List.init( { name: value.title } );
+					alert( "creating list");
+					
+					var list = List.init( { name: value.title, synced: true, time: ( new Date().getTime() ).toString() } );
 					list.id = value.id;
 					
 					list.save();
+					
+					window.App.render_new( list ); 
+					
 				};				
 			});
 			
 			sync_window.close();
-			create("default", { title:'Successful Sync', text:'Your todos have successfully synced with Google'});
+			create("default", { title:'Successful Sync', text:'Your todos have successfully synced with Google'});s
 		};
 		
 		Task.fetch();
@@ -612,7 +633,7 @@
 			name = $('#list_name').val();
 			description = $('#list_description').val();
 			
-			newlist = List.init( { name: name, description: description } );
+			newlist = List.init( { name: name, description: description, time: ( new Date().getTime() ).toString(), synced: false } );
 			
 			newlist.save();
 			
@@ -623,6 +644,7 @@
 			curr_list = List.find($("#dialog_addlist").data("id"));
 			curr_list.name = $('#list_name').val();
 			curr_list.description = $('#list_description').val();
+			curr_list.time = ( new Date().getTime() ).toString();
 			curr_list.save();
 			
 			$("#dialog_addlist").dialog("close");
