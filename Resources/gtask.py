@@ -16,14 +16,19 @@ import os
 
 service = None
 task_dict= {}
+list_old_dict= {} #when a old list gets overwritten by a google id, this one has to be used with the creation
 
 #create a task
 def create_task ( task ):
     global service
+    global list_old_dict
     
     tasklist = task["listid"]
     del task["listid"]
     
+    if list_old_dict[tasklist]:
+        tasklist = list_old_dict[tasklist]
+
     result = service.tasks().insert(tasklist=tasklist, body=task).execute()
     print result['id']
     
@@ -66,12 +71,22 @@ def update_task ( task, updating, tasklist='@default' ):
 
 def create_tasklist(list):
     global service
+    global list_old_dict
+    
+    old_list_id = list["id"]
+    
+    del list["id"]
     
     result = service.tasklists().insert(body=list).execute()
     print result['id'], " created"
+    
+    #update the lookup dictionary with the correct entries
+    list_old_dict[old_list_id] = result['id']
 
 def update_tasklist( listid, updating ):
     global service
+    
+    del updating["id"]
     
     tasklist = service.tasklists().get(tasklist=listid).execute()
     tasklist['title'] = updating["title"];
@@ -193,6 +208,7 @@ def local_to_cloud_trans_task(local_unit, entry):
 #transform a task list from the local to the cloud version
 def local_to_cloud_trans_tasklist(local_unit, entry):
     entry["title"] = local_unit["name"]
+    entry["id"] = local_unit["id"]
     
     print entry
     return entry
@@ -201,6 +217,10 @@ def local_to_cloud_trans_tasklist(local_unit, entry):
 #1. Both model must have a timestamp
 #2. Local model must have a synced flag
 def sync_model(local, cloud, deleted, create_function, update_function, local_to_cloud_trans):
+    
+    print "*************************"
+    print "SYNCING"
+    print "*************************"
     
     #1. If a task is local but not in the cloud, write it back to the cloud. If a task is updated, write it back to the cloud
     for local_unit in local:
@@ -215,24 +235,32 @@ def sync_model(local, cloud, deleted, create_function, update_function, local_to
                 found = True
                 
                 #check both timestamp for local and cloud is there
-                if local_unit.has_key("time") and cloud_unit.has_key('updated'):
-                    #parsing the time out for comparison
-                    local_time = datetime.datetime.fromtimestamp( int( local_unit["time"] )/1000 )
-                    parsed = cloud_unit['updated'][0:cloud_unit['updated'].find(".")]
-                    cloud_time = datetime.datetime.strptime(parsed, '%Y-%m-%dT%H:%M:%S') - datetime.timedelta(hours=4)
+                if local_unit.has_key("time"):
+                
+                    if cloud_unit.has_key('updated'):
                     
-                    print "time comparison ", (local_time > cloud_time)
-                    
-                    #if the local update stamp 
-                    if (local_time > cloud_time):
+                        #parsing the time out for comparison
+                        local_time = datetime.datetime.fromtimestamp( int( local_unit["time"] )/1000 )
+                        parsed = cloud_unit['updated'][0:cloud_unit['updated'].find(".")]
+                        cloud_time = datetime.datetime.strptime(parsed, '%Y-%m-%dT%H:%M:%S') - datetime.timedelta(hours=4)
                         
-                        print local_time, " local and cloud ", cloud_time, " ", local_unit["name"]
+                        print "time comparison ", (local_time > cloud_time)
+                        
+                        #if the local update stamp 
+                        if (local_time > cloud_time):
+                            
+                            print local_time, " local and cloud ", cloud_time, " ", local_unit["name"]
+                        
+                            entry = local_to_cloud_trans(local_unit, {})
+                            update_function ( local_unit['id'], entry )
                     
+                    else: # no updated field in the cloud
+                        #assume that you can overwrite cloud with local
                         entry = local_to_cloud_trans(local_unit, {})
-                        
                         update_function ( local_unit['id'], entry )
     
         if not found or updated:
+            
             #check the sync flag, if the sync flag is yes, that means it should be deleted, else it should be added
             if local_unit.has_key("synced") and local_unit["synced"]: #this is a local task that needs to be deleted
                 pass 
@@ -343,5 +371,5 @@ def test_login():
 
     a = initial_login(a[0], a[1], a[2], a[3])
     print a
-    
+
 test_login()

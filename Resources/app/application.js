@@ -158,8 +158,6 @@ jQuery(function($){
 
 		if (this.item.synced == true) {
 			DeletedList.create({ deletion_id: this.item.id });
-			
-			alert(DeletedList.all());
 		};
 
     	tasks = Task.list(this.item.id);
