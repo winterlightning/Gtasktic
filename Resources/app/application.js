@@ -157,7 +157,6 @@ jQuery(function($){
 	  if (r) {
 
 		if (this.item.synced == true) {
-			alert("synced true");
 			DeletedList.create({ deletion_id: this.item.id });
 			
 			alert(DeletedList.all());

@@ -461,9 +461,6 @@
 			e = JSON.stringify(List);
 			f = JSON.stringify(DeletedList);
 			
-			alert("testing one two three")
-			alert(f);
-			
 			a = initial_login( b, d, e, f );	
 			
 			current = a.current;
@@ -494,7 +491,6 @@
 				alert(deleted);
 				alert(deleted.id);
 				deleted.destroy();
-				alert("finished deletion");
 			});			
 			
 			$.each(current, function(index, value) {
@@ -639,7 +635,8 @@
 			
 			newlist.save();
 			
-			javascript:location.reload(true);
+			window.App.render_new(newlist);
+			$("#dialog_addlist").dialog("close");
 		};
 		
 		function edit_list() {
