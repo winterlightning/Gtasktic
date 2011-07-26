@@ -81,7 +81,7 @@ jQuery(function($){
   window.TaskApp = Spine.Controller.create({
     tag: "div",
     
-    proxied: ["addAll", "render", "renderCount"],
+    proxied: ["addAll", "render", "renderCount", "remove"],
 
     events: {
       "click  .clear": "clear",
@@ -155,11 +155,14 @@ jQuery(function($){
       var r = confirm("Are you sure you want to delete this list and all it's tasks");
 	  
 	  if (r) {
-		this.remove();
-      };
-    },
-    
-    remove: function() {
+
+		if (this.item.synced == true) {
+			alert("synced true");
+			DeletedList.create({ deletion_id: this.item.id });
+			
+			alert(DeletedList.all());
+		};
+
     	tasks = Task.list(this.item.id);
 	  	
 	  	$.each(tasks, function(key, value) {
@@ -169,17 +172,15 @@ jQuery(function($){
 	  		
 	    	value.destroy();
 	  	});
-
+	  	
+	  	this.remove();
+	  	
+		this.item.destroy();
+      };
+    },
+    
+    remove: function() {
 		this.el.remove();
-		
-		if (this.item.synced == true) {
-			alert("synced true");
-			DeletedList.create({ deletion_id: this.item.id });
-			
-			alert(DeletedList.all());
-		};
-		
-      	this.item.destroy();
     },
     
     editlist: function() {

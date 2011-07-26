@@ -489,8 +489,12 @@
 			
 			//Delete task list that are marked for deletion
 			$.each(deleted_list, function(index, value) {
-				var deleteList = List.find( value );
-				deleteList.destroy();
+				alert(value);
+				var deleted = List.find( value );
+				alert(deleted);
+				alert(deleted.id);
+				deleted.destroy();
+				alert("finished deletion");
 			});			
 			
 			$.each(current, function(index, value) {
@@ -538,8 +542,6 @@
 					editable.save();
 				}
 				else {
-					alert( "creating list");
-					
 					var list = List.init( { name: value.title, synced: true, time: ( new Date().getTime() ).toString() } );
 					list.id = value.id;
 					
