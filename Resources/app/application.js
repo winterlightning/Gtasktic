@@ -71,6 +71,8 @@ jQuery(function($){
       this.wrapper.removeClass("editing");
       
       this.item.updateAttributes({name: this.input.val(), time: ( new Date().getTime() ).toString(), duedate: this.inputdate.val(), note: this.textarea.val() });
+    
+      return false;
     },
     
     remove: function(){
