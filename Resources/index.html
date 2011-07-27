@@ -26,6 +26,10 @@
 	<script src="app/task.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/application.js" type="text/javascript" charset="utf-8"></script>
 
+	<!-- fullcalendar shizzle -->
+	<link rel='stylesheet' type='text/css' href='fullcalendar/fullcalendar.css' />
+	<script type='text/javascript' src='fullcalendar/fullcalendar.js'></script>
+
 	<script type="text/x-jquery-tmpl" id="taskTemplate">
 		<div class="item {{if done}}done{{/if}}">
 		  <div class="view" title="Double click to edit...">
@@ -74,10 +78,6 @@
 	        <div class="count listbutton"><span class="countVal"></span> left</div>
 	      </footer>
       </div>
-	</script>
-
-	<script type="text/x-jquery-tmpl" id="listwindowTemplate">
-		
 	</script>
 
 	<style type="text/css">
@@ -598,6 +598,8 @@
   
 			        }
 			});
+			
+			$('#calendar').fullCalendar({});
 		});
 		
 		function setting_windows() {
@@ -722,7 +724,7 @@
 		  </div>		
 				
 		  <div id="calendarview">
-		  	<p>test</p>
+		  	<div id='calendar'></div>
 		  </div>
 	</div>
 	
