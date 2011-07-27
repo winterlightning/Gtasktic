@@ -450,7 +450,7 @@
 		
 	</style>
 
-	<script type="text/python" src="gtask.py"/>
+	<!-- <script type="text/python" src="gtask.py"/> -->
 	
 	<script>
 		function Sync () {			
@@ -645,6 +645,38 @@
 			
 			$("#dialog_addlist").dialog("close");
 		};
+		
+		function open_background_dialog() {
+			$("#dialog_changebackground").dialog({ modal: true, title: 'Change Your Background' });
+		};
+
+		function getAsText(readFile) {
+		        
+		  var reader = new FileReader();
+		  reader.onload = function(e) {
+		  	  alert("here 2");
+			  var bin = e.target.result;
+			  // bin is the binaryString
+		  	  alert(bin);
+		  };
+		  
+		  alert("here");
+		  
+		  // Read file into memory as UTF-16      
+		  reader.readAsBinaryString(readFile, "UTF-16");
+
+		  return reader;
+		};
+
+		function background_change() {
+			
+			var file = document.getElementById('background_file').files[0];
+			alert(file);
+			if(file){
+			    getAsText(file);
+			};
+		};
+		
 	</script>
 
 </head>
@@ -662,7 +694,7 @@
 		<div id="iconbar">
 			<a onclick="Sync()"><img class="icon" src="images/playback_reload_icon_16.png" /></a>
 			<a onclick="setting_windows()"><img class="icon" src="images/cog_icon_16.png" /></a>
-			<a onclick=""><img class="icon" src="images/picture_icon_16.png" /></a>
+			<!-- <a onclick="open_background_dialog()"><img class="icon" src="images/picture_icon_16.png" /></a> -->
 		</div>
    	</header>
 	
@@ -724,6 +756,18 @@
 	        <div class="loginbuttons">
 	         	<input class="input-button register button-login" type="submit" id="addlistbutton" onclick="add_list()" value="Add List">  
 	         	<input class="input-button register button-login" type="submit" id="editlistbutton" onclick="edit_list()" value="Save">        	        
+	        </div>
+	    </div>
+	</div>
+
+	<div id="dialog_changebackground" style="display: none">
+		<p>Choose an image file: <br />
+		<input class="input-login" type="file" id="background_file" name="description" placeholder="description"></p>
+		
+		<div id="account-buttons" class="ui-dialog-buttonset">        
+	        <!-- LOGIN BUTTONS -->
+	        <div class="loginbuttons">
+	         	<input class="input-button register button-login" type="submit" id="addlistbutton" onclick="background_change()" value="Change Background">          	        
 	        </div>
 	    </div>
 	</div>
