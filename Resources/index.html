@@ -560,7 +560,7 @@
 			setting_url = keys[0].url;
 		}
 		else {
-			setting_url = create_link();
+			/* setting_url = create_link(); */
 			Key.create({ url: setting_url });
 		};
 		
@@ -677,6 +677,14 @@
 			};
 		};
 		
+		/*simple tab function*/
+		function toggle( element_a, element_b, tab_a, tab_b ) {
+			$(element_a).hide();
+			$(element_b).show();
+			$(tab_a).removeClass("active");
+			$(tab_b).addClass("active");
+		};
+		
 	</script>
 
 </head>
@@ -687,8 +695,8 @@
 	
 	<header id="title">
 		<div id="buttonbar">
-			<a class="filter roundedleft active"><img src="images/align_just_icon_16.png" height="11px" style="vertical-align: top; margin-right: 2px;" /> Your Lists</a>
-			<a class="roundedright filter"><img src="images/calendar_1_icon_16.png" height="11px" style="vertical-align: top; margin-right: 2px;" />Your Calendars</a>				
+			<a id="listtab" class="filter roundedleft active" onclick="toggle('#calendarview', '#views', '#calendartab','#listtab')"><img src="images/align_just_icon_16.png" height="11px" style="vertical-align: top; margin-right: 2px;" /> Your Lists</a>
+			<a id="calendartab" class="roundedright filter" onclick="toggle('#views', '#calendarview', '#listtab', '#calendartab')"><img src="images/calendar_1_icon_16.png" height="11px" style="vertical-align: top; margin-right: 2px;" />Your Calendars</a>				
 		</div>
 		
 		<div id="iconbar">
@@ -713,7 +721,10 @@
 		    </div>
 		  </div>		
 				
-		</div>
+		  <div id="calendarview">
+		  	<p>test</p>
+		  </div>
+	</div>
 	
 	<div id="menublur"></div>
 
