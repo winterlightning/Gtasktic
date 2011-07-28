@@ -206,7 +206,7 @@ function Calendar(element, options, eventSources) {
 	t.getView = getView;
 	t.option = option;
 	t.trigger = trigger;
-	
+	t.windowResize = windowResize
 	
 	// imports
 	EventManager.call(t, options, eventSources);

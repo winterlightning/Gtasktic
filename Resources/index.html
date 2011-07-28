@@ -450,7 +450,7 @@
 		
 	</style>
 
-	<!-- <script type="text/python" src="gtask.py"/> -->
+	<script type="text/python" src="gtask.py"/>
 	
 	<script>
 		function Sync () {			
@@ -709,6 +709,7 @@
 			$(tab_b).addClass("active");
 			
 			$("#calendar").fullCalendar( 'refetchEvents' );
+			$("#calendar").fullCalendar( 'windowResize' );
 		};
 		
 	</script>
