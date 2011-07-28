@@ -599,14 +599,17 @@
 			        }
 			});
 			
-			//Calendar filling with events
-			dated_tasks = Task.select(function(item){ return item.duedate != undefined; })
-			
-			var calendar_input = [];
-			$.each(dated_tasks, function(index, value) { calendar_input.push({ title: value.name, start: new Date(value.duedate) }) });
-			
 			$('#calendar').fullCalendar({
-				events: calendar_input
+				events: function(start, end, callback) {
+					
+					//Calendar filling with events
+			        dated_tasks = Task.select(function(item){ return item.duedate != undefined; })
+			
+					var calendar_input = [];
+					$.each(dated_tasks, function(index, value) { calendar_input.push({ title: value.name, start: new Date(value.duedate) }) });
+					
+					callback(calendar_input);
+			    },
 			});
 			
 			//hide the calendar initially
@@ -620,9 +623,7 @@
 			var calendar_input = [];
 			$.each(dated_tasks, function(index, value) { calendar_input.push({ title: value.name, start: new Date(value.duedate) }) });
 			
-			$('#calendar').fullCalendar({
-				events: calendar_input
-			});
+			$("#calendar").fullCalendar("renderEvent", calendar_input, false);
 		};
 		
 		function setting_windows() {
@@ -707,7 +708,7 @@
 			$(tab_a).removeClass("active");
 			$(tab_b).addClass("active");
 			
-			rendering_cal();
+			$("#calendar").fullCalendar( 'refetchEvents' );
 		};
 		
 	</script>

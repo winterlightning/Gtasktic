@@ -520,6 +520,7 @@ function Calendar(element, options, eventSources) {
 	
 	// attempts to rerenderEvents
 	function rerenderEvents(modifiedEventID) {
+		
 		markEventsDirty();
 		if (elementVisible()) {
 			currentView.clearEvents();
