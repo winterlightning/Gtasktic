@@ -608,6 +608,9 @@
 			$('#calendar').fullCalendar({
 				events: calendar_input
 			});
+			
+			//hide the calendar initially
+			$("#calendarview").hide();
 		});
 		
 		function setting_windows() {
@@ -731,7 +734,7 @@
 		    </div>
 		  </div>		
 				
-		  <div id="calendarview">
+		  <div id="calendarview" style="font-size: 14px">
 		  	<div id='calendar'></div>
 		  </div>
 	</div>
