@@ -613,6 +613,18 @@
 			$("#calendarview").hide();
 		});
 		
+		function rendering_cal() {
+			//Calendar filling with events
+			dated_tasks = Task.select(function(item){ return item.duedate != undefined; })
+			
+			var calendar_input = [];
+			$.each(dated_tasks, function(index, value) { calendar_input.push({ title: value.name, start: new Date(value.duedate) }) });
+			
+			$('#calendar').fullCalendar({
+				events: calendar_input
+			});
+		};
+		
 		function setting_windows() {
 			$("#dialog").dialog({ modal: true, title: 'Settings for sync' });
 		};
@@ -673,8 +685,6 @@
 		  	  alert(bin);
 		  };
 		  
-		  alert("here");
-		  
 		  // Read file into memory as UTF-16      
 		  reader.readAsBinaryString(readFile, "UTF-16");
 
@@ -696,6 +706,8 @@
 			$(element_b).show();
 			$(tab_a).removeClass("active");
 			$(tab_b).addClass("active");
+			
+			rendering_cal();
 		};
 		
 	</script>
