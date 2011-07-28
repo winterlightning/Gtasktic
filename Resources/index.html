@@ -599,7 +599,15 @@
 			        }
 			});
 			
-			$('#calendar').fullCalendar({});
+			//Calendar filling with events
+			dated_tasks = Task.select(function(item){ return item.duedate != undefined; })
+			
+			var calendar_input = [];
+			$.each(dated_tasks, function(index, value) { calendar_input.push({ title: value.name, start: new Date(value.duedate) }) });
+			
+			$('#calendar').fullCalendar({
+				events: calendar_input
+			});
 		});
 		
 		function setting_windows() {
