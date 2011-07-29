@@ -450,7 +450,7 @@
 		
 	</style>
 
-	<script type="text/python" src="gtask.py"/>
+	<!-- <script type="text/python" src="gtask.py"/> -->
 	
 	<script>
 		function Sync () {			
@@ -512,13 +512,15 @@
 					editable.save();
 				}
 				else {
-					var task = Task.init( { name: value.title, time: ( new Date().getTime() ).toString(), synced: true, done: (value.status == 'completed'), duedate: duedate, listid: value.listid } );
-					task.id = value.id;
-					if (value.hasOwnProperty('notes')) {
-						task.note = value.notes;
+					if (value.title != "") {
+						var task = Task.init( { name: value.title, time: ( new Date().getTime() ).toString(), synced: true, done: (value.status == 'completed'), duedate: duedate, listid: value.listid } );
+						task.id = value.id;
+						if (value.hasOwnProperty('notes')) {
+							task.note = value.notes;
+						};
+						
+						task.save();
 					};
-					
-					task.save();
 				};
 			});
 			
@@ -710,6 +712,26 @@
 			
 			$("#calendar").fullCalendar( 'refetchEvents' );
 			$("#calendar").fullCalendar( 'windowResize' );
+		};
+		
+		//Check if the app has been initialized or not and then initialize it
+		function initializeApp() {
+			//Check if the app has being initialized
+			if ( Initialized.all().length == 0) {
+				set_init = Initialized.init({ flag: "true" } );
+				set_init.save();
+				
+				//Create a list that represent the default list
+				newlist = List.init( { name: "Your Todos", description: "", time: ( new Date().getTime() ).toString(), synced: false } );
+				newlist.id = "@default";
+				newlist.save();
+				
+				//Create a bunch of todos representing what people needs to do
+				new_task = Task.init({name: "Click on settings and link your gtask account", time: ( new Date().getTime() ).toString(), done: false, order: Task.all().length + 1, synced: false, listid: "@default" });
+				new_task_2 = Task.init({name: "Click on sync to get the tasks in your current google account", time: ( new Date().getTime() ).toString(), done: false, order: Task.all().length + 1, synced: false, listid: "@default" });
+				new_task.save();
+				new_task_2.save();
+			};
 		};
 		
 	</script>

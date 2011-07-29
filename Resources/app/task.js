@@ -44,3 +44,9 @@ Key.extend(Spine.Model.Local);
 
 var List = Spine.Model.setup("List", ["name", "description", "synced", "time"]);
 List.extend(Spine.Model.Local);
+
+var Version = Spine.Model.setup("Version", ["number"]);
+Version.extend(Spine.Model.Local);
+
+var Initialized = Spine.Model.setup("Initialized", ["flag"]);
+Initialized.extend(Spine.Model.Local);
