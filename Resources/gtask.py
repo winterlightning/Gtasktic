@@ -26,7 +26,7 @@ def create_task ( task ):
     tasklist = task["listid"]
     del task["listid"]
     
-    if list_old_dict[tasklist]:
+    if list_old_dict.has_key(tasklist):
         tasklist = list_old_dict[tasklist]
 
     result = service.tasks().insert(tasklist=tasklist, body=task).execute()
@@ -76,6 +76,10 @@ def create_tasklist(list):
     old_list_id = list["id"]
     
     del list["id"]
+    
+    #special case of the initial sync
+    if old_list_id == "@default":
+        return
     
     result = service.tasklists().insert(body=list).execute()
     print result['id'], " created"
