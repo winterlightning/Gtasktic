@@ -720,6 +720,14 @@
 		function initializeApp() {
 			//Check if the app has being initialized
 			if ( Initialized.all().length == 0) {
+				//Delete all of the stuff before
+				delete localStorage['Task'];
+				
+				//Set the version number 
+				new_version = Version.init({ number: "0.2" });
+				new_version.save();
+				
+				//set the intiialization flag
 				set_init = Initialized.init({ flag: "true" } );
 				set_init.save();
 				
