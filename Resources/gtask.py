@@ -18,6 +18,19 @@ service = None
 task_dict= {}
 list_old_dict= {} #when a old list gets overwritten by a google id, this one has to be used with the creation
 
+# Set up a Flow object to be used if we need to authenticate. This
+# sample uses OAuth 2.0, and we set up the OAuth2WebServerFlow with
+# the information it needs to authenticate. Note that it is called
+# the Web Server Flow, but it can also handle the flow for native
+# applications
+# The client_id and client_secret are copied from the API Access tab on
+# the Google APIs Console
+FLOW = OAuth2WebServerFlow(
+    client_id='784374432524.apps.googleusercontent.com',
+    client_secret='u4K1AZXSj8P9hIlEddLsMi6d',
+    scope='https://www.googleapis.com/auth/tasks',
+    user_agent='YOUR_APPLICATION_NAME/YOUR_APPLICATION_VERSION')
+
 #create a task
 def create_task ( task ):
     global service
@@ -106,6 +119,8 @@ def delete_tasklist(listid):
     service.tasklists().delete(tasklist=listid).execute()
 
 def create_link():
+    global FLOW
+    
     # Set up a Flow object to be used if we need to authenticate. This
     # sample uses OAuth 2.0, and we set up the OAuth2WebServerFlow with
     # the information it needs to authenticate. Note that it is called
@@ -113,20 +128,16 @@ def create_link():
     # applications
     # The client_id and client_secret are copied from the API Access tab on
     # the Google APIs Console
-    FLOW = OAuth2WebServerFlow(
-        client_id='784374432524.apps.googleusercontent.com',
-        client_secret='u4K1AZXSj8P9hIlEddLsMi6d',
-        scope='https://www.googleapis.com/auth/tasks',
-        user_agent='YOUR_APPLICATION_NAME/YOUR_APPLICATION_VERSION')
     
     return create_url(FLOW)
 
 def validate_code(code):
-    FLOW = OAuth2WebServerFlow(
-    client_id='784374432524.apps.googleusercontent.com',
-    client_secret='u4K1AZXSj8P9hIlEddLsMi6d',
-    scope='https://www.googleapis.com/auth/tasks',
-    user_agent='YOUR_APPLICATION_NAME/YOUR_APPLICATION_VERSION')
+    global FLOW
+    #FLOW = OAuth2WebServerFlow(
+    #client_id='784374432524.apps.googleusercontent.com',
+    #client_secret='u4K1AZXSj8P9hIlEddLsMi6d',
+    #scope='https://www.googleapis.com/auth/tasks',
+    #user_agent='YOUR_APPLICATION_NAME/YOUR_APPLICATION_VERSION')
     
     storage = Storage('tasks.dat')
     
@@ -286,6 +297,7 @@ def sync_model(local, cloud, deleted, create_function, update_function, local_to
 #d. Initialize into the first one as the one being written to
 def initial_login( current_tasks, deletions, list, deletedlist ):
     global service
+    global FLOW
 
     print current_tasks
     print deletions
@@ -296,19 +308,6 @@ def initial_login( current_tasks, deletions, list, deletedlist ):
     deletions = json.loads( deletions )
     list = json.loads(list)
     deletedlist = json.loads(deletedlist)
-    
-    # Set up a Flow object to be used if we need to authenticate. This
-    # sample uses OAuth 2.0, and we set up the OAuth2WebServerFlow with
-    # the information it needs to authenticate. Note that it is called
-    # the Web Server Flow, but it can also handle the flow for native
-    # applications
-    # The client_id and client_secret are copied from the API Access tab on
-    # the Google APIs Console
-    FLOW = OAuth2WebServerFlow(
-        client_id='784374432524.apps.googleusercontent.com',
-        client_secret='u4K1AZXSj8P9hIlEddLsMi6d',
-        scope='https://www.googleapis.com/auth/tasks',
-        user_agent='YOUR_APPLICATION_NAME/YOUR_APPLICATION_VERSION')
     
     # To disable the local server feature, uncomment the following line:
     # FLAGS.auth_local_webserver = False
