@@ -450,8 +450,10 @@
 		
 	</style>
 
-	<script type="text/python" src="gtask.py"/>
-	
+  	<script>
+        Titanium.include("gtask.py");
+	</script>
+
 	<script>
 		function Sync () {			
 			sync_window = create("sticky", { title:'Sync with Google Cloud', text:'We are currently syncing.'},{ expires:false });
