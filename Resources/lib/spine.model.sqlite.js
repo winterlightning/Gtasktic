@@ -12,6 +12,10 @@
 	  saveLocal: function(){
 	    var result = JSON.stringify(this);
 	    db.execute("DELETE from keyval where key ='" + this.name+"'");
+	    Titanium.API.debug(result);
+	    
+	    result = result.replace("'", "''");
+	    
 	    db.execute("INSERT INTO keyval (key, value) VALUES ('" +this.name +"', '"+ result +"')");
 	  },
 	
