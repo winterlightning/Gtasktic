@@ -132,6 +132,16 @@ jQuery(function($){
 	  this.addAll();
 	        
 	  this.renderCount();
+	  
+	  tab_el = $(".listfilter");
+	  
+	  /*This section is for the bottom right filter*/
+	  tab_html = "<button id='"+this.item.id+"'>" + this.item.name + "</button>"
+	  tab_el.prepend(tab_html);
+	  
+	  tab_id= "#"+String(this.item.id).replace("@", "");;
+	  this.tab = $(String(tab_id));
+	  
       return this;
     },
     
@@ -156,7 +166,10 @@ jQuery(function($){
     deletelist: function() {
       var r = confirm("Are you sure you want to delete this list and all it's tasks");
 	  
+	  
 	  if (r) {
+		/*Delete the tab*/
+		this.tab.remove();
 
 		if (this.item.synced == true) {
 			DeletedList.create({ deletion_id: this.item.id });
@@ -205,10 +218,11 @@ jQuery(function($){
     render: function() {
       var lists = List.all();
       cur_el = this.el;
-      
+            
       $.each(lists, function(key, value) {
 	      var list = TaskApp.init({"item": value});
 	      cur_el.append( list.render().el );
+	      
 	  });
       
     },
@@ -216,8 +230,8 @@ jQuery(function($){
     render_new: function( item ) {
     	 var list = TaskApp.init({"item": item});
     	 this.el.append(list.render().el);
-    }
-       
+    },
+   
   });
  
   window.App = allLists.init();
