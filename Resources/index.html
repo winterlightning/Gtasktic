@@ -20,7 +20,7 @@
 
 	<script src="lib/spine.js" type="text/javascript" charset="utf-8"></script>
 	<script src="lib/dateformat.js" type="text/javascript" charset="utf-8"></script>
-	<script src="lib/spine.model.local.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/spine.model.sqlite.js" type="text/javascript" charset="utf-8"></script>
 	<script src="lib/jquery.notify.min.js" type="text/javascript" charset="utf-8"></script>
 	
 	<script src="app/task.js" type="text/javascript" charset="utf-8"></script>
@@ -463,12 +463,16 @@
 			e = JSON.stringify(List);
 			f = JSON.stringify(DeletedList);
 			
-			a = initial_login( b, d, e, f );	
+			var file = Titanium.Filesystem.getApplicationDataDirectory();
+			
+			a = initial_login( b, d, e, f, file );	
 			
 			current = a.current;
 			deleted = a.deletion;
 			tasklist = a.tasklist;
 			deleted_list = a.list_deletions;
+			
+			Titanium.API.debug(current);
 			
 			//Delete the deletions since they are synced
 			$.each(Deletion.all(), function(index, value) {
@@ -553,11 +557,13 @@
 			create("default", { title:'Successful Sync', text:'Your todos have successfully synced with Google'});
 		};
 		
-		initializeApp()
-		
 		Task.fetch();
 		Deletion.fetch();
 		List.fetch();
+		
+		Initialized.fetch();
+		
+		initializeApp();
 		
 		var setting_url = "";
 		
@@ -644,7 +650,8 @@
 		
 		function v_code() {
 			code = $('#validation').val();
-			var a = validate_code(code);
+			var file = Titanium.Filesystem.getApplicationDataDirectory();
+			var a = validate_code(code, file);
 			var flag = a.flag;
 			
 			if (flag == true) {
@@ -746,7 +753,18 @@
 				
 			};
 		};
+	</script>
+	
+	<script>
+		/* db_path = Titanium.Filesystem.getFile(Titanium.Filesystem.getApplicationDataDirectory(), 'gtasktic.db');
+		db = Titanium.Database.openFile( db_path );
 		
+		db.execute("CREATE TABLE IF NOT EXISTS keyval ( key TEXT, value TEXT )");
+		
+		db.execute("INSERT INTO keyval (key, value) VALUES (" + "'testkey', 'testval'" + ")");
+		var resultSet = db.execute("SELECT value FROM keyval WHERE key = '"+ 'testkey' +"' LIMIT 1");
+		
+		alert(resultSet.field(0)); */
 	</script>
 
 </head>

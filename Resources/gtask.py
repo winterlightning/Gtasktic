@@ -13,6 +13,7 @@ import pickle
 import gapi.simplejson as json
 
 import os
+import getpass
 
 service = None
 task_dict= {}
@@ -131,7 +132,7 @@ def create_link():
     
     return create_url(FLOW)
 
-def validate_code(code):
+def validate_code(code, fileloc):
     global FLOW
     #FLOW = OAuth2WebServerFlow(
     #client_id='784374432524.apps.googleusercontent.com',
@@ -139,7 +140,17 @@ def validate_code(code):
     #scope='https://www.googleapis.com/auth/tasks',
     #user_agent='YOUR_APPLICATION_NAME/YOUR_APPLICATION_VERSION')
     
-    storage = Storage('tasks.dat')
+    print code
+    print fileloc
+    print getpass.getuser()
+    
+    try:
+        storage = Storage( str(fileloc)+'/tasks.dat' )
+    except:
+        print "Unexpected error:", sys.exc_info()
+        print "validation failed due to can't create file"
+        flag = False
+        return { "creds": None, "flag": flag }
     
     credentials = run(FLOW, storage, code=code)    
 
@@ -295,7 +306,7 @@ def sync_model(local, cloud, deleted, create_function, update_function, local_to
 #b. for each of them, read all the task out
 #c. return the tasks in a array
 #d. Initialize into the first one as the one being written to
-def initial_login( current_tasks, deletions, list, deletedlist ):
+def initial_login( current_tasks, deletions, list, deletedlist, fileloc):
     global service
     global FLOW
 
@@ -315,7 +326,7 @@ def initial_login( current_tasks, deletions, list, deletedlist ):
     # If the Credentials don't exist or are invalid, run through the native client
     # flow. The Storage object will ensure that if successful the good
     # Credentials will get written back to a file.
-    storage = Storage('tasks.dat')
+    storage = Storage( str(fileloc)+'/tasks.dat' )
     credentials = storage.get()
     if credentials is None or credentials.invalid == True:
         print "#### NO CREDENTIALS"
