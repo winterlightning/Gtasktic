@@ -798,6 +798,12 @@
 				
 			};
 		};
+		
+		//get all the div showing
+		function show_all_div() {
+			$(".listdiv").show();
+		};
+		
 	</script>
 
 </head>
@@ -853,7 +859,7 @@
 		<div id="right">
 			<div class="listfilter">
 				<span class="divider"></span>
-				<button class="filterselected">all</button>
+				<button class="filterselected" onclick="show_all_div()" >all</button>
 			</div>
 		</div>
 	</div>
