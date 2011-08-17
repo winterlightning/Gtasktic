@@ -141,6 +141,7 @@ jQuery(function($){
 	  
 	  /*This section is for the bottom right filter*/
 	  tab_id= "l"+(String(this.item.id).replace("@", ""));
+	  $("#"+tab_id).remove();//delete duplicates
 	  tab_html = "<button id='"+tab_id+"'>" + this.item.name + "</button>"
 	  tab_el.prepend(tab_html);
 	  

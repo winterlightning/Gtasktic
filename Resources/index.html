@@ -20,7 +20,7 @@
 
 	<script src="lib/spine.js" type="text/javascript" charset="utf-8"></script>
 	<script src="lib/dateformat.js" type="text/javascript" charset="utf-8"></script>
-	<script src="lib/spine.model.local.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/spine.model.sqlite.js" type="text/javascript" charset="utf-8"></script>
 	<script src="lib/jquery.notify.min.js" type="text/javascript" charset="utf-8"></script>
 	
 	<script src="app/task.js" type="text/javascript" charset="utf-8"></script>
@@ -803,7 +803,7 @@
 		function show_all_div() {
 			$(".listdiv").show();
 			$(".filterselected").removeClass("filterselected");
-	  		$("allbutton").addClass("filterselected");
+	  		$("#allbutton").addClass("filterselected");
 		};
 		
 	</script>
