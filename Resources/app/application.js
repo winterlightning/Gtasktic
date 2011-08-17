@@ -81,7 +81,7 @@ jQuery(function($){
   });
  
   window.TaskApp = Spine.Controller.create({
-    tag: "div",
+    tag: "div.listtype",
     
     proxied: ["addAll", "render", "renderCount", "remove"],
 
@@ -130,17 +130,38 @@ jQuery(function($){
       this.el.data('id', this.item.id);
 	  
 	  this.addAll();
+	  
+	  if (this.item.id == "@default") {
+	  	this.el.addClass("firstlist");
+	  };
 	        
 	  this.renderCount();
 	  
 	  tab_el = $(".listfilter");
 	  
 	  /*This section is for the bottom right filter*/
-	  tab_html = "<button id='"+this.item.id+"'>" + this.item.name + "</button>"
+	  tab_id= "l"+(String(this.item.id).replace("@", ""));
+	  tab_html = "<button id='"+tab_id+"'>" + this.item.name + "</button>"
 	  tab_el.prepend(tab_html);
 	  
-	  tab_id= "#"+String(this.item.id).replace("@", "");;
-	  this.tab = $(String(tab_id));
+	  this.tab = $(String("#"+tab_id));
+	  var this_element = "#"+this.item.id;
+	  var this_tab = this.tab;
+	  
+	  this.tab.click(function() {
+	  	$(".listdiv").hide();
+	  	
+	  	//extra code for default
+	  	if (this_element == "#@default") {
+	  		$(".firstlist .listdiv").show();
+	  	}
+	  	else {
+	  		$(this_element).show();
+	  	};
+	  	
+	  	$(".filterselected").removeClass("filterselected");
+	  	this_tab.addClass("filterselected");
+	  });
 	  
       return this;
     },
