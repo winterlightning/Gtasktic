@@ -600,6 +600,19 @@
 			
 			sync_window.close();
 			create("default", { title:'Successful Sync', text:'Your todos have successfully synced with Google'});
+			
+			
+			$( ".roundedlist" ).sortable({
+		        update: function(event, ui) {
+		            $(".roundedlist li").each (function(index) {
+						//retrieve current task
+						var current = Task.find($(this).data("id"));
+    						current.order = $(this).index();
+    						current.save();
+  						});
+  
+			        }
+			});
 		};
 		
 		Task.fetch();
