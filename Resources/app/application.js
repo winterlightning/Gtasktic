@@ -166,10 +166,7 @@ jQuery(function($){
     deletelist: function() {
       var r = confirm("Are you sure you want to delete this list and all it's tasks");
 	  
-	  
 	  if (r) {
-		/*Delete the tab*/
-		this.tab.remove();
 
 		if (this.item.synced == true) {
 			DeletedList.create({ deletion_id: this.item.id });
@@ -193,6 +190,9 @@ jQuery(function($){
     
     remove: function() {
 		this.el.remove();
+		
+		/*Delete the tab*/
+		this.tab.remove();
     },
     
     editlist: function() {
