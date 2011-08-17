@@ -802,6 +802,8 @@
 		//get all the div showing
 		function show_all_div() {
 			$(".listdiv").show();
+			$(".filterselected").removeClass("filterselected");
+	  		$("allbutton").addClass("filterselected");
 		};
 		
 	</script>
@@ -859,7 +861,7 @@
 		<div id="right">
 			<div class="listfilter">
 				<span class="divider"></span>
-				<button class="filterselected" onclick="show_all_div()" >all</button>
+				<button class="filterselected" onclick="show_all_div()" id="allbutton" >all</button>
 			</div>
 		</div>
 	</div>
