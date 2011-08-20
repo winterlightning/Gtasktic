@@ -39,7 +39,7 @@ var DeletedList = Spine.Model.setup("DeletedList", ["deletion_id"]);
 DeletedList.extend(Spine.Model.Local);
 
 //Key storage for validation key storing
-var Key = Spine.Model.setup("Key", ["url"]);
+var Key = Spine.Model.setup("Key", ["url", "validated"]);
 Key.extend(Spine.Model.Local); 
 
 var List = Spine.Model.setup("List", ["name", "description", "synced", "time"]);

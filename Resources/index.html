@@ -499,7 +499,22 @@
 	</script>
 
 	<script>
-		function Sync () {			
+		function Sync () {
+			
+			//Check if there is a validated key
+			b = Key.all();
+			alert(b);
+			if (b.length > 0 ) {
+				if (b[0].validated != true) {
+					denied = create("default", { title:'You have not validated', text:'You need to go to setting and validate your google account first.'});					
+					return;
+				};
+			}
+			else {
+				denied = create("default", { title:'You have not validated', text:'You need to go to setting and validate your google account first.'});
+				return;
+			};
+						
 			sync_window = create("sticky", { title:'Sync with Google Cloud', text:'We are currently syncing.'},{ expires:false });
 			
 			b = JSON.stringify(Task);
@@ -617,6 +632,7 @@
 		Task.fetch();
 		Deletion.fetch();
 		List.fetch();
+		Key.fetch();
 		
 		Initialized.fetch();
 		
@@ -713,6 +729,9 @@
 			
 			if (flag == true) {
 				$("#dialog").dialog("close");
+				keys = Key.all();
+				keys[0].validated = true;
+				keys[0].save();
 				create("default", { title:'Successful Validation', text:'You may use sync now'});
 			}
 			else {
