@@ -83,7 +83,7 @@ jQuery(function($){
   window.TaskApp = Spine.Controller.create({
     tag: "div",
     
-    proxied: ["addAll", "render", "renderCount", "remove"],
+    proxied: ["addAll", "render", "renderCount", "remove", "attach"],
 
     events: {
       "click  .clear": "clear",
@@ -99,11 +99,13 @@ jQuery(function($){
       ".clear":     "clear",
       ".add": 		"add",
       ".addinputs .addtasks":  "input",
+      ".addinputs": "addform",
     },
     
     init: function(){
       //Task.bind("refresh", this.addAll);
       this.item.bind("update",  this.render);
+      this.item.bind("update",  this.attach);
       this.item.bind("destroy", this.remove);
       
       Task.bind("change", this.renderCount);
@@ -138,7 +140,7 @@ jQuery(function($){
 	  };
 	        
 	  this.renderCount();
-	  
+	  	  
 	  tab_el = $(".listfilter");
 	  
 	  /*This section is for the bottom right filter*/
@@ -165,7 +167,7 @@ jQuery(function($){
 	  	$(".filterselected").removeClass("filterselected");
 	  	this_tab.addClass("filterselected");
 	  });
-	  
+      
       return this;
     },
     
@@ -235,7 +237,36 @@ jQuery(function($){
 		
     	d = $("#dialog_addlist").dialog({ modal: true, title: 'Edit this list', dialogClass: "editing" });
     	d.data('id', this.item.id);
-    }
+    },
+  
+    attach: function() {
+		this.el.find( ".roundedlist" ).sortable({
+	        update: function(event, ui) {
+	            $(".roundedlist li").each (function(index) {
+					//retrieve current task
+					var current = Task.find($(this).data("id"));
+    						current.order = $(this).index();
+    						current.save();
+  						});
+			}
+		});
+		this.el.find(".addinputs").toggle();
+		
+		this.el.find(".addtoggle").click( function(event)
+		{
+			var clicked = $(this);
+		   	clicked.toggle();
+		   	clicked.parent().children(".addinputs").toggle();
+		});
+		
+		this.el.find(".doneadding").click(function(event)
+		{
+			var clicked = $(this);
+		   	clicked.parent().parent().children(".addtoggle").toggle();
+		   	clicked.parent().toggle();
+		});
+		
+    },
   
   });
 
@@ -257,6 +288,7 @@ jQuery(function($){
 	      var list = TaskApp.init({"item": value});
 	      cur_el.append( list.render().el );
 	      
+	      list.attach();
 	  });
       
     },
@@ -264,6 +296,8 @@ jQuery(function($){
     render_new: function( item ) {
     	 var list = TaskApp.init({"item": item});
     	 this.el.append(list.render().el);
+    	 
+    	 list.attach();
     },
    
   });
