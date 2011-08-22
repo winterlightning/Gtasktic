@@ -68,14 +68,19 @@
 		      	<a class="deletelist"><img src="famfamicons/delete.png" height="14px"/></a>
 		      	<a class="editlist"><img src="famfamicons/pencil.png" height="14px"/></a>
 		      </div>
+		      <div class="count listbutton" style="float: right;"><span class="countVal"></span> left</div>
 	      </div>
 	      
 	      <div class="items roundedlist"></div>
 	      
       	  <footer>
-      	  	<a class="add listbutton">Add Task</a>
-	        <a class="clear listbutton">Clear completed</a>
-	        <div class="count listbutton"><span class="countVal"></span> left</div>
+      	  	<a class="clear listbutton" style="">Clear completed</a>
+      	  	<!-- <a class="add listbutton">Add Task</a> -->
+	        <a class="addtoggle listbutton">Add Tasks</a>
+	        <div class="addinputs" style="display: inline-block;">
+	        	<a class="doneadding listbutton">Done Adding</a>
+				<form style="display: inline-block"><input type="text" class="addtasks" placeholder="Add your task here and hit Return for entry" /></form>
+	      	</div>
 	      </footer>
       </div>
 	</script>
@@ -361,6 +366,7 @@
 		
 		#content {
 			bottom: 30px;
+			padding-bottom: 15px;
 		}
 		.ui-notify {
 			width: 350px;
@@ -400,10 +406,10 @@
 			display: inline; 
 		}
 		
-		div.add {
+		/* div.add {
 			background: none;
 			height: 17px;
-		}
+		}*/
 		
 		.largebutton {
 			font-size: 14px;
@@ -500,7 +506,45 @@
 		.fc-grid .fc-day-number {
 			color: #ddd;
 		}
-				
+		
+		/* list div narrower */
+		/* .listdiv {
+			width: 31%;
+			float: left;
+			margin-left: 2%;
+		}
+		
+		.firstlist .listdiv {
+			margin-left: 0px;
+		}
+		*/
+		
+		/*Fix count looking like a button */
+		.count {
+			background: #fff;
+			opacity: 0.5;
+			border-radius: 4px;	
+		}
+		
+		.ui-selected { 
+			background: #FECA40; 
+			-webkit-box-shadow:0 0 6px #fff;
+		}
+		
+		.addtasks {
+			position: relative;
+			height: 25px;
+			/*background-image: url(../images/addbar.png); 
+			background-repeat: repeat-x; */
+			background: url('images/transparentgradient.png') repeat-x right top;
+			-webkit-border-radius: 6px;
+			border-radius: 6px;
+			border: 0px;
+			color: #fff;
+			padding-left: 10px;
+			width: 400px;
+		}
+		
 	</style>
 
   	<script>
@@ -512,7 +556,6 @@
 			
 			//Check if there is a validated key
 			b = Key.all();
-			alert(b);
 			if (b.length > 0 ) {
 				if (b[0].validated != true) {
 					denied = create("default", { title:'You have not validated', text:'You need to go to setting and validate your google account first.'});					
@@ -708,6 +751,23 @@
 			
 			//hide the calendar initially
 			$("#calendarview").hide();
+			
+			$(".addinputs").toggle();
+			
+			$(".addtoggle").click( function(event)
+			{
+				var clicked = $(this);
+			   	clicked.toggle();
+			   	clicked.parent().children(".addinputs").toggle();
+			});
+			
+			$(".doneadding").click(function(event)
+			{
+				var clicked = $(this);
+			   	clicked.parent().parent().children(".addtoggle").toggle();
+			   	clicked.parent().toggle();
+			});
+			
 		});
 		
 		function rendering_cal() {
@@ -870,7 +930,13 @@
 	<div id="content" style="left: 0px; display: block; right: 0px;">
 
 	      <!-- <div class="add">
-			<a class="add listbutton largebutton"><img src="famfamicons/add.png" style="top: 3px; position: relative; left: -4px;" />Add List</a>
+			<div class="addwrapper">
+				<form id="newtask_form">
+					<input type="text" id="addingdiv" class="input-add" placeholder="Add your task here" style="border: 0px; position: relative; left: 5px;" />
+					<input type="hidden" id="newtaskdate" />
+				</form>
+				<span class="showdate timestamp"></span>
+			</div>
 		  </div> -->
 
 		  <div id="views">

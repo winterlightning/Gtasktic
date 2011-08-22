@@ -81,13 +81,13 @@ jQuery(function($){
   });
  
   window.TaskApp = Spine.Controller.create({
-    tag: "div.listtype",
+    tag: "div",
     
     proxied: ["addAll", "render", "renderCount", "remove"],
 
     events: {
       "click  .clear": "clear",
-      "click  .add": "addOne",
+      "click  a.add": "addOne",
       "click  .deletelist": "deletelist",
       "click  .editlist": "editlist"
     },
