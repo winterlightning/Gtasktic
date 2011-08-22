@@ -89,14 +89,16 @@ jQuery(function($){
       "click  .clear": "clear",
       "click  a.add": "addOne",
       "click  .deletelist": "deletelist",
-      "click  .editlist": "editlist"
+      "click  .editlist": "editlist",
+      "submit form.addform":   "create_new",
     },
     
     elements: {
       ".items":     "items",
       ".countVal":  "count",
       ".clear":     "clear",
-      ".add": 		"add"
+      ".add": 		"add",
+      ".addinputs .addtasks":  "input",
     },
     
     init: function(){
@@ -208,6 +210,16 @@ jQuery(function($){
 	  	
 		this.item.destroy();
       };
+    },
+    
+    create_new: function() {
+    	new_task = Task.create({name: this.input.val(), time: ( new Date().getTime() ).toString(), done: false, order: Task.all().length + 1, synced: false, listid: this.item.id });
+		var view = Tasks.init({item: new_task});
+      	this.items.append(view.render().el);    
+    	
+    	this.input.val("");
+    	
+    	return false;
     },
     
     remove: function() {
