@@ -1,1 +1,60 @@
-Place your license text here.  This file will be incorporated with your app at package time.
+The software products made available through the Mac App Store and App Store (collectively, the “App Store Products”) are licensed, not sold, to you. There are two (2) categories of App Store Products, as follows: (i) those App Store Products that have been developed, and are licensed to you, by Apple ( “Apple Products”); and (ii) those App Store Products that have been developed, and are licensed to you, by a third-party developer ( “Third-Party Products”). The category of a particular App Store Product (Apple Product or Third-Party Product) is identified on the Mac App Store application or App Store application.
+
+Your license to each App Store Product is subject to the Licensed Application End User License Agreement set forth below, and you agree that such terms will apply unless the App Store Product is covered by a valid end user license agreement entered into between you and the licensor of that App Store Product (the “Application Provider”), in which case the Application Provider’s end user license agreement will apply to that App Store Product. The Application Provider reserves all rights in and to the App Store Product not expressly granted to you.
+
+You acknowledge that the license you purchase to each Apple Product that you obtain through the App Store Services, as defined below, is a binding agreement between you and Apple. You acknowledge that: you are purchasing the license to each Third-Party Product from the Application Provider; Apple is acting as agent for the Application Provider in providing each such Third-Party Product to you; and Apple is not a party to the license between you and the Application Provider with respect to that Third-Party Product. The Application Provider of each Third-Party Product is solely responsible for that Third-Party Product, the content therein, any warranties to the extent that such warranties have not been disclaimed, and any claims that you or any other party may have relating to that Third-Party Product.
+
+You acknowledge and agree that Apple and its subsidiaries are third-party beneficiaries of the Licensed Application End User License Agreement or the Application Provider’s end user license agreement, as the case may be, for each Third-Party Product. You also agree that, upon your acceptance of the terms and conditions of the license to any such Third-Party Product, Apple will have the right (and will be deemed to have accepted the right) to enforce such license against you as a third-party beneficiary thereof.
+
+IN-APP PURCHASES
+
+Certain App Store Products may include functionality that enables you to purchase additional services, or licenses to additional functionality or content for use within the App Store Product ("In App Purchases"). In App Purchases that are consumed during the use of the App Store Product (for example, virtual ammunition) cannot be transferred among devices; can be downloaded only once; and after being downloaded, cannot be replaced. Once a consumable In App Purchase is purchased and received by you, Apple shall be without liability to you in the event of any loss, destruction, or damage. All In App Purchases are deemed App Store Products, and In App Purchases made within Third-Party Products are deemed Third-Party Products, and treated as such, for purposes of these terms and conditions.
+
+In-App Purchases must be authenticated separately from authentication to purchase and download App Store Products by entering your password when prompted, but once you have authenticated In-App Purchases, you will be able to make additional In-App Purchases for fifteen minutes without re-entering your password. You can turn off the ability to make In-App Purchases on your iOS Device by following the steps outlined at http://support.apple.com/kb/HT4213.
+
+IN-APP SUBSCRIPTIONS
+
+Certain App Store Products may include functionality that enables you to purchase content on a subscription basis (“Paid Subscriptions”). Paid Subscriptions are non-refundable. Paid Subscriptions will automatically renew for the applicable time period you have selected, and your Account will be charged no more than 24-hours prior to the expiration of the current Paid Subscription. You may cancel automatic renewal by selecting Manage App Subscriptions in your Account and selecting the subscription you want to modify. The auto-renew feature of the subscription will be turned off if the Application Provider increases the price of the subscription. Certain Paid Subscriptions may offer a free trial prior to purchase. If you decide to purchase a Paid Subscription prior to the end of the free trial period, your Paid Subscription will start immediately. You should also review additional information about the Paid Subscription offer at the point of sale within the App Store Product. We may ask for your permission to provide the name, email address and zip code listed in your Account to the Application Provider so that the Application Provider can send you marketing messages about its own products in accordance with its publicly posted privacy policy. Once the Application Provider has this information, it will be treated in accordance with the Application Provider’s privacy policy. We encourage you to learn about the privacy practices of the Application Provider before agreeing to give it your personal information. For more information, please review the Application Provider’s privacy policy or contact the Application Provider directly.
+
+GENIUS FOR APPS
+
+When you opt in to the Genius for Apps feature, Apple will, from time to time, automatically collect information related to certain of your App Store Products, such as your time spent with each App Store Product and the number of times each App Store Product is launched. This information will be stored anonymously and will not be associated with your name or Account. When you use the Genius for Apps feature, Apple will use this information, as well as other information, such as your App Store Product download history, to give personalized recommendations to you.
+
+Apple may use this information and combine it with aggregated information from other users who opt in to this feature, your iTunes Store purchase history data, your App Store download data, aggregated App Store Product download data from other users, and other information like customer ratings of App Store Products, to:
+
+• Provide you with recommendations regarding App Store Products, media, and other products and services that you may wish to purchase, download, or use.
+
+• Provide recommendations to other users.
+
+At all times your information will be treated in accordance with Apple’s Privacy Policy.
+
+Once you opt in to the Genius for Apps feature on a Genius-capable system, you will be able to create Genius recommendations on that system.
+
+If you prefer that we do not collect and use information from your device or system in this manner, you should not enable the Genius feature. You can opt out at any time by turning off the Genius feature from the App Store Account page on your device and/or system. If you have elected to share Genius for Apps information from multiple devices and/or systems, you need to turn off the Genius feature from each device and system to opt out.
+
+MAC APP STORE PRODUCT USAGE RULES
+
+Except as otherwise set forth herein,
+
+(i) You may download and use an application from the Mac App Store (“Mac App Store Product”) for personal, non-commercial use on any Apple-branded products running Mac OS X (“Mac Computer”) that you own or control.
+
+(ii) If you are a commercial enterprise or educational institution, you may download a Mac App Store Product for use by either (a) a single individual on each of the Mac Computer(s) used by that individual that you own or control or (b) multiple individuals on a single shared Mac Computer that you own or control. For example, a single employee may use a Mac App Store Product on both the employee’s desktop Mac Computer and laptop Mac Computer, or multiple students may serially use a Mac App Store Product on a single Mac Computer located at a resource center or library. For the sake of clarity, each Mac Computer used serially by multiple users requires a separate license.
+
+(iii) Use may require sign-in with the Apple ID used to download the Mac App Store Product from the Mac App Store. Mac App Store Products can be updated through the Mac App Store only.
+
+APP STORE PRODUCT USAGE RULES
+
+(i) You may download and sync an App Store Product for personal, noncommercial use on any iOS Device you own or control.
+
+(ii) If you are a commercial enterprise or educational institution, you may download and sync an App Store Product for use by either (a) a single individual on one or more iOS Devices used by that individual that you own or control or (b) multiple individuals, on a single shared iOS Device you own or control. For example, a single employee may use an App Store Product on both the employee's iPhone and iPad, or multiple students may serially use an App Store Product on a single iPad located at a resource center or library. For the sake of clarity, each iOS Device used serially by multiple users requires a separate license.
+
+(iii) You shall be able to store App Store Products from up to five different Accounts at a time on a compatible iOS Device.
+
+(iv) You shall be able to manually sync App Store Products from at least one iTunes-authorized device to iOS Devices that have manual sync mode, provided that the App Store Product is associated with an Account on the primary iTunes-authorized device, where the primary iTunes-authorized device is the one that was first synced with the iOS Device or the one that you subsequently designate as primary using the iTunes application.
+
+IMPORTANT SAFETY INFORMATION
+
+To avoid muscle, joint, or eye strain during video game play, you should always take frequent breaks from playing, and take a longer rest if you experience any soreness, fatigue, or discomfort. A very small percentage of people may experience seizures or blackouts when exposed to flashing lights or patterns, including while playing video games or watching videos. Symptoms may include dizziness, nausea, involuntary movements, loss of awareness, altered vision, tingling, numbness, or other discomforts. Consult a doctor before playing video games if you have ever suffered these or similar symptoms, and stop playing immediately and see a doctor if they occur during game play. Parents should monitor their children’s video game play for signs of symptoms.
+
+Attribution:
+Styling and Jquery UI styling attributed to: 6wunderkinder / wunderlist under a apache 2.0 license http://www.apache.org/licenses/LICENSE-2.0.html
