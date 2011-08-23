@@ -313,7 +313,7 @@ def initial_login( current_tasks, deletions, list, deletedlist, fileloc):
     print current_tasks
     print deletions
 
-    store_input( [current_tasks, deletions, list, deletedlist] ) # this is for debugging, you can pickle the inputs and put them out again
+    #store_input( [current_tasks, deletions, list, deletedlist] ) # this is for debugging, you can pickle the inputs and put them out again
     
     current_tasks = json.loads(current_tasks)
     deletions = json.loads( deletions )
