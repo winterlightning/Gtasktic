@@ -90,7 +90,7 @@ jQuery(function($){
       "click  a.add": "addOne",
       "click  .deletelist": "deletelist",
       "click  .editlist": "editlist",
-      "submit form.addform":   "create_new",
+      "submit form.addform":   "create_new"
     },
     
     elements: {
@@ -99,7 +99,7 @@ jQuery(function($){
       ".clear":     "clear",
       ".add": 		"add",
       ".addinputs .addtasks":  "input",
-      ".addinputs": "addform",
+      ".addinputs": "addform"
     },
     
     init: function(){
@@ -266,7 +266,7 @@ jQuery(function($){
 		   	clicked.parent().toggle();
 		});
 		
-    },
+    }
   
   });
 
@@ -298,7 +298,7 @@ jQuery(function($){
     	 this.el.append(list.render().el);
     	 
     	 list.attach();
-    },
+    }
    
   });
  
