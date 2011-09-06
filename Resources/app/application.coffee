@@ -152,8 +152,10 @@ jQuery ($) ->
         @item.destroy()
     
     create_new: ->
+      input_value = @input.val().replace("'", "''")
+      
       new_task = Task.create(
-        name: @input.val()
+        name: input_value
         time: (new Date().getTime()).toString()
         done: false
         order: Task.all().length + 1

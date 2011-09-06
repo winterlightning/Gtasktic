@@ -184,9 +184,10 @@
         }
       },
       create_new: function() {
-        var new_task, view;
+        var input_value, new_task, view;
+        input_value = this.input.val().replace("'", "''");
         new_task = Task.create({
-          name: this.input.val(),
+          name: input_value,
           time: (new Date().getTime()).toString(),
           done: false,
           order: Task.all().length + 1,

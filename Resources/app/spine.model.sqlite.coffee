@@ -1,6 +1,7 @@
 (($) ->
   db_path = Titanium.Filesystem.getFile(Titanium.Filesystem.getApplicationDataDirectory(), "gtasktic.db")
   db = Titanium.Database.openFile(db_path)
+  
   db.execute "CREATE TABLE IF NOT EXISTS keyval ( key TEXT, value TEXT )"
   Spine.Model.Local = 
     extended: ->
