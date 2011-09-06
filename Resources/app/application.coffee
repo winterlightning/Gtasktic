@@ -193,6 +193,7 @@ jQuery ($) ->
         clicked = $(this)
         clicked.toggle()
         clicked.parent().children(".addinputs").toggle()
+        clicked.parent().find(".addinputs .addtasks").focus()
       
       @el.find(".doneadding").click (event) ->
         clicked = $(this)

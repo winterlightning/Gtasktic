@@ -232,7 +232,8 @@
           var clicked;
           clicked = $(this);
           clicked.toggle();
-          return clicked.parent().children(".addinputs").toggle();
+          clicked.parent().children(".addinputs").toggle();
+          return clicked.parent().find(".addinputs .addtasks").focus();
         });
         return this.el.find(".doneadding").click(function(event) {
           var clicked;
