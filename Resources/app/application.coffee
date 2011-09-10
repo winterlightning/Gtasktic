@@ -8,7 +8,7 @@ jQuery ($) ->
     events: 
       "change   input[type=checkbox]": "toggle"
       "click    .destroy": "destroy"
-      "dblclick .item": "edit"
+      "click .item": "edit"
       "keypress input[type=text]": "blurOnEnter"
       "submit .edittask_form": "close"
     
@@ -47,9 +47,11 @@ jQuery ($) ->
       e.target.blur()  if e.keyCode == 13
     
     close: ->
+      input_value = @input.val().replace("'", "''")
+      
       @wrapper.removeClass "editing"
       @item.updateAttributes 
-        name: @input.val()
+        name: input_value
         time: (new Date().getTime()).toString()
         duedate: @inputdate.val()
         note: @textarea.val()

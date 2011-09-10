@@ -13,7 +13,7 @@
       events: {
         "change   input[type=checkbox]": "toggle",
         "click    .destroy": "destroy",
-        "dblclick .item": "edit",
+        "click .item": "edit",
         "keypress input[type=text]": "blurOnEnter",
         "submit .edittask_form": "close"
       },
@@ -59,9 +59,11 @@
         }
       },
       close: function() {
+        var input_value;
+        input_value = this.input.val().replace("'", "''");
         this.wrapper.removeClass("editing");
         this.item.updateAttributes({
-          name: this.input.val(),
+          name: input_value,
           time: (new Date().getTime()).toString(),
           duedate: this.inputdate.val(),
           note: this.textarea.val()
