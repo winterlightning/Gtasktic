@@ -8,7 +8,7 @@ jQuery ($) ->
     events: 
       "change   input[type=checkbox]": "toggle"
       "click    .destroy": "destroy"
-      "click .item": "edit"
+      "dblclick .item": "edit"
       "keypress input[type=text]": "blurOnEnter"
       "submit .edittask_form": "close"
     
@@ -40,6 +40,13 @@ jQuery ($) ->
       @item.destroy()
     
     edit: ->
+      if @wrapper.hasClass "editing"
+        return
+      
+      if window.last_opened isnt null
+        window.last_opened.close()
+      window.last_opened = this
+      
       @wrapper.addClass "editing"
       @input.focus()
     

@@ -13,7 +13,7 @@
       events: {
         "change   input[type=checkbox]": "toggle",
         "click    .destroy": "destroy",
-        "click .item": "edit",
+        "dblclick .item": "edit",
         "keypress input[type=text]": "blurOnEnter",
         "submit .edittask_form": "close"
       },
@@ -50,6 +50,13 @@
         return this.item.destroy();
       },
       edit: function() {
+        if (this.wrapper.hasClass("editing")) {
+          return;
+        }
+        if (window.last_opened !== null) {
+          window.last_opened.close();
+        }
+        window.last_opened = this;
         this.wrapper.addClass("editing");
         return this.input.focus();
       },
