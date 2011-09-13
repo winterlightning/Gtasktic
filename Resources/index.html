@@ -17,12 +17,13 @@
 	<script type="text/javascript" src="lib/jquery.async.js"></script>
 	<script type="text/javascript" src="lib/shortcuts.js"></script>
 	<script type="text/javascript" src="lib/encoder.js"></script>
+	<script type="text/javascript" src="lib/multisortable.js"></script>
 
 	<script src="lib/dateformat.js" type="text/javascript" charset="utf-8"></script>
 	<script src="lib/jquery.notify.min.js" type="text/javascript" charset="utf-8"></script>
 	
 	<script src="app/spine.js" type="text/javascript" charset="utf-8"></script>
-	<script src="app/spine.model.local.js" type="text/javascript" charset="utf-8"></script>
+	<script src="app/spine.model.sqlite.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/task.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/application.js" type="text/javascript" charset="utf-8"></script>
 
@@ -650,11 +651,8 @@
 				else {
 					var list = List.init( { name: value.title, synced: true, time: ( new Date().getTime() ).toString() } );
 					list.id = value.id;
-					
 					list.save();
-					
 					window.App.render_new( list ); 
-					
 				};				
 			});
 			
@@ -726,35 +724,6 @@
 			//list_init();
 			
 		});
-		
-		function list_init ( top ) {
-			top.find( ".roundedlist" ).sortable({
-		        update: function(event, ui) {
-		            $(".roundedlist li").each (function(index) {
-						//retrieve current task
-						var current = Task.find($(this).data("id"));
-    						current.order = $(this).index();
-    						current.save();
-  						});
-  
-			        }
-			});
-			top.find(".addinputs").toggle();
-			
-			top.find(".addtoggle").click( function(event)
-			{
-				var clicked = $(this);
-			   	clicked.toggle();
-			   	clicked.parent().children(".addinputs").toggle();
-			});
-			
-			top.find(".doneadding").click(function(event)
-			{
-				var clicked = $(this);
-			   	clicked.parent().parent().children(".addtoggle").toggle();
-			   	clicked.parent().toggle();
-			});
-		};
 		
 		function rendering_cal() {
 			//Calendar filling with events
