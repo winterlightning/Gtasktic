@@ -21,6 +21,9 @@ jQuery ($) ->
     
     init: ->
       @item.bind "update", @render
+      
+      window.taskdict[@item.id] = this
+      
       @item.bind "destroy", @remove
     
     render: ->
@@ -79,6 +82,11 @@ jQuery ($) ->
         time: (new Date().getTime()).toString()
         duedate: @inputdate.val()
         note: @textarea.val()
+      
+      #$(".task_selected").removeClass("task_selected")
+      @el.addClass("task_selected")
+      window.cur = @el.index()
+      window.last_opened = null
       
       false
     

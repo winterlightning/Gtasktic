@@ -26,6 +26,7 @@
       },
       init: function() {
         this.item.bind("update", this.render);
+        window.taskdict[this.item.id] = this;
         return this.item.bind("destroy", this.remove);
       },
       render: function() {
@@ -91,6 +92,9 @@
           duedate: this.inputdate.val(),
           note: this.textarea.val()
         });
+        this.el.addClass("task_selected");
+        window.cur = this.el.index();
+        window.last_opened = null;
         return false;
       },
       remove: function() {
