@@ -78,6 +78,7 @@
         }
         window.last_opened = null;
         $(".task_selected").removeClass("task_selected");
+        window.cur = this.el.index();
         return this.el.addClass("task_selected");
       },
       close: function() {

@@ -15,7 +15,7 @@
 	<!-- Loading external libraries -->
 	<script type="text/javascript" src="lib/jquery.ui.1.8.10.min.js"></script>
 	<script type="text/javascript" src="lib/jquery.async.js"></script>
-	<script type="text/javascript" src="lib/shortcuts.js"></script>
+	<script type="text/javascript" src="lib/jquery.mapkey.js"></script>
 	<script type="text/javascript" src="lib/encoder.js"></script>
 
 	<script src="lib/dateformat.js" type="text/javascript" charset="utf-8"></script>
@@ -544,9 +544,9 @@
 		
 	</style>
 
-  	<script>
+  	<!-- <script>
         Titanium.include("gtask.py");
-	</script>
+	</script> -->
 
 	<script>
 		function Sync () {
@@ -674,20 +674,44 @@
 		
 		var setting_url = "";
 		
-		window.last_opened = null;
+		window.last_opened = null; //global variable keeping track of the last opened div
+		window.cur = 0; //this is for the position of the selected task
 		
 		keys = Key.all();
 		if (keys.length != 0) {
 			setting_url = keys[0].url;
 		}
 		else {
-			setting_url = create_link();
+			//setting_url = create_link();
 			Key.create({ url: setting_url });
 		};
 		
 		function create( template, vars, opts ){
 			return $container.notify("create", template, vars, opts);
 		};
+		
+		//Keystroke up and down shit
+	    function nextItem(){
+	      if(cur < ($("li").length-1)){
+	        window.cur++;
+	      }else{
+	        window.cur=0;
+	      }
+	      updateItems();
+	    }
+	    function prevItem(){
+	      if(cur > 0){
+	        window.cur--;
+	      }else{
+	        window.cur = $("li").length-1;
+	      }
+	      updateItems();
+	    }
+	    function updateItems(){
+	      $("li.task_selected").removeClass("task_selected");
+	      $("li:eq("+cur+")").addClass("task_selected");
+	    }
+		
 		
 		//Initial page setup
 		$(function() {
@@ -723,8 +747,10 @@
 			//hide the calendar initially
 			$("#calendarview").hide();
 			
-			//list_init();
-			
+			//Keystrokes
+			updateItems();
+			$.mapKey("down", nextItem, {direction: "down"});
+      		$.mapKey("up", prevItem, {direction: "down"});
 		});
 		
 		function rendering_cal() {

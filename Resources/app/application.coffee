@@ -67,6 +67,7 @@ jQuery ($) ->
      
      $(".task_selected").removeClass("task_selected")
      
+     window.cur = @el.index()
      @el.addClass "task_selected"
 
     close: ->
