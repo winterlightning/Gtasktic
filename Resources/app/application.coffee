@@ -9,6 +9,7 @@ jQuery ($) ->
       "change   input[type=checkbox]": "toggle"
       "click    .destroy": "destroy"
       "dblclick .item": "edit"
+      "click .item": "toggle_select"
       "keypress input[type=text]": "blurOnEnter"
       "submit .edittask_form": "close"
     
@@ -43,6 +44,9 @@ jQuery ($) ->
       if @wrapper.hasClass "editing"
         return
       
+      if @el.hasClass "task_selected"
+        @el.removeClass "task_selected"
+      
       if window.last_opened isnt null
         window.last_opened.close()
       window.last_opened = this
@@ -52,7 +56,19 @@ jQuery ($) ->
     
     blurOnEnter: (e) ->
       e.target.blur()  if e.keyCode == 13
-    
+
+    toggle_select: ->
+     if @wrapper.hasClass "editing"
+        return
+     
+     if window.last_opened isnt null
+        window.last_opened.close()
+     window.last_opened = null
+     
+     $(".task_selected").removeClass("task_selected")
+     
+     @el.addClass "task_selected"
+
     close: ->
       input_value = @input.val().replace("'", "''")
       
@@ -191,18 +207,17 @@ jQuery ($) ->
       d.data "id", @item.id
     
     attach: ->
-      #@el.find(".roundedlist").sortable update: (event, ui) ->
-      #  $(".roundedlist li").each (index) ->
-      #    current = Task.find($(this).data("id"))
-      #    current.order = $(this).index()
-      #    current.save()
       
-      @el.find(".roundedlist").multisortable 
-        selectedClass: 'task_selected'
-        click: (event, elem) ->
-          $(".task_selected").each (index, element) ->
-            if $(elem).parent().html() isnt $(element).parent().html()
-              $(element).removeClass("task_selected")
+      @el.find(".roundedlist").sortable update: (event, ui) ->
+        $(".roundedlist li").each (index) ->
+          current = Task.find($(this).data("id"))
+          current.order = $(this).index()
+          current.save()
+      
+      #@el.find(".roundedlist").multisortable 
+      #  selectedClass: 'task_selected'
+      #  click: (event, elem) ->
+      #    return true
       
       @el.find(".addinputs").toggle()
       @el.find(".addtoggle").click (event) ->

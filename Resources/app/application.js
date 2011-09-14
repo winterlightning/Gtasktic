@@ -14,6 +14,7 @@
         "change   input[type=checkbox]": "toggle",
         "click    .destroy": "destroy",
         "dblclick .item": "edit",
+        "click .item": "toggle_select",
         "keypress input[type=text]": "blurOnEnter",
         "submit .edittask_form": "close"
       },
@@ -53,6 +54,9 @@
         if (this.wrapper.hasClass("editing")) {
           return;
         }
+        if (this.el.hasClass("task_selected")) {
+          this.el.removeClass("task_selected");
+        }
         if (window.last_opened !== null) {
           window.last_opened.close();
         }
@@ -64,6 +68,17 @@
         if (e.keyCode === 13) {
           return e.target.blur();
         }
+      },
+      toggle_select: function() {
+        if (this.wrapper.hasClass("editing")) {
+          return;
+        }
+        if (window.last_opened !== null) {
+          window.last_opened.close();
+        }
+        window.last_opened = null;
+        $(".task_selected").removeClass("task_selected");
+        return this.el.addClass("task_selected");
       },
       close: function() {
         var input_value;
@@ -226,13 +241,13 @@
         return d.data("id", this.item.id);
       },
       attach: function() {
-        this.el.find(".roundedlist").multisortable({
-          selectedClass: 'task_selected',
-          click: function(event, elem) {
-            return $(".task_selected").each(function(index, element) {
-              if ($(elem).parent().html() !== $(element).parent().html()) {
-                return $(element).removeClass("task_selected");
-              }
+        this.el.find(".roundedlist").sortable({
+          update: function(event, ui) {
+            return $(".roundedlist li").each(function(index) {
+              var current;
+              current = Task.find($(this).data("id"));
+              current.order = $(this).index();
+              return current.save();
             });
           }
         });
