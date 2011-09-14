@@ -60,6 +60,7 @@ jQuery.fn.multisortable = function(options) {
         options.cancel = tagName+':not(.'+settings.selectedClass+')';
         options.placeholder = settings.placeholder;
         options.start = function(event, ui) {
+            
             if (ui.item.hasClass(settings.selectedClass)) {
                 var parent = ui.item.parent();
                 //assign indexes to all selected items

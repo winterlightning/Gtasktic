@@ -226,13 +226,13 @@
         return d.data("id", this.item.id);
       },
       attach: function() {
-        this.el.find(".roundedlist").sortable({
-          update: function(event, ui) {
-            return $(".roundedlist li").each(function(index) {
-              var current;
-              current = Task.find($(this).data("id"));
-              current.order = $(this).index();
-              return current.save();
+        this.el.find(".roundedlist").multisortable({
+          selectedClass: 'task_selected',
+          click: function(event, elem) {
+            return $(".task_selected").each(function(index, element) {
+              if ($(elem).parent().html() !== $(element).parent().html()) {
+                return $(element).removeClass("task_selected");
+              }
             });
           }
         });

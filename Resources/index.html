@@ -23,7 +23,7 @@
 	<script src="lib/jquery.notify.min.js" type="text/javascript" charset="utf-8"></script>
 	
 	<script src="app/spine.js" type="text/javascript" charset="utf-8"></script>
-	<script src="app/spine.model.sqlite.js" type="text/javascript" charset="utf-8"></script>
+	<script src="app/spine.model.local.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/task.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/application.js" type="text/javascript" charset="utf-8"></script>
 
@@ -72,7 +72,7 @@
 		      <div class="count listbutton" style="float: right;"><span class="countVal"></span> left</div>
 	      </div>
 	      
-	      <div class="items roundedlist"></div>
+	      <div class="items roundedlist" id="${id}_actual"></div>
 	      
       	  <footer>
       	  	<a class="clear listbutton" style="">Clear completed</a>
@@ -107,6 +107,10 @@
 			position: relative;
 		}
 		
+		.roundedlist li.task_selected .item {
+			background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#D0E4F5), to(#D0E4F5));
+		}
+		
 		#tasks li input[type="text"] {
 		  font-family: inherit;
 		  line-height: 1em;
@@ -129,7 +133,7 @@
 		  margin: 10px 0;
 		  list-style: none;
 		}
-
+	
 		#tasks .item.done span {
 		  color: #777777;
 		  text-decoration: line-through;

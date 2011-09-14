@@ -191,11 +191,18 @@ jQuery ($) ->
       d.data "id", @item.id
     
     attach: ->
-      @el.find(".roundedlist").sortable update: (event, ui) ->
-        $(".roundedlist li").each (index) ->
-          current = Task.find($(this).data("id"))
-          current.order = $(this).index()
-          current.save()
+      #@el.find(".roundedlist").sortable update: (event, ui) ->
+      #  $(".roundedlist li").each (index) ->
+      #    current = Task.find($(this).data("id"))
+      #    current.order = $(this).index()
+      #    current.save()
+      
+      @el.find(".roundedlist").multisortable 
+        selectedClass: 'task_selected'
+        click: (event, elem) ->
+          $(".task_selected").each (index, element) ->
+            if $(elem).parent().html() isnt $(element).parent().html()
+              $(element).removeClass("task_selected")
       
       @el.find(".addinputs").toggle()
       @el.find(".addtoggle").click (event) ->
