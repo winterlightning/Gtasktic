@@ -15,7 +15,7 @@
 	<!-- Loading external libraries -->
 	<script type="text/javascript" src="lib/jquery.ui.1.8.10.min.js"></script>
 	<script type="text/javascript" src="lib/jquery.async.js"></script>
-	<script type="text/javascript" src="lib/jquery.mapkey.js"></script>
+	<script type="text/javascript" src="lib/shortcuts.js"></script>
 	<script type="text/javascript" src="lib/encoder.js"></script>
 
 	<script src="lib/dateformat.js" type="text/javascript" charset="utf-8"></script>
@@ -544,9 +544,9 @@
 		
 	</style>
 
-  	<!-- <script>
+  	<script>
         Titanium.include("gtask.py");
-	</script> -->
+	</script>
 
 	<script>
 		function Sync () {
@@ -683,7 +683,7 @@
 			setting_url = keys[0].url;
 		}
 		else {
-			//setting_url = create_link();
+			setting_url = create_link();
 			Key.create({ url: setting_url });
 		};
 		
@@ -757,9 +757,9 @@
 			
 			//Keystrokes
 			updateItems();
-			$.mapKey("down", nextItem, {direction: "down"});
-      		$.mapKey("up", prevItem, {direction: "up"});
-      		$.mapKey("enter", open_for_edit, {direction: "down"});
+      		shortcut.add('up', prevItem);
+      		shortcut.add('down', nextItem);
+      		shortcut.add('enter', open_for_edit);
 		});
 		
 		function rendering_cal() {
