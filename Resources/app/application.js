@@ -58,10 +58,10 @@
         if (this.el.hasClass("task_selected")) {
           this.el.removeClass("task_selected");
         }
-        if (window.last_opened !== null) {
-          window.last_opened.close();
+        if (window.last_opened !== "") {
+          window.taskdict[window.last_opened].close();
         }
-        window.last_opened = this;
+        window.last_opened = this.item.id;
         this.wrapper.addClass("editing");
         return this.input.focus();
       },
@@ -74,12 +74,16 @@
         if (this.wrapper.hasClass("editing")) {
           return;
         }
-        if (window.last_opened !== null) {
-          window.last_opened.close();
+        if (window.last_opened !== "") {
+          window.taskdict[window.last_opened].close();
         }
-        window.last_opened = null;
+        window.last_opened = "";
         $(".task_selected").removeClass("task_selected");
-        window.cur = this.el.index();
+        $("li").each(function(idx, value) {
+          if (value === this.el) {
+            return window.cur = idx;
+          }
+        });
         return this.el.addClass("task_selected");
       },
       close: function() {
@@ -93,8 +97,12 @@
           note: this.textarea.val()
         });
         this.el.addClass("task_selected");
-        window.cur = this.el.index();
-        window.last_opened = null;
+        $("li").each(function(idx, value) {
+          if (value === this.el) {
+            return window.cur = idx;
+          }
+        });
+        window.last_opened = "";
         return false;
       },
       remove: function() {

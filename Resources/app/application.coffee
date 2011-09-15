@@ -50,9 +50,9 @@ jQuery ($) ->
       if @el.hasClass "task_selected"
         @el.removeClass "task_selected"
       
-      if window.last_opened isnt null
-        window.last_opened.close()
-      window.last_opened = this
+      if window.last_opened isnt ""
+        window.taskdict[window.last_opened].close()
+      window.last_opened = @item.id
       
       @wrapper.addClass "editing"
       @input.focus()
@@ -64,13 +64,16 @@ jQuery ($) ->
      if @wrapper.hasClass "editing"
         return
      
-     if window.last_opened isnt null
-        window.last_opened.close()
-     window.last_opened = null
+     if window.last_opened isnt ""
+        window.taskdict[window.last_opened].close()
+     window.last_opened = ""
      
      $(".task_selected").removeClass("task_selected")
      
-     window.cur = @el.index()
+     #complicated way to assign index
+     $("li").each (idx, value ) ->
+        if value is @el  
+          window.cur = idx
      @el.addClass "task_selected"
 
     close: ->
@@ -85,8 +88,11 @@ jQuery ($) ->
       
       #$(".task_selected").removeClass("task_selected")
       @el.addClass("task_selected")
-      window.cur = @el.index()
-      window.last_opened = null
+      $("li").each (idx, value ) ->
+        if value is @el  
+          window.cur = idx
+      
+      window.last_opened = ""
       
       false
     
