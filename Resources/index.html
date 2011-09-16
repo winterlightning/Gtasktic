@@ -693,7 +693,7 @@
 		
 		//Keystroke up and down shit
 	    function nextItem(){
-	      if ($('[role="dialog"]').length == 0 && $('textarea:focus').length == 0 && $('input:focus').length == 0) {		
+	      if ($('textarea:focus').length == 0 && $('input:focus').length == 0) {		
 		      if(cur < ($("li").length-1)){
 		        window.cur++;
 		      }else{
@@ -705,7 +705,7 @@
 	    }
 	    
 	    function prevItem(){
-	      if ($('[role="dialog"]').length == 0 && $('textarea:focus').length == 0 && $('input:focus').length == 0) {		
+	      if ($('textarea:focus').length == 0 && $('input:focus').length == 0) {		
 		      if(cur > 0){
 		        window.cur--;
 		      }else{
@@ -722,7 +722,7 @@
 	    }
 		
 		function open_for_edit() {
-			if ($('[role="dialog"]').length == 0 && $('textarea:focus').length == 0 && $('input:focus').length == 0) {	
+			if ($('textarea:focus').length == 0 && $('input:focus').length == 0) {	
 				current = Task.find($('.task_selected').data("id"));
 				task_controller = window.taskdict[$('.task_selected').data("id")];
 				task_controller.edit();

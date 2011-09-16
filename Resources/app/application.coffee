@@ -71,9 +71,11 @@ jQuery ($) ->
      $(".task_selected").removeClass("task_selected")
      
      #complicated way to assign index
-     $("li").each (idx, value ) ->
-        if value is @el  
-          window.cur = idx
+     element = @el
+     $("li").each (idx, value ) -> 
+        if $(value).data("id") is $( element ).data("id")
+          window.cur = idx 
+
      @el.addClass "task_selected"
 
     close: ->
@@ -88,12 +90,14 @@ jQuery ($) ->
       
       #$(".task_selected").removeClass("task_selected")
       @el.addClass("task_selected")
-      $("li").each (idx, value ) ->
-        if value is @el  
+      
+      #complicated way to assign index
+      element = @el
+      $("li").each (idx, value ) -> 
+        if $(value).data("id") is $( element ).data("id")
           window.cur = idx
       
       window.last_opened = ""
-      
       false
     
     remove: ->
@@ -228,11 +232,6 @@ jQuery ($) ->
           current = Task.find($(this).data("id"))
           current.order = $(this).index()
           current.save()
-      
-      #@el.find(".roundedlist").multisortable 
-      #  selectedClass: 'task_selected'
-      #  click: (event, elem) ->
-      #    return true
       
       @el.find(".addinputs").toggle()
       @el.find(".addtoggle").click (event) ->

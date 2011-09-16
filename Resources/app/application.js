@@ -71,6 +71,7 @@
         }
       },
       toggle_select: function() {
+        var element;
         if (this.wrapper.hasClass("editing")) {
           return;
         }
@@ -79,15 +80,16 @@
         }
         window.last_opened = "";
         $(".task_selected").removeClass("task_selected");
+        element = this.el;
         $("li").each(function(idx, value) {
-          if (value === this.el) {
+          if ($(value).data("id") === $(element).data("id")) {
             return window.cur = idx;
           }
         });
         return this.el.addClass("task_selected");
       },
       close: function() {
-        var input_value;
+        var element, input_value;
         input_value = this.input.val().replace("'", "''");
         this.wrapper.removeClass("editing");
         this.item.updateAttributes({
@@ -97,8 +99,9 @@
           note: this.textarea.val()
         });
         this.el.addClass("task_selected");
+        element = this.el;
         $("li").each(function(idx, value) {
-          if (value === this.el) {
+          if ($(value).data("id") === $(element).data("id")) {
             return window.cur = idx;
           }
         });
