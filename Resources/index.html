@@ -730,6 +730,19 @@
 			return true;
 		}
 		
+		function delete_task() {
+			var r;
+	        r = confirm("Are you sure you want to delete this task?");
+			
+			if ($('textarea:focus').length == 0 && $('input:focus').length == 0) {	
+				if (r) {
+					current = Task.find($('.task_selected').data("id"));
+					task_controller = window.taskdict[$('.task_selected').data("id")];
+					task_controller.destroy();
+				};
+			}; 
+		}
+		
 		//Initial page setup
 		$(function() {
 			$("#newtaskdate").datepicker({
@@ -769,6 +782,7 @@
       		shortcut.add('up', prevItem);
       		shortcut.add('down', nextItem);
       		shortcut.add('enter', open_for_edit, {'disable_in_input':'true'});
+      		shortcut.add('backspace', delete_task, {'disable_in_input':'true'});
 		});
 		
 		function rendering_cal() {
