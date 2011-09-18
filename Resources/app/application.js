@@ -263,9 +263,11 @@
               var current;
               current = Task.find($(this).data("id"));
               current.order = $(this).index();
+              current.listid = ($(this).parent().parent())[0].id;
               return current.save();
             });
-          }
+          },
+          connectWith: ".connectedsortable"
         });
         this.el.find(".addinputs").toggle();
         this.el.find(".addtoggle").click(function(event) {

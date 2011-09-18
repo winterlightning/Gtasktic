@@ -226,12 +226,13 @@ jQuery ($) ->
       d.data "id", @item.id
     
     attach: ->
-      
       @el.find(".roundedlist").sortable update: (event, ui) ->
         $(".roundedlist li").each (index) ->
           current = Task.find($(this).data("id"))
           current.order = $(this).index()
+          current.listid = ($(this).parent().parent())[0].id
           current.save()
+      connectWith: ".connectedsortable"
       
       @el.find(".addinputs").toggle()
       @el.find(".addtoggle").click (event) ->
