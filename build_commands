@@ -1,2 +1,10 @@
 normal build:
 /Library/Application\ Support/Titanium/sdk/osx/1.2.0.RC3/tibuild.py -d . -t bundle -j -p PACKAGE -r Gtasktic/
+
+Build for store:
+
+1. Build package
+
+2. Sign package
+
+3. productbuild package

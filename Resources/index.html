@@ -22,7 +22,7 @@
 	<script src="lib/jquery.notify.min.js" type="text/javascript" charset="utf-8"></script>
 	
 	<script src="app/spine.js" type="text/javascript" charset="utf-8"></script>
-	<script src="app/spine.model.local.js" type="text/javascript" charset="utf-8"></script>
+	<script src="app/spine.model.sqlite.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/task.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/application.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" src="app/hotkeys.js" charset="utf-8"></script>
@@ -705,6 +705,7 @@
 			Key.create({ url: setting_url });
 		};
 		
+		//For notification
 		function create( template, vars, opts ){
 			return $container.notify("create", template, vars, opts);
 		};
@@ -748,7 +749,8 @@
       		shortcut.add('up', prevItem);
       		shortcut.add('down', nextItem);
       		shortcut.add('enter', open_for_edit, {'disable_in_input':'true'});
-      		shortcut.add('backspace', delete_task, {'disable_in_input':'true'});
+      		shortcut.add('backspace', pressed_delete, {'disable_in_input':'true'});
+      		shortcut.add('delete', pressed_delete, {'disable_in_input':'true'});
       		//shortcut.add('tab', make_child, {'disable_in_input':'true'});
 		});
 		

@@ -27,7 +27,7 @@ open_for_edit = ->
     task_controller.edit()
   true
 
-delete_task = ->
+pressed_delete = ->
   r = confirm("Are you sure you want to delete this task?")
   if $("textarea:focus").length == 0 and $("input:focus").length == 0
     if r
@@ -59,5 +59,5 @@ this.nextItem = nextItem
 this.prevItem = prevItem
 this.updateItems = updateItems
 this.open_for_edit = open_for_edit
-this.delete_task = delete_task
+this.pressed_delete = pressed_delete
 this.make_child = make_child
