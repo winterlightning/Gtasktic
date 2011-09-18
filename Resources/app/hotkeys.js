@@ -51,6 +51,10 @@
     alert("make child");
     current = Task.find($(".task_selected").data("id"));
     task_controller = window.taskdict[$(".task_selected").data("id")];
+    if (task_controller.el.index() === 0) {
+      alert("The first task cannot be made into a child");
+      return;
+    }
     return task_controller.el.addClass("child_1");
   };
   exports = this;

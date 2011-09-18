@@ -1,4 +1,4 @@
-Task = Spine.Model.setup("Task", [ "name", "done", "time", "duedate", "note", "order", "synced", "listid" ])
+Task = Spine.Model.setup("Task", [ "name", "done", "time", "duedate", "note", "order", "synced", "listid" ]) #nestlevel from 0 to whatever
 Task.extend Spine.Model.Local
 Task.extend 
   active: (id) ->
