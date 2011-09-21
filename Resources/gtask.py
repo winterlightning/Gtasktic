@@ -18,6 +18,7 @@ import getpass
 service = None
 task_dict= {}
 list_old_dict= {} #when a old list gets overwritten by a google id, this one has to be used with the creation
+fileloc = "/"
 
 # Set up a Flow object to be used if we need to authenticate. This
 # sample uses OAuth 2.0, and we set up the OAuth2WebServerFlow with
@@ -313,7 +314,9 @@ def initial_login( current_tasks, deletions, list, deletedlist, fileloc):
     print current_tasks
     print deletions
 
-    #store_input( [current_tasks, deletions, list, deletedlist] ) # this is for debugging, you can pickle the inputs and put them out again
+    #store_input( [current_tasks, deletions, list, deletedlist, fileloc] ) # this is for debugging, you can pickle the inputs and put them out again, not working
+
+    print [current_tasks, deletions, list, deletedlist, str(fileloc)]
     
     current_tasks = json.loads(current_tasks)
     deletions = json.loads( deletions )
@@ -379,9 +382,11 @@ def initial_login( current_tasks, deletions, list, deletedlist, fileloc):
 
 #login with the latest stored data
 def test_login():
-    a = open_storage()
+    a = ['[{"name":"one","done":false,"time":"1316580204568","order":1,"synced":false,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"C9C99B99-D0FE-449C-8DED-73AF011CCC3B"}]', '[]', '[{"name":"Ray\'s list","synced":true,"time":"1315357556649","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow"},{"name":"Gtasktic","synced":true,"time":"1315357556722","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MA"},{"name":"Urgent Shit I have to do again","synced":true,"time":"1315357556759","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjY6MA"}]', '[]', '/Users/raywang/Library/Gtasktic']
     print a[0]
     print a[1]
+    
+    print a[4]
 
-    a = initial_login(a[0], a[1], a[2], a[3])
+    a = initial_login(a[0], a[1], a[2], a[3], a[4])
     print a

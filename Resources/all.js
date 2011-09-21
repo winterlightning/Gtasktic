@@ -1,5 +1,5 @@
 (function() {
-  var DeletedList, Deletion, Initialized, Key, List, Task, Version, delete_task, exports, make_child, nextItem, open_for_edit, prevItem, updateItems;
+  var DeletedList, Deletion, Initialized, Key, List, Task, Version, exports, make_child, nextItem, open_for_edit, pressed_delete, prevItem, updateItems;
   Task.ordersort = function(a, b) {
     if (a.order < b.order) {
       return -1;
@@ -352,7 +352,7 @@
     }
     return true;
   };
-  delete_task = function() {
+  pressed_delete = function() {
     var current, r, task_controller;
     r = confirm("Are you sure you want to delete this task?");
     if ($("textarea:focus").length === 0 && $("input:focus").length === 0) {
@@ -379,7 +379,7 @@
   this.prevItem = prevItem;
   this.updateItems = updateItems;
   this.open_for_edit = open_for_edit;
-  this.delete_task = delete_task;
+  this.pressed_delete = pressed_delete;
   this.make_child = make_child;
   (function() {
     var $, Class, Controller, Events, Log, Model, Spine, eventSplitter, isArray, makeArray, moduleKeywords;
@@ -1022,6 +1022,53 @@
       }
     });
   })(jQuery);
+  Task = Spine.Model.setup("Task", ["name", "done", "time", "duedate", "note", "order", "synced", "listid"]);
+  Task.extend(Spine.Model.Local);
+  Task.extend({
+    active: function(id) {
+      return this.select(function(item) {
+        return !item.done && (item.listid === id);
+      });
+    },
+    done: function(id) {
+      return this.select(function(item) {
+        return !!item.done && (item.listid === id);
+      });
+    },
+    list: function(id) {
+      return this.select(function(item) {
+        return item.listid === id;
+      });
+    },
+    destroyDone: function(id) {
+      return this.done(id).forEach(function(rec) {
+        Deletion.create({
+          deletion_id: rec.synced === true ? rec.id : void 0
+        });
+        return rec.destroy();
+      });
+    }
+  });
+  Deletion = Spine.Model.setup("Deletion", ["deletion_id"]);
+  Deletion.extend(Spine.Model.Local);
+  DeletedList = Spine.Model.setup("DeletedList", ["deletion_id"]);
+  DeletedList.extend(Spine.Model.Local);
+  Key = Spine.Model.setup("Key", ["url", "validated"]);
+  Key.extend(Spine.Model.Local);
+  List = Spine.Model.setup("List", ["name", "description", "synced", "time"]);
+  List.extend(Spine.Model.Local);
+  Version = Spine.Model.setup("Version", ["number"]);
+  Version.extend(Spine.Model.Local);
+  Initialized = Spine.Model.setup("Initialized", ["flag"]);
+  Initialized.extend(Spine.Model.Local);
+  exports = this;
+  exports.Deletion = Deletion;
+  exports.Task = Task;
+  exports.DeletedList = DeletedList;
+  exports.Key = Key;
+  exports.List = List;
+  exports.Version = Version;
+  exports.Initialized = Initialized;
   Spine.Model.Local = {
     extended: function() {
       this.sync(this.proxy(this.saveLocal));
@@ -1072,51 +1119,4 @@
       }
     };
   })(jQuery);
-  Task = Spine.Model.setup("Task", ["name", "done", "time", "duedate", "note", "order", "synced", "listid"]);
-  Task.extend(Spine.Model.Local);
-  Task.extend({
-    active: function(id) {
-      return this.select(function(item) {
-        return !item.done && (item.listid === id);
-      });
-    },
-    done: function(id) {
-      return this.select(function(item) {
-        return !!item.done && (item.listid === id);
-      });
-    },
-    list: function(id) {
-      return this.select(function(item) {
-        return item.listid === id;
-      });
-    },
-    destroyDone: function(id) {
-      return this.done(id).forEach(function(rec) {
-        Deletion.create({
-          deletion_id: rec.synced === true ? rec.id : void 0
-        });
-        return rec.destroy();
-      });
-    }
-  });
-  Deletion = Spine.Model.setup("Deletion", ["deletion_id"]);
-  Deletion.extend(Spine.Model.Local);
-  DeletedList = Spine.Model.setup("DeletedList", ["deletion_id"]);
-  DeletedList.extend(Spine.Model.Local);
-  Key = Spine.Model.setup("Key", ["url", "validated"]);
-  Key.extend(Spine.Model.Local);
-  List = Spine.Model.setup("List", ["name", "description", "synced", "time"]);
-  List.extend(Spine.Model.Local);
-  Version = Spine.Model.setup("Version", ["number"]);
-  Version.extend(Spine.Model.Local);
-  Initialized = Spine.Model.setup("Initialized", ["flag"]);
-  Initialized.extend(Spine.Model.Local);
-  exports = this;
-  exports.Deletion = Deletion;
-  exports.Task = Task;
-  exports.DeletedList = DeletedList;
-  exports.Key = Key;
-  exports.List = List;
-  exports.Version = Version;
-  exports.Initialized = Initialized;
 }).call(this);
