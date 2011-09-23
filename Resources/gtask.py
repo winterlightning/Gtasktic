@@ -66,6 +66,8 @@ def update_task ( task, updating, tasklist='@default' ):
     global service
     global task_dict
     
+    print "=========== updating task ==============" + " " +task
+    
     tasklist = task_dict[task]
     
     # First retrieve the task to update.
@@ -76,13 +78,23 @@ def update_task ( task, updating, tasklist='@default' ):
         del task['completed']
     
     for k, v in updating.iteritems():
+        print "updating", k, v, "\n"
         task[k] = v
     
-    print task
+    #If the tasklist is the same tasklist it's ok, else you need to delete it from one and move to the other
+    if tasklist == task['listid']:
+        result = service.tasks().update(tasklist=tasklist, task=task['id'], body=task).execute()
+        
+        # Print the completed date.
+        print result
+    else:
+        #delete it from original list
+        result1 = delete_task ( task['id'], tasklist=tasklist )
+        
+        #add it to the second list
+        result2 = create_task ( updating )
     
-    result = service.tasks().update(tasklist=tasklist, task=task['id'], body=task).execute()
-    # Print the completed date.
-    print result
+        print result1, result2
 
 def create_tasklist(list):
     global service
@@ -271,6 +283,8 @@ def sync_model(local, cloud, deleted, create_function, update_function, local_to
                         parsed = cloud_unit['updated'][0:cloud_unit['updated'].find(".")]
                         cloud_time = datetime.datetime.strptime(parsed, '%Y-%m-%dT%H:%M:%S') - datetime.timedelta(hours=4)
                         
+                        print "time comparison = local: ", local_time, " cloud: ", cloud_time
+                        print "time comparison ", (local_time - cloud_time)
                         print "time comparison ", (local_time > cloud_time)
                         
                         #if the local update stamp 
@@ -382,10 +396,9 @@ def initial_login( current_tasks, deletions, list, deletedlist, fileloc):
 
 #login with the latest stored data
 def test_login():
-    a = ['[{"name":"one","done":false,"time":"1316580204568","order":1,"synced":false,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"C9C99B99-D0FE-449C-8DED-73AF011CCC3B"}]', '[]', '[{"name":"Ray\'s list","synced":true,"time":"1315357556649","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow"},{"name":"Gtasktic","synced":true,"time":"1315357556722","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MA"},{"name":"Urgent Shit I have to do again","synced":true,"time":"1315357556759","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjY6MA"}]', '[]', '/Users/raywang/Library/Gtasktic']
+    a = ['[{"name":"Poker game with cards","done":false,"time":"1316608830193","duedate":null,"order":22,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MjA0NDUyMzQxMQ"},{"name":"Educational programming app","done":false,"time":"1316608830202","duedate":null,"note":"You have a robot which outputs whatever you print in a bubble form. And a monster telling what it does in for input\\n","order":23,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MjEyODEwNTI4MA"}]', '[]', '[{"name":"Ray\'s list","synced":true,"time":"1315357556649","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow"},{"name":"Gtasktic","synced":true,"time":"1315357556722","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MA"},{"name":"Urgent Shit I have to do again","synced":true,"time":"1315357556759","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjY6MA"}]', '[]', '/Users/raywang/Library/Gtasktic']
     print a[0]
     print a[1]
-    
     print a[4]
 
     a = initial_login(a[0], a[1], a[2], a[3], a[4])

@@ -231,6 +231,7 @@ jQuery ($) ->
           current = Task.find($(this).data("id"))
           current.order = $(this).index()
           current.listid = ($(this).parent().parent())[0].id
+          current.time = (new Date().getTime()).toString()
           current.save()
       connectWith: ".connectedsortable"
       
