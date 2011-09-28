@@ -14,6 +14,7 @@ import gapi.simplejson as json
 
 import os
 import getpass
+import pytz
 
 service = None
 task_dict= {}
@@ -32,6 +33,14 @@ FLOW = OAuth2WebServerFlow(
     client_secret='u4K1AZXSj8P9hIlEddLsMi6d',
     scope='https://www.googleapis.com/auth/tasks',
     user_agent='YOUR_APPLICATION_NAME/YOUR_APPLICATION_VERSION')
+
+#method for 
+PCF = pytz.timezone('US/Pacific-New')
+
+def convert2Pacific(dt, tzone):
+    tz = pytz.timezone(tzone)
+    dt = tz.localize(dt)
+    return dt.astimezone(PCF)
 
 #create a task
 def create_task ( task ):
@@ -280,15 +289,19 @@ def sync_model(local, cloud, deleted, create_function, update_function, local_to
                     
                         #parsing the time out for comparison
                         local_time = datetime.datetime.fromtimestamp( int( local_unit["time"] )/1000 )
+                        
+                        #convert localtime to calitime
+                        #tz = pytz.timezone('US/Pacific-New')
+                        #local_time = tz.normalize(tz.localize(local_time)).astimezone(tz)
+                        
                         parsed = cloud_unit['updated'][0:cloud_unit['updated'].find(".")]
                         cloud_time = datetime.datetime.strptime(parsed, '%Y-%m-%dT%H:%M:%S') - datetime.timedelta(hours=4)
                         
-                        print "time comparison = local: ", local_time, " cloud: ", cloud_time
-                        print "time comparison ", (local_time - cloud_time)
-                        print "time comparison ", (local_time > cloud_time)
+                        print "time comparison = local: ", local_time.utcnow(), " cloud: ", cloud_time.utcnow()
+                        print "time comparison ", (local_time.utcnow() > cloud_time.utcnow())
                         
                         #if the local update stamp 
-                        if (local_time > cloud_time):
+                        if (local_time.utcnow() > cloud_time.utcnow()):
                             
                             print local_time, " local and cloud ", cloud_time, " ", local_unit["name"]
                         
