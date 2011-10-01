@@ -15,6 +15,9 @@ import gapi.simplejson as json
 import os
 import getpass
 import pytz
+from pytz import reference
+import dateutil
+from dateutil.tz import *
 
 service = None
 task_dict= {}
@@ -33,14 +36,6 @@ FLOW = OAuth2WebServerFlow(
     client_secret='u4K1AZXSj8P9hIlEddLsMi6d',
     scope='https://www.googleapis.com/auth/tasks',
     user_agent='YOUR_APPLICATION_NAME/YOUR_APPLICATION_VERSION')
-
-#method for 
-PCF = pytz.timezone('US/Pacific-New')
-
-def convert2Pacific(dt, tzone):
-    tz = pytz.timezone(tzone)
-    dt = tz.localize(dt)
-    return dt.astimezone(PCF)
 
 #create a task
 def create_task ( task ):
@@ -71,7 +66,7 @@ def delete_task ( task, tasklist='@default' ):
         print "task ", task, " does not exist"
     
 #update a task
-def update_task ( task, updating, tasklist='@default' ):
+def update_task ( task, updating, deleted, tasklist='@default'  ):
     global service
     global task_dict
     
@@ -102,6 +97,8 @@ def update_task ( task, updating, tasklist='@default' ):
         
         #add it to the second list
         result2 = create_task ( updating )
+        
+        #deleted.append(task['id'])
     
         print result1, result2
 
@@ -123,7 +120,7 @@ def create_tasklist(list):
     #update the lookup dictionary with the correct entries
     list_old_dict[old_list_id] = result['id']
 
-def update_tasklist( listid, updating ):
+def update_tasklist( listid, updating, deleted ):
     global service
     
     del updating["id"]
@@ -287,31 +284,43 @@ def sync_model(local, cloud, deleted, create_function, update_function, local_to
                 
                     if cloud_unit.has_key('updated'):
                     
+                        #create the western timezone
+                        western = pytz.timezone('US/Pacific')
+                    
                         #parsing the time out for comparison
                         local_time = datetime.datetime.fromtimestamp( int( local_unit["time"] )/1000 )
+                        #local_time = local_time.replace(tzinfo=tzlocal())
                         
                         #convert localtime to calitime
                         #tz = pytz.timezone('US/Pacific-New')
                         #local_time = tz.normalize(tz.localize(local_time)).astimezone(tz)
                         
                         parsed = cloud_unit['updated'][0:cloud_unit['updated'].find(".")]
-                        cloud_time = datetime.datetime.strptime(parsed, '%Y-%m-%dT%H:%M:%S') - datetime.timedelta(hours=4)
+                        cloud_time = datetime.datetime.strptime(parsed, '%Y-%m-%dT%H:%M:%S')
+                        #cloud_time = western.localize(cloud_time)
                         
-                        print "time comparison = local: ", local_time.utcnow(), " cloud: ", cloud_time.utcnow()
-                        print "time comparison ", (local_time.utcnow() > cloud_time.utcnow())
+                        #print "cloud unit", cloud_unit
+                        #print "parsed: ", parsed, cloud_unit['updated']
+                        #print "time comparison = local: ", local_time, " cloud: ", cloud_time
+                        #print "time comparison utc = local: ", local_time.utcoffset(), " cloud: ", cloud_time.utcoffset()
+                        #print "time comparison utc = local: ", ( local_time.replace(tzinfo=None) - local_time.utcoffset() ), " cloud: ", ( cloud_time.replace(tzinfo=None) - cloud_time.utcoffset() )
+                        #print "time comparison utc adjusted: ", (( local_time.replace(tzinfo=None) - local_time.utcoffset() ) > ( cloud_time.replace(tzinfo=None) - cloud_time.utcoffset() ))
+                        #print "time comparison = local: ", local_time.tzinfo, " cloud: ", cloud_time.tzinfo
+                        #print "time comparison ", (local_time > cloud_time)
+                        #print "time comparison ", (local_time - cloud_time)
                         
                         #if the local update stamp 
-                        if (local_time.utcnow() > cloud_time.utcnow()):
+                        if (local_time > cloud_time):
                             
                             print local_time, " local and cloud ", cloud_time, " ", local_unit["name"]
                         
                             entry = local_to_cloud_trans(local_unit, {})
-                            update_function ( local_unit['id'], entry )
+                            update_function ( local_unit['id'], entry, deleted )
                     
                     else: # no updated field in the cloud
                         #assume that you can overwrite cloud with local
                         entry = local_to_cloud_trans(local_unit, {})
-                        update_function ( local_unit['id'], entry )
+                        update_function ( local_unit['id'], entry, deleted )
     
         if not found or updated:
             
@@ -409,7 +418,7 @@ def initial_login( current_tasks, deletions, list, deletedlist, fileloc):
 
 #login with the latest stored data
 def test_login():
-    a = ['[{"name":"Poker game with cards","done":false,"time":"1316608830193","duedate":null,"order":22,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MjA0NDUyMzQxMQ"},{"name":"Educational programming app","done":false,"time":"1316608830202","duedate":null,"note":"You have a robot which outputs whatever you print in a bubble form. And a monster telling what it does in for input\\n","order":23,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MjEyODEwNTI4MA"}]', '[]', '[{"name":"Ray\'s list","synced":true,"time":"1315357556649","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow"},{"name":"Gtasktic","synced":true,"time":"1315357556722","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MA"},{"name":"Urgent Shit I have to do again","synced":true,"time":"1315357556759","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjY6MA"}]', '[]', '/Users/raywang/Library/Gtasktic']
+    a = ['[{"name":"a-hole","done":false,"time":"1317304795702","duedate":"","note":"","order":0,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDo3ODAwNzYxMDQ"},{"name":"Poker game with cards","done":false,"time":"1317298926292","duedate":null,"order":1,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDo4Mzg5ODc2NjM"},{"name":"Educational programming app","done":false,"time":"1317298926299","duedate":null,"note":"You have a robot which outputs whatever you print in a bubble form. And a monster telling what it does in for input\\n","order":2,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDoxNjQzODQ1ODg5"},{"name":"aesop fables","done":false,"time":"1317298926306","duedate":null,"note":"http://www.gutenberg.org/files/19994/19994-h/19994-h.htm#Page_11","order":3,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDo1OTY0MDMyMjQ"},{"name":"Cliff notes with annotation refering back to the original","done":false,"time":"1317298926314","duedate":null,"order":4,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDozNzEwODUwMg"},{"name":"Chess opening app","done":false,"time":"1317298926322","duedate":null,"order":5,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDoxODQ1NTcwMzUx"},{"name":"Tarot app","done":false,"time":"1317298926337","duedate":null,"order":6,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDoxNzUzNDI2ODYw"},{"name":"start on five tibetan app","done":false,"time":"1317298926350","duedate":null,"note":"should do it on appcelerator","order":7,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDo3"},{"name":"choose your own adventure app","done":false,"time":"1317298926356","duedate":null,"order":8,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDo5"},{"name":"techramen testing six","done":false,"time":"1317298926363","duedate":"06/17/2011","order":9,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDoxMA"},{"name":"webflyerz","done":false,"time":"1317298926370","duedate":null,"order":10,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDoxMQ"},{"name":"destjil algorithm and printing. Art as a formula","done":false,"time":"1317298926400","duedate":null,"order":11,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDoxMw"},{"name":"unopager","done":false,"time":"1317298926408","duedate":"06/17/2011","order":12,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDoxNQ"},{"name":"staticlightning, a static node.js server","done":false,"time":"1317298926414","duedate":"06/17/2011","order":13,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDoxNg"},{"name":"facebook recruiting","done":false,"time":"1317298926421","duedate":null,"order":14,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDoxNw"},{"name":"todo list + sqlite + dropbox for teamwork stuff","done":false,"time":"1317298926427","duedate":null,"order":15,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDoxOA"},{"name":"today I learned website with coding knowledge gems","done":false,"time":"1317298926434","duedate":null,"order":16,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDoyMQ"},{"name":"hivemind, a group coding thing with search, git, and key store data access","done":false,"time":"1317298926457","duedate":null,"order":17,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDoyMw"},{"name":"Storywall: wood grain background","done":false,"time":"1317298926464","duedate":"06/17/2011","order":18,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDoyMg"},{"name":"Storysquare.com","done":false,"time":"1317298926471","duedate":null,"order":19,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDoyNQ"},{"name":"bottle groupon site","done":false,"time":"1317298926478","duedate":null,"order":20,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDoyNg"},{"name":"game playing with google backend","done":false,"time":"1317298926484","duedate":null,"order":21,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDoyOA"},{"name":"hobo board, nude girl with messages with twitter messaging","done":false,"time":"1317298926490","duedate":"06/15/2011","order":22,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDoyNw"},{"name":"Reddit for woman\'s clothing","done":false,"time":"1317298926513","duedate":null,"order":23,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDo4MQ"},{"name":"Create a yearbook from facebook test","done":false,"time":"1317298926520","duedate":null,"order":24,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDo4Mg"},{"name":"Fix sync algorithm where switching list doesn\'t work","done":false,"time":"1317298926527","duedate":null,"order":0,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MA","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6Mjc3NzIzNjQ5"},{"name":"Subtasks","done":false,"time":"1317298926540","duedate":"09/18/2011","note":"Tabled for now\\n","order":2,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MA","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6NDc1MDQzNDA4"},{"name":"Change sync algorithm to be better","done":false,"time":"1317298926564","duedate":null,"order":3,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MA","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MTk3Mzg2NzA3Mw"},{"name":"Window version","done":false,"time":"1317298926573","duedate":null,"order":4,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MA","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MjExOTc5NjE1OQ"},{"name":"Reorder lists","done":false,"time":"1317298926579","duedate":null,"order":5,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MA","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6NDE0MjMwOTQw"},{"name":"Video showing this shit","done":false,"time":"1317298926586","duedate":null,"note":"","order":6,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MA","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MTc3NTcxMjYxMA"},{"name":"help that is a additional layer with arrows","done":false,"time":"1317298926593","duedate":null,"note":"","order":7,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MA","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MTE5ODA0NjM4Mw"},{"name":"fade in new tasks","done":false,"time":"1317298926599","duedate":"08/19/2011","note":"","order":8,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MA","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MTU"},{"name":"Added new list needs to dissapear if not selected after adding a new list in a single view mode","done":false,"time":"1317298926622","duedate":null,"order":9,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MA","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MTA"},{"name":"Parent and child","done":false,"time":"1317298926629","duedate":null,"note":"","order":10,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MA","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6OQ"},{"name":"Multiple columns","done":false,"time":"1317298926534","duedate":null,"order":1,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MA","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6NQ"},{"name":"video or link back to site","done":false,"time":"1317298926636","duedate":null,"order":0,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjY6MA","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjY6MTQ4OTI0OTkzMA"},{"name":"Change the screenshots on my mac app page to actually reflect the product more","done":false,"time":"1317298926649","duedate":null,"note":"","order":2,"synced":true,"listid":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjY6MA","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjY6NzY4Mjk0Mg"}]', '[]', '[{"name":"Ray\'s list","synced":true,"time":"1315357556649","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDow"},{"name":"Gtasktic","synced":true,"time":"1315357556722","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjQ6MA"},{"name":"Urgent Shit I have to do again","synced":true,"time":"1315357556759","id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6NjY6MA"}]', '[]', '/Users/raywang/Library/Gtasktic']    
     print a[0]
     print a[1]
     print a[4]
