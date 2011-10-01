@@ -98,7 +98,7 @@ def update_task ( task, updating, deleted, tasklist='@default'  ):
         #add it to the second list
         result2 = create_task ( updating )
         
-        #deleted.append(task['id'])
+        deleted.append(task['id'])
     
         print result1, result2
 
