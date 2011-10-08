@@ -9,6 +9,7 @@ from gapi.oauth2client.client import OAuth2WebServerFlow
 from gapi.oauth2client.tools import run, create_url
 
 import datetime
+import time
 import pickle
 import gapi.simplejson as json
 
@@ -296,7 +297,12 @@ def sync_model(local, cloud, deleted, create_function, update_function, local_to
                         #local_time = tz.normalize(tz.localize(local_time)).astimezone(tz)
                         
                         parsed = cloud_unit['updated'][0:cloud_unit['updated'].find(".")]
-                        cloud_time = datetime.datetime.strptime(parsed, '%Y-%m-%dT%H:%M:%S')
+                        
+                        #create a datetime offset of 4 hours for EST and pacific difference
+                        if (time.tzname[0] == 'EST'):
+                            cloud_time = western.localize(cloud_time)
+                        else:
+                            cloud_time = datetime.datetime.strptime(parsed, '%Y-%m-%dT%H:%M:%S')
                         #cloud_time = western.localize(cloud_time)
                         
                         #print "cloud unit", cloud_unit
