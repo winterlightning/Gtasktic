@@ -300,7 +300,7 @@ def sync_model(local, cloud, deleted, create_function, update_function, local_to
                         
                         #create a datetime offset of 4 hours for EST and pacific difference
                         if (time.tzname[0] == 'EST'):
-                            cloud_time = western.localize(cloud_time)
+                            cloud_time = datetime.datetime.strptime(parsed, '%Y-%m-%dT%H:%M:%S') - datetime.timedelta(hours=4)
                         else:
                             cloud_time = datetime.datetime.strptime(parsed, '%Y-%m-%dT%H:%M:%S')
                         #cloud_time = western.localize(cloud_time)
