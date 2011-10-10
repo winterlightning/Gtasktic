@@ -1,11 +1,3 @@
-/*
- * jQuery Asynchronous Plugin 1.0 RC1
- *
- * Copyright (c) 2008 Vincent Robert (genezys.net)
- * Dual licensed under the MIT (MIT-LICENSE.txt)
- * and GPL (GPL-LICENSE.txt) licenses.
- *
- */
 (function($){
 
 // opts.delay : (default 10) delay between async call in ms
