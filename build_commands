@@ -5,18 +5,17 @@ Build for store:
 
 1. Build package
 
-sudo /Library/Application\ Support/Titanium/sdk/osx/1.2.0.RC3/tibuild.py -d . -t bundl
-e -j -p PACKAGE -n --appstore Gtasktic/
+sudo /Library/Application\ Support/Titanium/sdk/osx/1.2.0.RC3/tibuild.py -d . -t bundle -j -p PACKAGE -n --appstore Gtasktic/
 
-2. sudo chmod -R 777 Gtasktic.app
+2. chmod the permissions
+sudo chmod -R 777 Gtasktic.app
 
 2. Sign package
- codesign -f -v -s "3rd Party Mac Developer Application: Ray Wang" Gtasktic.app
+codesign -f -v -s "3rd Party Mac Developer Application: Ray Wang" Gtasktic.app
 
 3. productbuild package
 
-productbuild     --component Gtasktic.app /Applications     --sign "3rd Party Mac Deve
-loper Installer: Ray Wang"     --product Gtasktic.app/Contents/Info.plist Gtasktic.pkg
+productbuild --component Gtasktic.app /Applications --sign "3rd Party Mac Developer Installer: Ray Wang" --product Gtasktic.app/Contents/Info.plist Gtasktic.pkg
 
 cat css/dialogs.css css/tipsy.css css/ui.notify.css css/wunderlist.css > alldacss.css
 
