@@ -20,6 +20,8 @@ from pytz import reference
 import dateutil
 from dateutil.tz import *
 
+from threading import Thread
+
 service = None
 task_dict= {}
 list_old_dict= {} #when a old list gets overwritten by a google id, this one has to be used with the creation
@@ -399,13 +401,15 @@ def initial_login( current_tasks, deletions, list, deletedlist, fileloc):
     print deletions
     for x in deletions:
         print "This ARRAY ", x
-        print "DELETED " + x["deletion_id"]
-        delete_task(x["deletion_id"])
+        if x.has_key("deletion_id"):
+            print "DELETED " + x["deletion_id"]
+            delete_task(x["deletion_id"])
         
     #delete the lists that are deleted
     print deletedlist
     for x in deletedlist:
-        delete_tasklist(x["deletion_id"])
+        if x.has_key("deletion_id"):
+            delete_tasklist(x["deletion_id"])
 
     sync_model(list, tasklist, deleted_list, create_tasklist, update_tasklist, local_to_cloud_trans_tasklist)
     sync_model(current_tasks, tasks, deleted_tasks, create_task, update_task, local_to_cloud_trans_task)
@@ -420,7 +424,17 @@ def initial_login( current_tasks, deletions, list, deletedlist, fileloc):
     
     print tasklist
     
-    return { 'current': tasks, 'deletion': deleted_tasks, 'tasklist':tasklist, 'list_deletions': deleted_list }
+    b = { 'current': tasks, 'deletion': deleted_tasks, 'tasklist':tasklist, 'list_deletions': deleted_list }
+    
+    Titanium.API.runOnMainThread(window.Sync_after, b)
+    
+    #window.Sync_after( b )
+    
+
+def initial_login_entry( current_tasks, deletions, list, deletedlist, fileloc):
+    window.test_thread()
+    t = Thread(target=initial_login, args=( current_tasks, deletions, list, deletedlist, fileloc))
+    t.start()
 
 #login with the latest stored data
 def test_login():
