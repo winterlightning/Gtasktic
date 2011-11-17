@@ -432,7 +432,6 @@ def initial_login( current_tasks, deletions, list, deletedlist, fileloc):
     
 
 def initial_login_entry( current_tasks, deletions, list, deletedlist, fileloc):
-    window.test_thread()
     t = Thread(target=initial_login, args=( current_tasks, deletions, list, deletedlist, fileloc))
     t.start()
 
