@@ -446,7 +446,7 @@ a.listbutton {
 .addtasks {
 	position: relative;
 	height: 25px;
-	background: url('images/transparentgradient.png') repeat-x right top;
+	background: url('../images/transparentgradient.png') repeat-x right top;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
 	border: 0px;

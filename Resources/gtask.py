@@ -355,81 +355,83 @@ def initial_login( current_tasks, deletions, list, deletedlist, fileloc):
     global service
     global FLOW
 
-    print current_tasks
-    print deletions
-
-    #store_input( [current_tasks, deletions, list, deletedlist, fileloc] ) # this is for debugging, you can pickle the inputs and put them out again, not working
-
-    print [current_tasks, deletions, list, deletedlist, str(fileloc)]
+    try:
+        print current_tasks
+        print deletions
     
-    current_tasks = json.loads(current_tasks)
-    deletions = json.loads( deletions )
-    list = json.loads(list)
-    deletedlist = json.loads(deletedlist)
+        #store_input( [current_tasks, deletions, list, deletedlist, fileloc] ) # this is for debugging, you can pickle the inputs and put them out again, not working
     
-    # To disable the local server feature, uncomment the following line:
-    # FLAGS.auth_local_webserver = False
-    
-    # If the Credentials don't exist or are invalid, run through the native client
-    # flow. The Storage object will ensure that if successful the good
-    # Credentials will get written back to a file.
-    storage = Storage( str(fileloc)+'/tasks.dat' )
-    credentials = storage.get()
-    if credentials is None or credentials.invalid == True:
-        print "#### NO CREDENTIALS"
-        return {};
-    else:
-        pass
-    
-    # Create an httplib2.Http object to handle our HTTP requests and authorize it
-    # with our good Credentials.
-    http = httplib2.Http()
-    http = credentials.authorize(http)
-    
-    # Build a service object for interacting with the API. Visit
-    # the Google APIs Console
-    # to get a developerKey for your own application.
-    service = build(serviceName='tasks', version='v1', http=http,
-           developerKey='AIzaSyDjOuKvvMRHiTYJsOu1xMnTbFFedpOoOPM')
-    
-    deleted_tasks  = []
-    deleted_list = []
-    
-    [tasks, tasklist] = get_all_tasks()
-    
-    #delete the ones that are synced
-    print deletions
-    for x in deletions:
-        print "This ARRAY ", x
-        if x.has_key("deletion_id"):
-            print "DELETED " + x["deletion_id"]
-            delete_task(x["deletion_id"])
+        print [current_tasks, deletions, list, deletedlist, str(fileloc)]
         
-    #delete the lists that are deleted
-    print deletedlist
-    for x in deletedlist:
-        if x.has_key("deletion_id"):
-            delete_tasklist(x["deletion_id"])
-
-    sync_model(list, tasklist, deleted_list, create_tasklist, update_tasklist, local_to_cloud_trans_tasklist)
-    sync_model(current_tasks, tasks, deleted_tasks, create_task, update_task, local_to_cloud_trans_task)
+        current_tasks = json.loads(current_tasks)
+        deletions = json.loads( deletions )
+        list = json.loads(list)
+        deletedlist = json.loads(deletedlist)
+        
+        # To disable the local server feature, uncomment the following line:
+        # FLAGS.auth_local_webserver = False
+        
+        # If the Credentials don't exist or are invalid, run through the native client
+        # flow. The Storage object will ensure that if successful the good
+        # Credentials will get written back to a file.
+        storage = Storage( str(fileloc)+'/tasks.dat' )
+        credentials = storage.get()
+        if credentials is None or credentials.invalid == True:
+            print "#### NO CREDENTIALS"
+            return {};
+        else:
+            pass
+        
+        # Create an httplib2.Http object to handle our HTTP requests and authorize it
+        # with our good Credentials.
+        http = httplib2.Http()
+        http = credentials.authorize(http)
+        
+        # Build a service object for interacting with the API. Visit
+        # the Google APIs Console
+        # to get a developerKey for your own application.
+        service = build(serviceName='tasks', version='v1', http=http,
+               developerKey='AIzaSyDjOuKvvMRHiTYJsOu1xMnTbFFedpOoOPM')
+        
+        deleted_tasks  = []
+        deleted_list = []
+        
+        [tasks, tasklist] = get_all_tasks()
+        
+        #delete the ones that are synced
+        print deletions
+        for x in deletions:
+            print "This ARRAY ", x
+            if x.has_key("deletion_id"):
+                print "DELETED " + x["deletion_id"]
+                delete_task(x["deletion_id"])
+            
+        #delete the lists that are deleted
+        print deletedlist
+        for x in deletedlist:
+            if x.has_key("deletion_id"):
+                delete_tasklist(x["deletion_id"])
     
-    [tasks, tasklist] = get_all_tasks()
+        sync_model(list, tasklist, deleted_list, create_tasklist, update_tasklist, local_to_cloud_trans_tasklist)
+        sync_model(current_tasks, tasks, deleted_tasks, create_task, update_task, local_to_cloud_trans_task)
+        
+        [tasks, tasklist] = get_all_tasks()
+        
+        for task in tasks:
+            if task.has_key('due'):
+                task['due'] = task['due'][0:10].replace("-", "/")
+                print task['due']
+            print task
+        
+        print tasklist
+        
+        b = { 'current': tasks, 'deletion': deleted_tasks, 'tasklist':tasklist, 'list_deletions': deleted_list }
+        
+        Titanium.API.runOnMainThread(window.Sync_after, b)
     
-    for task in tasks:
-        if task.has_key('due'):
-            task['due'] = task['due'][0:10].replace("-", "/")
-            print task['due']
-        print task
-    
-    print tasklist
-    
-    b = { 'current': tasks, 'deletion': deleted_tasks, 'tasklist':tasklist, 'list_deletions': deleted_list }
-    
-    Titanium.API.runOnMainThread(window.Sync_after, b)
-    
-    #window.Sync_after( b )
-    
+    except:
+        print "Exception: ", sys.exc_info()[1]
+        Titanium.API.runOnMainThread(window.Sync_failed)
 
 def initial_login_entry( current_tasks, deletions, list, deletedlist, fileloc):
     t = Thread(target=initial_login, args=( current_tasks, deletions, list, deletedlist, fileloc))

@@ -14,7 +14,7 @@ window.Sync = ->
     )
     return
 
-  sync_window = create("sticky", 
+  window.sync_window = create("sticky", 
     { title: "Sync with Google Cloud"
     text: "We are currently syncing."}
   , expires: false)
@@ -27,6 +27,12 @@ window.Sync = ->
   file = Titanium.Filesystem.getApplicationDataDirectory()
   a = initial_login_entry(b, d, e, f, file)
  
+window.Sync_failed = () ->
+  window.sync_window.close()
+  create "default", 
+    title: "Sync Failed"
+    text: "Please try later"
+
 window.Sync_after = (a) ->
   current = a.current
   deleted = a.deletion

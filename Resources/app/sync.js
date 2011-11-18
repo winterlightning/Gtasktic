@@ -1,6 +1,6 @@
 (function() {
   window.Sync = function() {
-    var a, b, d, denied, e, f, file, sync_window;
+    var a, b, d, denied, e, f, file;
     b = Key.all();
     if (b.length > 0) {
       if (b[0].validated !== true) {
@@ -29,6 +29,13 @@
     f = JSON.stringify(DeletedList);
     file = Titanium.Filesystem.getApplicationDataDirectory();
     return a = initial_login_entry(b, d, e, f, file);
+  };
+  window.Sync_failed = function() {
+    window.sync_window.close();
+    return create("default", {
+      title: "Sync Failed",
+      text: "Please try later"
+    });
   };
   window.Sync_after = function(a) {
     var current, deleted, deleted_list, tasklist;
@@ -104,7 +111,7 @@
         return window.App.render_new(list);
       }
     });
-    window.sync_window.close();
+    sync_window.close();
     return create("default", {
       title: "Successful Sync",
       text: "Your todos have successfully synced with Google"
