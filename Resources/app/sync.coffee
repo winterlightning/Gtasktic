@@ -31,7 +31,7 @@ window.Sync_failed = () ->
   window.sync_window.close()
   create "default", 
     title: "Sync Failed"
-    text: "Please try later"
+    text: "Please try later. (Error is reported to developer to fix!)"
 
 window.Sync_after = (a) ->
   current = a.current
