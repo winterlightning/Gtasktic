@@ -24,6 +24,7 @@
 	<script src="app/spine.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/spine.model.sqlite.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/task.js" type="text/javascript" charset="utf-8"></script>
+	<script src="app/sync.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/application.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" src="app/hotkeys.js" charset="utf-8"></script>
 
@@ -567,7 +568,7 @@
 	</script>
 
 	<script>
-		function Sync() {
+		/*function Sync() {
 			
 			//Check if there is a validated key
 			b = Key.all();
@@ -684,7 +685,7 @@
 			create("default", { title:'Successful Sync', text:'Your todos have successfully synced with Google'});
 			
 		};
-		
+		*/
 		Task.fetch();
 		Deletion.fetch();
 		List.fetch();
