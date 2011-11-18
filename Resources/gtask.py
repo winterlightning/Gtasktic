@@ -291,7 +291,7 @@ def sync_model(local, cloud, deleted, create_function, update_function, local_to
                     if cloud_unit.has_key('updated'):
                     
                         #create the western timezone
-                        western = pytz.timezone('US/Pacificsdf')
+                        #western = pytz.timezone('US/Pacificsdf')
                     
                         #parsing the time out for comparison
                         local_time = datetime.datetime.fromtimestamp( int( local_unit["time"] )/1000 )
