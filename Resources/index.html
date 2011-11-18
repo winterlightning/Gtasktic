@@ -177,32 +177,10 @@
 			$("#calendar").fullCalendar("renderEvent", calendar_input, false);
 		};
 		
-		function setting_windows() {
-			$("#dialog").dialog({ modal: true, title: 'Settings for sync' });
-		};
-		
 		function addlist_window() {
 			$('#list_name').val("");
 			$('#list_description').val("");
 			$("#dialog_addlist").dialog({ modal: true, title: 'Add A New List', dialogClass: "adding" });
-		};
-		
-		function v_code() {
-			code = $('#validation').val();
-			var file = Titanium.Filesystem.getApplicationDataDirectory();
-			var a = validate_code(code, file);
-			var flag = a.flag;
-			
-			if (flag == true) {
-				$("#dialog").dialog("close");
-				keys = Key.all();
-				keys[0].validated = true;
-				keys[0].save();
-				create("default", { title:'Successful Validation', text:'You may use sync now'});
-			}
-			else {
-				create("default", { title:'Failed validation', text:'Please try again'});
-			};
 		};
 		
 		function add_list() {
