@@ -22,10 +22,11 @@
 	<script src="lib/jquery.notify.min.js" type="text/javascript" charset="utf-8"></script>
 	
 	<script src="app/spine.js" type="text/javascript" charset="utf-8"></script>
-	<script src="app/spine.model.sqlite.js" type="text/javascript" charset="utf-8"></script>
+	<script src="app/spine.model.local.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/task.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/sync.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/application.js" type="text/javascript" charset="utf-8"></script>
+	<script src="app/application_setting.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" src="app/hotkeys.js" charset="utf-8"></script>
 
 	<!-- fullcalendar shizzle -->
@@ -306,7 +307,7 @@
 
 </head>
 
-<body>
+<body id="theapp">
 
 	<div id="bghelp" style="background-image: url('linen.gif'); background-attachment: fixed; background-origin: initial; background-clip: initial; background-color: rgb(0, 0, 0); display: block; background-position: bottom center; background-repeat: no-repeat no-repeat; top: 40px;"></div>
 	
@@ -318,7 +319,7 @@
 		
 		<div id="iconbar">
 			<a onclick="Sync()"><img class="icon" src="images/02-redo@2x.png" height="16" /></a>
-			<a onclick="setting_windows()"><img class="icon" src="images/cog_icon_16.png" /></a>
+			<a id="setting_button" onclick="setting_windows()"><img class="icon" src="images/cog_icon_16.png" /></a>
 			<!-- <a onclick="open_background_dialog()"><img class="icon" src="images/picture_icon_16.png" /></a> -->
 		</div>
    	</header>
@@ -367,7 +368,7 @@
 		<div id="account-buttons" class="ui-dialog-buttonset">        
 	        <!-- LOGIN BUTTONS -->
 	        <div class="loginbuttons">
-	         	<input class="input-button register button-login" type="submit" id="validate" onclick="v_code()" value="Validate Code">          	        
+	         	<input class="input-button register button-login" type="submit" id="validate_button" value="Validate Code">          	        
 	        </div>
 	    </div>
 	</div>

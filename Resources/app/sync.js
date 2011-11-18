@@ -34,7 +34,7 @@
     window.sync_window.close();
     return create("default", {
       title: "Sync Failed",
-      text: "Please try later"
+      text: "Please try later. (Error is reported to developer to fix!)"
     });
   };
   window.Sync_after = function(a) {
