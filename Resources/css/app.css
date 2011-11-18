@@ -58,7 +58,7 @@
   cursor: pointer;
   width: 20px;
   height: 20px;
-  background: url('icons/delete_active.png') no-repeat center center;
+  background: url('../icons/delete_active.png') no-repeat center center;
 }
 
 #tasks .item:hover .destroy {
