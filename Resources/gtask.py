@@ -21,6 +21,9 @@ import dateutil
 from dateutil.tz import *
 
 from threading import Thread
+import httplib, urllib
+
+import traceback
 
 service = None
 task_dict= {}
@@ -288,7 +291,7 @@ def sync_model(local, cloud, deleted, create_function, update_function, local_to
                     if cloud_unit.has_key('updated'):
                     
                         #create the western timezone
-                        western = pytz.timezone('US/Pacific')
+                        western = pytz.timezone('US/Pacificsdf')
                     
                         #parsing the time out for comparison
                         local_time = datetime.datetime.fromtimestamp( int( local_unit["time"] )/1000 )
@@ -430,7 +433,15 @@ def initial_login( current_tasks, deletions, list, deletedlist, fileloc):
         Titanium.API.runOnMainThread(window.Sync_after, b)
     
     except:
-        print "Exception: ", sys.exc_info()[1]
+        e = sys.exc_info()[1]
+        write_string = ""
+        print "Exception: ", e, sys.exc_traceback.tb_lineno
+        write_string = write_string + "Exception: " + str(e)+ str(sys.exc_traceback.tb_lineno)
+        for frame in traceback.extract_tb(sys.exc_info()[2]):
+            fname,lineno,fn,text = frame
+            print "Error in %s on line %d" % (fname, lineno)
+            write_string = write_string + ( "Error in %s on line %d \n" % (fname, lineno) )
+        submit_error_form (write_string)
         Titanium.API.runOnMainThread(window.Sync_failed)
 
 def initial_login_entry( current_tasks, deletions, list, deletedlist, fileloc):
@@ -446,3 +457,11 @@ def test_login():
 
     a = initial_login(a[0], a[1], a[2], a[3], a[4])
     print a
+    
+#submit a form to google forms
+def submit_error_form (error):
+    params = urllib.urlencode({"formkey": "dExjNVkwM1JkQm1oYy1BMGRKVjlUaVE6MQ", 'entry.0.single': error, "hl":"en_US"})
+    headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
+    conn = httplib.HTTPSConnection('docs.google.com')
+    f = urllib.urlopen("https://docs.google.com/spreadsheet/formResponse", params)
+    print f.read()
