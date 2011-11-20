@@ -471,3 +471,8 @@ a.listbutton {
 .child_4 {
 	margin-left: 100px;
 }
+
+/*set stuf so disabled links have different opacity*/
+.disabled {
+	opacity: 0.5 !Important;
+}
