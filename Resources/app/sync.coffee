@@ -98,3 +98,5 @@ window.Sync_after = (a) ->
   create "default", 
     title: "Successful Sync"
     text: "Your todos have successfully synced with Google"
+
+#add stuff for online and offline checking

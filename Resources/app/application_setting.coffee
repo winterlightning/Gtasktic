@@ -22,6 +22,6 @@ jQuery ($) ->
         create("default", { title:'Successful Validation', text:'You may use sync now'})
       else
         create("default", { title:'Failed validation', text:'Please try again'})      
-      
+    
   )
   window.settingapp = SettingApp.init(el: "#theapp")
