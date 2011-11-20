@@ -121,7 +121,7 @@
     });
   };
   window.online = function(event) {
-    if (navigator.online) {
+    if (navigator.onLine) {
       return $("#sync_button").removeClass("disabled");
     } else {
       return $("#sync_button").addClass("disabled");

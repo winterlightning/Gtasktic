@@ -104,7 +104,7 @@ window.Sync_after = (a) ->
 
 #add stuff for online and offline checking
 window.online = (event) ->
-  if navigator.online
+  if navigator.onLine
     $("#sync_button").removeClass("disabled")
   else
     $("#sync_button").addClass("disabled")
