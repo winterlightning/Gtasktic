@@ -1,6 +1,9 @@
 (function() {
   window.Sync = function() {
     var a, b, d, denied, e, f, file;
+    if (navigator.onLine === false) {
+      return;
+    }
     b = Key.all();
     if (b.length > 0) {
       if (b[0].validated !== true) {
@@ -117,4 +120,16 @@
       text: "Your todos have successfully synced with Google"
     });
   };
+  window.online = function(event) {
+    if (navigator.online) {
+      return $("#sync_button").removeClass("disabled");
+    } else {
+      return $("#sync_button").addClass("disabled");
+    }
+  };
+  addEvent(window, 'online', online);
+  addEvent(window, 'offline', online);
+  online({
+    type: 'ready'
+  });
 }).call(this);

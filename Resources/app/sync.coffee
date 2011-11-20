@@ -1,4 +1,7 @@
 window.Sync = ->
+  if navigator.onLine == false
+    return
+  
   b = Key.all()
   if b.length > 0
     unless b[0].validated == true
@@ -100,3 +103,13 @@ window.Sync_after = (a) ->
     text: "Your todos have successfully synced with Google"
 
 #add stuff for online and offline checking
+window.online = (event) ->
+  if navigator.online
+    $("#sync_button").removeClass("disabled")
+  else
+    $("#sync_button").addClass("disabled")
+
+addEvent(window, 'online', online);
+addEvent(window, 'offline', online);
+
+online(type: 'ready' )
