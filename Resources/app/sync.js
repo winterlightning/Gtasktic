@@ -42,6 +42,7 @@
   };
   window.Sync_after = function(a) {
     var current, deleted, deleted_list, tasklist;
+    window.last_synced = a;
     current = a.current;
     deleted = a.deletion;
     tasklist = a.tasklist;

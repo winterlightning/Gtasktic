@@ -37,6 +37,8 @@ window.Sync_failed = () ->
     text: "Please try later. (Error is reported to developer to fix!)"
 
 window.Sync_after = (a) ->
+  window.last_synced = a
+
   current = a.current
   deleted = a.deletion
   tasklist = a.tasklist
