@@ -17,9 +17,9 @@
     saveLocal: ->
       result = JSON.stringify(this)
       db.execute "DELETE from keyval where key ='" + @name + "'"
-      Titanium.API.debug result
+      #Titanium.API.debug result
       result = result.replaceAll("'", "''")
-      Titanium.API.log('INFO', result)
+      #Titanium.API.log('INFO', result)
       db.execute "INSERT INTO keyval (key, value) VALUES ('" + @name + "', '" + result + "')"
     
     loadLocal: ->
