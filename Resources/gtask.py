@@ -326,8 +326,8 @@ def sync_model(local, cloud, deleted, create_function, update_function, local_to
                         
                         #print "cloud unit", cloud_unit
                         #print "parsed: ", parsed, cloud_unit['updated']
-                        print "timezone: ", time.tzname[0]
-                        print "time comparison = local: ", local_time, " cloud: ", cloud_time
+                        #print "timezone: ", time.tzname[0]
+                        #print "time comparison = local: ", local_time, " cloud: ", cloud_time
                         #print "time comparison utc = local: ", local_time.utcoffset(), " cloud: ", cloud_time.utcoffset()
                         #print "time comparison utc = local: ", ( local_time.replace(tzinfo=None) - local_time.utcoffset() ), " cloud: ", ( cloud_time.replace(tzinfo=None) - cloud_time.utcoffset() )
                         #print "time comparison utc adjusted: ", (( local_time.replace(tzinfo=None) - local_time.utcoffset() ) > ( cloud_time.replace(tzinfo=None) - cloud_time.utcoffset() ))
