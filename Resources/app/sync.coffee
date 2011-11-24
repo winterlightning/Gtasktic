@@ -34,6 +34,7 @@ window.Sync = ->
   a = initial_login_entry(b, d, e, f, file)
  
 window.Sync_failed = () ->
+  $("#sync_button").removeClass("disabled")
   window.sync_window.close()
   create "default", 
     title: "Sync Failed"

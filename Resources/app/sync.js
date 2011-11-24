@@ -35,6 +35,7 @@
     return a = initial_login_entry(b, d, e, f, file);
   };
   window.Sync_failed = function() {
+    $("#sync_button").removeClass("disabled");
     window.sync_window.close();
     return create("default", {
       title: "Sync Failed",
