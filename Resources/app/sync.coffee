@@ -1,6 +1,9 @@
 window.Sync = ->
-  if navigator.onLine == false
+  
+  if (navigator.onLine == false) or ( $("#sync_button").hasClass("disabled") )
     return
+  
+  $("#sync_button").addClass("disabled")
   
   b = Key.all()
   if b.length > 0
@@ -37,6 +40,7 @@ window.Sync_failed = () ->
     text: "Please try later. (Error is reported to developer to fix!)"
 
 window.Sync_after = (a) ->
+  $("#sync_button").removeClass("disabled")
   window.last_synced = a
 
   current = a.current

@@ -591,9 +591,7 @@
         var result;
         result = JSON.stringify(this);
         db.execute("DELETE from keyval where key ='" + this.name + "'");
-        Titanium.API.debug(result);
         result = result.replaceAll("'", "''");
-        Titanium.API.log('INFO', result);
         return db.execute("INSERT INTO keyval (key, value) VALUES ('" + this.name + "', '" + result + "')");
       },
       loadLocal: function() {
@@ -1119,6 +1117,7 @@
   };
   window.Sync_after = function(a) {
     var current, deleted, deleted_list, tasklist;
+    window.last_synced = a;
     current = a.current;
     deleted = a.deletion;
     tasklist = a.tasklist;
