@@ -277,6 +277,61 @@ def compare_difference (cloud_unit, local_translated):
     return True
 
 
+def item_to_dictionary( items ):
+    dict = {}
+    
+    for value in items:
+        print "value:", value
+        
+        key = value['id']
+        dict[key] = value
+    
+    return dict
+
+#sync with the set based algorithm
+def sync_model_set(local, cloud, deleted, create_function, update_function, local_to_cloud_trans):
+    
+    current_dict = item_to_dictionary( local )
+    cloud_dict = item_to_dictionary( cloud )
+    
+    print current_dict.keys()
+    print cloud_dict.keys()
+    
+    #process the set of ids that are there locally but not there on the cloud
+    #If their synced flag is False, add them, else delete them
+    print "items that are there locally but not there on the cloud"
+    for id in ( set( current_dict.keys() ) - set( cloud_dict.keys() ) ):
+        print id
+        if current_dict[id]['synced'] == False:
+            entry = local_to_cloud_trans(local_unit, {})
+            create_function( current_dict[id] )
+            print "created"
+        else:
+            deleted.append(id)
+            print "passed back for deletion"    
+            
+    #process the set of ids that are there on the cloud but not there locally
+    #Add them back locally since everything deleted should be on the deleted list and taken care of first
+    print "items that are there in the cloud but not there locally"
+    for id in ( set( cloud_dict.keys() ) - set( current_dict.keys() ) ):
+        print id
+        pass_back.append( cloud_dict[id] )
+        print "append to pass back for local creation"
+    
+    #process the set of ids that are there in the cloud and locally
+    #check their timestamps, if local > cloud, write local to cloud, if cloud > local, put it in passback to overwrite local,
+    #if cloud == local, do nothing
+    print "items that are there in the cloud and there locally"
+    for id in ( set( cloud_dict.keys() ) & set( current_dict.keys() ) ):
+        print id
+        if current_dict[id]['time'] == cloud_dict[id]['time']:
+            print "timestamp the same do nothing"
+        elif current_dict[id]['time'] > cloud_dict[id]['time']:
+            edit_task(id, current_dict[id])
+            print "update the current task in the cloud"
+        else:
+            pass_back.append( cloud_dict[id] )
+            print "append to pass back for local update"
 
 #Sync the model given a local data set, and a cloud data set
 #1. Both model must have a timestamp
