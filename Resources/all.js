@@ -1076,9 +1076,10 @@
   });
   window.Sync = function() {
     var a, b, d, denied, e, f, file;
-    if (navigator.onLine === false) {
+    if ((navigator.onLine === false) || ($("#sync_button").hasClass("disabled"))) {
       return;
     }
+    $("#sync_button").addClass("disabled");
     b = Key.all();
     if (b.length > 0) {
       if (b[0].validated !== true) {
@@ -1109,6 +1110,7 @@
     return a = initial_login_entry(b, d, e, f, file);
   };
   window.Sync_failed = function() {
+    $("#sync_button").removeClass("disabled");
     window.sync_window.close();
     return create("default", {
       title: "Sync Failed",
@@ -1117,6 +1119,7 @@
   };
   window.Sync_after = function(a) {
     var current, deleted, deleted_list, tasklist;
+    $("#sync_button").removeClass("disabled");
     window.last_synced = a;
     current = a.current;
     deleted = a.deletion;

@@ -139,7 +139,7 @@
 				}
 			});
 			
-			$('#googleurl').val(setting_url);
+			$("#authlink").attr("href", setting_url)
 			$container = $("#container").notify();
 			
 			$('#calendar').fullCalendar({
@@ -339,8 +339,8 @@
 	</div>
 
 	<div id="dialog" style="display: none">
-		<p>Copy and paste the following link in your browser: <br />
-		<input class="input-login" type="text" id="googleurl" name="email" placeholder="URL"></p>
+		<p>Go to the following link, login your google account and grant access: 
+		<a id="authlink" href='' target="_blank">authorization link</a><br />
 		<p>Copy and paste the validation code from Google; Paste it into here and press validate. <br />
 		<input class="input-login" type="text" id="validation" name="email" placeholder="Validation Code"></p>
 		
