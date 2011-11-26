@@ -324,6 +324,8 @@ def sync_model_set(local, cloud, deleted, create_function, update_function, loca
     print "items that are there in the cloud and there locally"
     for id in ( set( cloud_dict.keys() ) & set( current_dict.keys() ) ):
         print id
+        
+        
         if current_dict[id]['time'] == cloud_dict[id]['time']:
             print "timestamp the same do nothing"
         elif current_dict[id]['time'] > cloud_dict[id]['time']:
@@ -524,6 +526,37 @@ def initial_login( current_tasks, deletions, list, deletedlist, fileloc):
             write_string = write_string + ( "Error in %s on line %d \n" % (fname, lineno) )
         submit_error_form (write_string)
         Titanium.API.runOnMainThread(window.Sync_failed)
+
+def set_up_client():
+    global service
+    global FLOW
+    global time_difference
+    
+    # If the Credentials don't exist or are invalid, run through the native client
+    # flow. The Storage object will ensure that if successful the good
+    # Credentials will get written back to a file.
+    storage = Storage( str(fileloc)+'/tasks.dat' )
+    credentials = storage.get()
+    if credentials is None or credentials.invalid == True:
+        print "#### NO CREDENTIALS"
+        return {};
+    else:
+        pass
+    
+    # Create an httplib2.Http object to handle our HTTP requests and authorize it
+    # with our good Credentials.
+    http = httplib2.Http()
+    http = credentials.authorize(http)
+    
+    # Build a service object for interacting with the API. Visit
+    # the Google APIs Console
+    # to get a developerKey for your own application.
+    service = build(serviceName='tasks', version='v1', http=http,
+           developerKey='AIzaSyDjOuKvvMRHiTYJsOu1xMnTbFFedpOoOPM')
+    
+    #set the time difference
+    time_difference = get_time_difference_brute_force()
+            
 
 def initial_login_entry( current_tasks, deletions, list, deletedlist, fileloc):
     t = Thread(target=initial_login, args=( current_tasks, deletions, list, deletedlist, fileloc))
