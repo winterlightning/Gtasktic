@@ -429,7 +429,7 @@ def sync_model(local, cloud, deleted, create_function, update_function, local_to
             deleted.append(local_unit["id"])
 
 #set up the globals for the client
-def set_up_client():
+def set_up_client(fileloc):
     global service
     global FLOW
     global time_difference
@@ -482,33 +482,7 @@ def initial_login( current_tasks, deletions, list, deletedlist, fileloc):
         list = json.loads(list)
         deletedlist = json.loads(deletedlist)
         
-        # To disable the local server feature, uncomment the following line:
-        # FLAGS.auth_local_webserver = False
-        
-        # If the Credentials don't exist or are invalid, run through the native client
-        # flow. The Storage object will ensure that if successful the good
-        # Credentials will get written back to a file.
-        storage = Storage( str(fileloc)+'/tasks.dat' )
-        credentials = storage.get()
-        if credentials is None or credentials.invalid == True:
-            print "#### NO CREDENTIALS"
-            return {};
-        else:
-            pass
-        
-        # Create an httplib2.Http object to handle our HTTP requests and authorize it
-        # with our good Credentials.
-        http = httplib2.Http()
-        http = credentials.authorize(http)
-        
-        # Build a service object for interacting with the API. Visit
-        # the Google APIs Console
-        # to get a developerKey for your own application.
-        service = build(serviceName='tasks', version='v1', http=http,
-               developerKey='AIzaSyDjOuKvvMRHiTYJsOu1xMnTbFFedpOoOPM')
-        
-        #set the time difference
-        time_difference = get_time_difference_brute_force()
+        set_up_client(fileloc)
         
         deleted_tasks  = []
         deleted_list = []

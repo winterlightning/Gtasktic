@@ -1,5 +1,7 @@
 from gtask import *
 import unittest
+import time
+import calendar
 
 class TestSyncFunctions(unittest.TestCase):
     created_id = ""
@@ -11,7 +13,10 @@ class TestSyncFunctions(unittest.TestCase):
     #Input: a new local task json
     #Output: a new task from the cloud being passed back
     def test_create(self):
-        current_tasks = '[{"name":"Test One two three","done":false,"time":"1322077207554","duedate":"","note":"note one two three four FIVER","order":2,"synced":false,"listid":"@default","id":"test1"}]' 
+        a = time.gmtime()
+        timestamp = calendar.timegm(a)
+        
+        current_tasks = '[{"name":"Test One two three","done":false,"time":"'+str(timestamp)+'","duedate":"","note":"note one two three four FIVER","order":2,"synced":false,"listid":"@default","id":"test1"}]' 
         deletions = "[]"
         list = "[]"
         deletedlist = "[]"
@@ -33,11 +38,25 @@ class TestSyncFunctions(unittest.TestCase):
     #Input: a new local tasks with a higher timestamp that has a changed value
     #Output: The cloud task with the same id should be changed
     def test_edit(self):
-        current_tasks = '[]' 
+        a = time.gmtime()
+        timestamp = calendar.timegm(a)
+        
+        current_tasks = '[{"name":"Test One two three edit","done":false,"time":"'+str(timestamp)+'","duedate":"","note":"note one two three four FIVER","order":2,"synced":false,"listid":"@default","id":"test1"}]' 
         deletions = '[{"deletion_id":"'+self.created_id+'"}]'
         list = "[]"
         deletedlist = "[]"
         fileloc = '/Users/raywang/Library/Gtasktic'
+    
+        initial_login( current_tasks, deletions, list, deletedlist, fileloc)
+        
+        [tasks, tasklists] = get_all_tasks()
+        
+        found = False
+        for task in tasks:
+            if task['title'] == "Test One two three edit":
+                found = True
+        
+        self.assertEqual(found, True)        
     
     #test for deleting a task
     #Input: a task id to be deleted in the deleted variable
