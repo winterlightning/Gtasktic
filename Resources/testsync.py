@@ -41,13 +41,13 @@ class TestSyncFunctions(unittest.TestCase):
         a = time.gmtime()
         timestamp = calendar.timegm(a)
         
-        current_tasks = '[{"name":"Test One two three edit","done":false,"time":"'+str(timestamp)+'","duedate":"","note":"note one two three four FIVER","order":2,"synced":false,"listid":"@default","id":"test1"}]' 
-        deletions = '[{"deletion_id":"'+self.created_id+'"}]'
+        current_tasks = '[{"name":"Test One two three edit","done":false,"time":"'+str(timestamp)+'","duedate":"","note":"note one two three four FIVER","order":2,"synced":false,"listid":"@default","id":"'+ self.created_id +'"}]' 
+        deletions = '[]'
         list = "[]"
         deletedlist = "[]"
         fileloc = '/Users/raywang/Library/Gtasktic'
     
-        initial_login( current_tasks, deletions, list, deletedlist, fileloc)
+        #initial_login( current_tasks, deletions, list, deletedlist, fileloc)
         
         [tasks, tasklists] = get_all_tasks()
         
