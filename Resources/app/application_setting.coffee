@@ -4,9 +4,13 @@ jQuery ($) ->
     events: 
       "click #setting_button" : "setting_window"
       "click #validate_button": "validate_code"
+      "click #help_button" : "show_help"
     
     setting_window: ->
       $("#dialog").dialog({ modal: true, title: 'Settings for sync' })
+    
+    show_help: ->
+      alert("help here")
     
     validate_code: ->
       code = $('#validation').val();
