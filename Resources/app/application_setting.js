@@ -13,7 +13,10 @@
         });
       },
       show_help: function() {
-        return alert("help here");
+        return $("#dialog_help").dialog({
+          modal: true,
+          title: 'Help Tips'
+        });
       },
       validate_code: function() {
         var a, code, file, flag, keys;

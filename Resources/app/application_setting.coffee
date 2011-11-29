@@ -10,7 +10,7 @@ jQuery ($) ->
       $("#dialog").dialog({ modal: true, title: 'Settings for sync' })
     
     show_help: ->
-      alert("help here")
+      $("#dialog_help").dialog({ modal: true, title: 'Help Tips' })
     
     validate_code: ->
       code = $('#validation').val();
