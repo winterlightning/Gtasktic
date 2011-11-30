@@ -16,7 +16,7 @@ class TestSyncFunctions(unittest.TestCase):
     def test_create(self):
         global created_id
         
-        timestamp = int(time.time())
+        timestamp = int(time.time()) * 1000
         
         current_tasks = '[{"name":"Test One two three","done":false,"time":"'+str(timestamp)+'","duedate":"","note":"note one two three four FIVER","order":2,"synced":false,"listid":"@default","id":"test1"}]' 
         deletions = "[]"
@@ -44,7 +44,7 @@ class TestSyncFunctions(unittest.TestCase):
     def test_edit(self):
         global created_id
         
-        timestamp = int(time.time())
+        timestamp = int(time.time()) * 1000
         
         print "2 CURRENT ID", created_id
         
@@ -70,14 +70,17 @@ class TestSyncFunctions(unittest.TestCase):
     #test for deleting a task
     #Input: a task id to be deleted in the deleted variable
     #Output: The task should be deleted from the cloud
-#    def test_delete(self):
-#        current_tasks = '[]' 
-#        deletions = '[{"deletion_id":"'+self.created_id+'"}]'
-#        list = "[]"
-#        deletedlist = "[]"
-#        fileloc = '/Users/raywang/Library/Gtasktic'
-#
-#        initial_login( current_tasks, deletions, list, deletedlist, fileloc)
+    def test_delete(self):
+        global created_id
+        
+        current_tasks = '[]' 
+        deletions = '[{"deletion_id":"'+created_id+'"}]'
+        deletions = '[{"deletion_id":"MTYyOTI3MDM5MTg1MTc4ODM0NzE6MDoxMjQwNTM1ODMy"}]'
+        list = "[]"
+        deletedlist = "[]"
+        fileloc = '/Users/raywang/Library/Gtasktic'
+
+        initial_login( current_tasks, deletions, list, deletedlist, fileloc)
 
 if __name__ == '__main__':
     unittest.main()

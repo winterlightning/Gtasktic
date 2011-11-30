@@ -254,6 +254,9 @@
 				//Delete all of the stuff before
 				delete localStorage['Task'];
 				
+				setting_url = create_link();
+				Key.create({ url: setting_url });
+				
 				//Set the version number 
 				new_version = Version.init({ number: "0.2" });
 				new_version.save();
