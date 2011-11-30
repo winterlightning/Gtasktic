@@ -104,20 +104,11 @@
 		
 		initializeApp();
 		
-		var setting_url = "";
+		setting_url = "";
 		
 		window.last_opened = ""; //global variable keeping track of the last opened div
 		window.cur = 0; //this is for the position of the selected task
 		window.taskdict = {}
-		
-		keys = Key.all();
-		if (keys.length != 0) {
-			setting_url = keys[0].url;
-		}
-		else {
-			setting_url = create_link();
-			Key.create({ url: setting_url });
-		};
 		
 		//For notification
 		function create( template, vars, opts ){
@@ -166,6 +157,16 @@
       		shortcut.add('backspace', pressed_delete, {'disable_in_input':'true'});
       		shortcut.add('delete', pressed_delete, {'disable_in_input':'true'});
       		//shortcut.add('tab', make_child, {'disable_in_input':'true'});
+      		
+  			keys = Key.all();
+			if (keys.length != 0) {
+				setting_url = keys[0].url;
+			}
+			else {
+				setting_url = create_link();
+				Key.create({ url: setting_url });
+			};
+      		
 		});
 		
 		function rendering_cal() {
@@ -280,6 +281,10 @@
 			$(".listdiv").show();
 			$(".filterselected").removeClass("filterselected");
 	  		$("#allbutton").addClass("filterselected");
+		};
+	
+		window.onerror = function() {
+	   		alert("Error caught");
 		};
 		
 	</script>

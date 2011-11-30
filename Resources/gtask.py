@@ -401,6 +401,8 @@ def sync_model(local, cloud, deleted, create_function, update_function, local_to
                             print "# There is a difference    #"
                             print "###########################"
                         
+                        print local_time, " local and cloud ", cloud_time
+                        
                         #if the local update stamp 
                         if (local_time > cloud_time): #and not any_difference:
                             
