@@ -10,11 +10,13 @@
     <description>not specified</description>
     <icon>cloud_ok.png</icon>
     <copyright>2011 by raywang</copyright>
+    <analytics>false</analytics>
+    <update-monitor>false</update-monitor>
     <!-- Window Definition - these values can be edited -->
     <window>
         <id>initial</id>
         <title>Gtasktic</title>
-        <url>app://index.html</url>
+        <url>app://testjsapi.html</url>
         <width>700</width>
         <max-width>3000</max-width>
         <min-width>0</min-width>
