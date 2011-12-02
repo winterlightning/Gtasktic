@@ -130,6 +130,15 @@
 				}
 			});
 			
+			//set auth link
+			keys = Key.all();
+			if (keys.length != 0) {
+				setting_url = keys[0].url;
+			}
+			else {
+				setting_url = create_link();
+				Key.create({ url: setting_url });
+			};
 			$("#authlink").attr("href", setting_url)
 			$container = $("#container").notify();
 			
@@ -157,15 +166,6 @@
       		shortcut.add('backspace', pressed_delete, {'disable_in_input':'true'});
       		shortcut.add('delete', pressed_delete, {'disable_in_input':'true'});
       		//shortcut.add('tab', make_child, {'disable_in_input':'true'});
-      		
-  			keys = Key.all();
-			if (keys.length != 0) {
-				setting_url = keys[0].url;
-			}
-			else {
-				setting_url = create_link();
-				Key.create({ url: setting_url });
-			};
       		
 		});
 		

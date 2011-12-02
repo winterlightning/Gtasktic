@@ -477,7 +477,7 @@ def initial_login( current_tasks, deletions, list, deletedlist, fileloc):
     
         #store_input( [current_tasks, deletions, list, deletedlist, fileloc] ) # this is for debugging, you can pickle the inputs and put them out again, not working
     
-        #print [current_tasks, deletions, list, deletedlist, str(fileloc)]
+        print [current_tasks, deletions, list, deletedlist, str(fileloc)]
         
         current_tasks = json.loads(current_tasks)
         deletions = json.loads( deletions )
@@ -520,7 +520,7 @@ def initial_login( current_tasks, deletions, list, deletedlist, fileloc):
         
         b = { 'current': tasks, 'deletion': deleted_tasks, 'tasklist':tasklist, 'list_deletions': deleted_list }
         
-        #Titanium.API.runOnMainThread(window.Sync_after, b)
+        Titanium.API.runOnMainThread(window.Sync_after, b)
     
     except:
         e = sys.exc_info()[1]
@@ -532,8 +532,7 @@ def initial_login( current_tasks, deletions, list, deletedlist, fileloc):
             print "Error in %s on line %d" % (fname, lineno)
             write_string = write_string + ( "Error in %s on line %d \n" % (fname, lineno) )
         submit_error_form (write_string)
-        #Titanium.API.runOnMainThread(window.Sync_failed)
-            
+        Titanium.API.runOnMainThread(window.Sync_failed)
 
 def initial_login_entry( current_tasks, deletions, list, deletedlist, fileloc):
     t = Thread(target=initial_login, args=( current_tasks, deletions, list, deletedlist, fileloc))
