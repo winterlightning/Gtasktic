@@ -394,12 +394,12 @@ def sync_model(local, cloud, deleted, create_function, update_function, local_to
                         
                         entry = local_to_cloud_trans(local_unit, {})
                         
-                        any_difference = compare_difference (cloud_unit, entry)
-                        
-                        if not any_difference:
-                            print "###########################"
-                            print "# There is a difference    #"
-                            print "###########################"
+#                        any_difference = compare_difference (cloud_unit, entry)
+#                        
+#                        if not any_difference:
+#                            print "###########################"
+#                            print "# There is a difference    #"
+#                            print "###########################"
                         
                         print local_time, " local and cloud ", cloud_time
                         
@@ -442,7 +442,7 @@ def set_up_client(fileloc):
     storage = Storage( str(fileloc)+'/tasks.dat' )
     credentials = storage.get()
     if credentials is None or credentials.invalid == True:
-        print "#### NO CREDENTIALS"
+        print "NO CREDENTIALS"
         return {};
     else:
         pass
