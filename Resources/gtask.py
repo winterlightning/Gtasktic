@@ -421,7 +421,7 @@ def sync_model(local, cloud, deleted, create_function, update_function, local_to
             if local_unit.has_key("synced") and local_unit["synced"]: #this is a local task that needs to be deleted
                 pass 
             else: #this is a local task that needs to be added
-                print "ADDED" + local_unit["name"]
+                #print u"ADDED" + local_unit["name"]
                                 
                 entry = local_to_cloud_trans(local_unit, {})
                 

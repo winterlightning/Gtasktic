@@ -2,17 +2,22 @@
   <head>
     <script src="https://apis.google.com/js/client.js"></script>
     <script>
-      function auth() {
-        var config = {
-          'client_id': '784374432524.apps.googleusercontent.com',
-          'scope': 'https://www.googleapis.com/auth/urlshortener',
-          'immediate': 'true'
-        };
-        gapi.auth.authorize(config, function() {
-          console.log('login complete');
-          console.log(gapi.auth.getToken());
-        });
-      }
+		config = {
+		  'client_id': '784374432524-n1rq1ddep6s1hua8r3gm0sestcm0dtq3.apps.googleusercontent.com',
+		  'scope': 'https://www.googleapis.com/auth/tasks',
+		  'origin': 'http://localhost/'
+		};    
+    
+		function auth() {
+		    gapi.auth.authorize(config, function(authResult) {
+		      alert("done");
+			  window.result = authResult;
+			  alert(authResult);
+			  console.log('login complete');
+		      console.log(gapi.auth.getToken());
+		    });
+		}
+		
     </script>
   </head>
 
