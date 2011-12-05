@@ -91,7 +91,7 @@ def update_task ( task, updating, deleted, tasklist='@default'  ):
         del task['completed']
     
     for k, v in updating.iteritems():
-        print "updating", k, v, "\n"
+        #print "updating", k, v, "\n"
         task[k] = v
     
     #If the tasklist is the same tasklist it's ok, else you need to delete it from one and move to the other
@@ -406,7 +406,7 @@ def sync_model(local, cloud, deleted, create_function, update_function, local_to
                         #if the local update stamp 
                         if (local_time > cloud_time): #and not any_difference:
                             
-                            print local_time, " local and cloud ", cloud_time, " ", local_unit["name"], " GOING TO UPDATE "
+                            #print local_time, " local and cloud ", cloud_time, " ", local_unit["name"], " GOING TO UPDATE "
                             
                             update_function ( local_unit['id'], entry, deleted )
                     
