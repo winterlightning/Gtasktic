@@ -32,19 +32,69 @@
 		
 		window.open('https://accounts.google.com/o/oauth2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ftasks&redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=code&client_id=784374432524.apps.googleusercontent.com');
 		
+		var xhr = Titanium.Network.createHTTPClient();
+		send_data = null;
+		var fd = null;
 		function testauth(code) {
-			$.post( "https://accounts.google.com/o/oauth2/token", 
-				{ 
-					code: code, 
+			/*$.getJSON("https://accounts.google.com/o/oauth2/token?callback=?", { 
+					code: code,
 					client_id: client_id,
 					client_secret: client_secret 
-				} 
-			);
+				} , function(tweets) {
+					alert(tweets);
+		   });
+		   */
+		  xhr.open("POST", "https://accounts.google.com/o/oauth2/token");
+		  xhr.onreadystatechange = function(status, response) {
+			if(status >= 200 && status <= 300) {
+			  onSuccess(response);
+			} 
+			else {
+			  onError(response);
+			};
+		  };
+		  xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		  send_data = { "code": code,
+			"client_id": client_id,
+			"client_secret": client_secret,
+			"grant_type": "authorization_code",
+			"code": code
+		  };
+		  fd = new FormData();
+		  fd.append("grant_type", "authorization_code");
+		  xhr.send( fd );
+		};
+		
+		function test_json_auth(code) {
+		  xhr.open("POST", "https://accounts.google.com/o/oauth2/token");
+		  xhr.onreadystatechange = function(status, response) {
+			if(status >= 200 && status <= 300) {
+			  onSuccess(response);
+			} 
+			else {
+			  onError(response);
+			};
+		  };
+		  xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+		  send_data = { code: code,
+			client_id: client_id,
+			client_secret: client_secret,
+			grant_type: "authorization_code",
+			code: code
+		  };
+		  xhr.send(JSON.stringify(send_data));
 		};
     </script>
   </head>
 
   <body>
     <button onclick="auth();">Authorize</button>
+    
+	<form action="https://accounts.google.com/o/oauth2/token">
+		client_id: <input type="text" name="client_id" /><br />
+		client_secret: <input type="text" name="client_secret" />
+		grant_type: <input type="text" name="grant_type" />
+		code: <input type="text" name="code" />
+	</form>
   </body>
 </html>

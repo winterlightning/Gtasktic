@@ -138,7 +138,7 @@ def update_tasklist( listid, updating, deleted ):
     tasklist['title'] = updating["title"];
     
     result = service.tasklists().update(tasklist=tasklist['id'], body=tasklist).execute()
-    print result['title'], " updated"
+    #print result['title'], " updated"
 
 def delete_tasklist(listid):
     global service
