@@ -271,7 +271,7 @@ def local_to_cloud_trans_tasklist(local_unit, entry):
 def compare_difference (cloud_unit, local_translated):
     
     for k, v in cloud_unit.iteritems():
-        print v, cloud_unit[k]
+        #print v, cloud_unit[k]
         if v != cloud_unit[k]:
             return false
     return True
@@ -455,8 +455,7 @@ def set_up_client(fileloc):
     # Build a service object for interacting with the API. Visit
     # the Google APIs Console
     # to get a developerKey for your own application.
-    service = build(serviceName='tasks', version='v1', http=http,
-           developerKey='AIzaSyDjOuKvvMRHiTYJsOu1xMnTbFFedpOoOPM')
+    service = build(serviceName='tasks', version='v1', http=http, developerKey='AIzaSyDjOuKvvMRHiTYJsOu1xMnTbFFedpOoOPM')
     
     #set the time difference
     time_difference = get_time_difference_brute_force()

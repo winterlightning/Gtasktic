@@ -35,6 +35,7 @@
 		var xhr = Titanium.Network.createHTTPClient();
 		send_data = null;
 		var fd = null;
+		var form_data = null;
 		function testauth(code) {
 			/*$.getJSON("https://accounts.google.com/o/oauth2/token?callback=?", { 
 					code: code,
@@ -65,6 +66,10 @@
 		  xhr.send( fd );
 		};
 		
+		function onError(response) {
+			console.log(response);
+		};
+		
 		function test_json_auth(code) {
 		  xhr.open("POST", "https://accounts.google.com/o/oauth2/token");
 		  xhr.onreadystatechange = function(status, response) {
@@ -84,17 +89,33 @@
 		  };
 		  xhr.send(JSON.stringify(send_data));
 		};
+		
+		function test_form_data() {
+			form_data = $('#auth_submit').serialize();
+			xhr.open("POST", "https://accounts.google.com/o/oauth2/token");
+			xhr.onreadystatechange = function(status, response) {
+				if(status >= 200 && status <= 300) {
+				  onSuccess(response);
+				} 
+				else {
+				  onError(response);
+				};
+			};
+			xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+			xhr.send(form_data);
+		};
     </script>
   </head>
 
   <body>
     <button onclick="auth();">Authorize</button>
     
-	<form action="https://accounts.google.com/o/oauth2/token">
-		client_id: <input type="text" name="client_id" /><br />
-		client_secret: <input type="text" name="client_secret" />
-		grant_type: <input type="text" name="grant_type" />
+	<form id="auth_submit" action="https://accounts.google.com/o/oauth2/token">
+		client_id: <input type="text" name="client_id" value="784374432524.apps.googleusercontent.com"/><br />
+		client_secret: <input type="text" name="client_secret" value="u4K1AZXSj8P9hIlEddLsMi6d"/>
+		grant_type: <input type="text" name="grant_type" value="authorization_code" />
 		code: <input type="text" name="code" />
+		redirect_uri: <input type="text" name="redirect_uri" value="urn:ietf:wg:oauth:2.0:oob" />
 	</form>
   </body>
 </html>
