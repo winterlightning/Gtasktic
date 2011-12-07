@@ -32,74 +32,24 @@
 		
 		window.open('https://accounts.google.com/o/oauth2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ftasks&redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=code&client_id=784374432524.apps.googleusercontent.com');
 		
-		var xhr = Titanium.Network.createHTTPClient();
+		var xhr = new XMLHttpRequest();
 		send_data = null;
 		var fd = null;
 		var form_data = null;
-		function testauth(code) {
-			/*$.getJSON("https://accounts.google.com/o/oauth2/token?callback=?", { 
-					code: code,
-					client_id: client_id,
-					client_secret: client_secret 
-				} , function(tweets) {
-					alert(tweets);
-		   });
-		   */
-		  xhr.open("POST", "https://accounts.google.com/o/oauth2/token");
-		  xhr.onreadystatechange = function(status, response) {
-			if(status >= 200 && status <= 300) {
-			  onSuccess(response);
-			} 
-			else {
-			  onError(response);
-			};
-		  };
-		  xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-		  send_data = { "code": code,
-			"client_id": client_id,
-			"client_secret": client_secret,
-			"grant_type": "authorization_code",
-			"code": code
-		  };
-		  fd = new FormData();
-		  fd.append("grant_type", "authorization_code");
-		  xhr.send( fd );
-		};
+		var token = null;
 		
-		function onError(response) {
-			console.log(response);
-		};
-		
-		function test_json_auth(code) {
-		  xhr.open("POST", "https://accounts.google.com/o/oauth2/token");
-		  xhr.onreadystatechange = function(status, response) {
-			if(status >= 200 && status <= 300) {
-			  onSuccess(response);
-			} 
-			else {
-			  onError(response);
-			};
-		  };
-		  xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-		  send_data = { code: code,
-			client_id: client_id,
-			client_secret: client_secret,
-			grant_type: "authorization_code",
-			code: code
-		  };
-		  xhr.send(JSON.stringify(send_data));
+		function validation_callback(response) {
+			var obj = $.parseJSON(xhr.response);
+			token = obj['access_token']
 		};
 		
 		function test_form_data() {
 			form_data = $('#auth_submit').serialize();
 			xhr.open("POST", "https://accounts.google.com/o/oauth2/token");
 			xhr.onreadystatechange = function(status, response) {
-				if(status >= 200 && status <= 300) {
-				  onSuccess(response);
-				} 
-				else {
-				  onError(response);
-				};
+		        if (xhr.readyState === 4) {
+		            validation_callback(response);
+		        };
 			};
 			xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 			xhr.send(form_data);
