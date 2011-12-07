@@ -7,7 +7,9 @@
 		config = {
 		  'client_id': '784374432524-n1rq1ddep6s1hua8r3gm0sestcm0dtq3.apps.googleusercontent.com',
 		  'scope': 'https://www.googleapis.com/auth/tasks',
-		  'origin': 'http://localhost/'
+		  'response_type': 'code',
+		  'origin': 'http://localhost/',
+		  'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob'
 		};    
     
 		function auth() {
@@ -37,9 +39,10 @@
 		var fd = null;
 		var form_data = null;
 		var token = null;
+		var obj = null;
 		
 		function validation_callback(response) {
-			var obj = $.parseJSON(xhr.response);
+			obj = $.parseJSON(xhr.response);
 			token = obj['access_token']
 		};
 		
@@ -54,6 +57,17 @@
 			xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 			xhr.send(form_data);
 		};
+		
+		function load_api() {
+			gapi.auth.setToken(obj);
+			gapi.client.load("tasks", "v1", function() { console.log("api loaded"); });
+		};
+		
+		function test_request() {
+			var request = gapi.client.tasks.tasks.list({"tasklist": "@default"})
+			request.execute(function (resp) { console.log(resp) } )
+		};
+		
     </script>
   </head>
 
