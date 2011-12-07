@@ -17,6 +17,8 @@ Task.extend
     @done(id).forEach (rec) ->
       Deletion.create deletion_id: rec.id  if rec.synced == true
       rec.destroy()
+  
+  #sync process
 
 Deletion = Spine.Model.setup("Deletion", [ "deletion_id" ])
 Deletion.extend Spine.Model.Local

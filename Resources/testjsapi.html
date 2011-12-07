@@ -65,7 +65,7 @@
 		
 		function test_request() {
 			var request = gapi.client.tasks.tasks.list({"tasklist": "@default"})
-			request.execute(function (resp) { console.log(resp) } )
+			return request.execute(function (resp) { console.log(resp) } )
 		};
 		
     </script>

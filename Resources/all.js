@@ -1039,12 +1039,19 @@
     window.SettingApp = Spine.Controller.create({
       events: {
         "click #setting_button": "setting_window",
-        "click #validate_button": "validate_code"
+        "click #validate_button": "validate_code",
+        "click #help_button": "show_help"
       },
       setting_window: function() {
         return $("#dialog").dialog({
           modal: true,
           title: 'Settings for sync'
+        });
+      },
+      show_help: function() {
+        return $("#dialog_help").dialog({
+          modal: true,
+          title: 'Help Tips'
         });
       },
       validate_code: function() {
