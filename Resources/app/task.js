@@ -1,5 +1,5 @@
 (function() {
-  var DeletedList, Deletion, Initialized, Key, List, Task, Version, exports;
+  var DeletedList, Deletion, Initialized, List, Task, Version, exports;
   Task = Spine.Model.setup("Task", ["name", "done", "time", "duedate", "note", "order", "synced", "listid"]);
   Task.extend(Spine.Model.Local);
   Task.extend({
@@ -31,8 +31,6 @@
   Deletion.extend(Spine.Model.Local);
   DeletedList = Spine.Model.setup("DeletedList", ["deletion_id"]);
   DeletedList.extend(Spine.Model.Local);
-  Key = Spine.Model.setup("Key", ["url", "validated"]);
-  Key.extend(Spine.Model.Local);
   List = Spine.Model.setup("List", ["name", "description", "synced", "time"]);
   List.extend(Spine.Model.Local);
   Version = Spine.Model.setup("Version", ["number"]);

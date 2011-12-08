@@ -24,8 +24,7 @@ Deletion = Spine.Model.setup("Deletion", [ "deletion_id" ])
 Deletion.extend Spine.Model.Local
 DeletedList = Spine.Model.setup("DeletedList", [ "deletion_id" ])
 DeletedList.extend Spine.Model.Local
-Key = Spine.Model.setup("Key", [ "url", "validated" ])
-Key.extend Spine.Model.Local
+
 List = Spine.Model.setup("List", [ "name", "description", "synced", "time" ])
 List.extend Spine.Model.Local
 Version = Spine.Model.setup("Version", [ "number" ])

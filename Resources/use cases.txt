@@ -30,3 +30,18 @@ Function:
 
 -Generate the URL
 -Validate and generate the credential after the confirmation
+
+Syncing after coming from offline
+-Look at the flag and see if anything is updated
+
+Syncing while still online
+-just call the action corresponding to it
+-if it succeeds, set the flag to still updated
+
+Override the default save methods for the model.
+
+Add a sync method for the model.
+
+Write a set of methods to get, edit, and delete these stuff online.
+
+Write tests for these, look at good javascript test libraries.
