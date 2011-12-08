@@ -18,27 +18,27 @@
           title: 'Help Tips'
         });
       },
+      open_validation_window: function() {
+        return window.open('https://accounts.google.com/o/oauth2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ftasks&redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=code&client_id=784374432524.apps.googleusercontent.com');
+      },
       validate_code: function() {
-        var a, code, file, flag, keys;
-        code = $('#validation').val();
-        file = Titanium.Filesystem.getApplicationDataDirectory();
-        a = validate_code(code, file);
-        flag = a.flag;
-        if (flag === true) {
-          $("#dialog").dialog("close");
-          keys = Key.all();
-          keys[0].validated = true;
-          keys[0].save();
-          return create("default", {
-            title: 'Successful Validation',
-            text: 'You may use sync now'
-          });
-        } else {
-          return create("default", {
-            title: 'Failed validation',
-            text: 'Please try again'
-          });
-        }
+        var form_data, xhr;
+        xhr = new XMLHttpRequest();
+        form_data = $('#auth_submit').serialize();
+        xhr.open("POST", "https://accounts.google.com/o/oauth2/token");
+        xhr.onreadystatechange = function(status, response) {
+          if (xhr.readyState === 4) {
+            window.obj = $.parseJSON(window.xhr.response);
+            gapi.auth.setToken(window.obj);
+            return gapi.client.load("tasks", "v1", function() {
+              return console.log("api loaded");
+            });
+          }
+        };
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send(form_data);
+        window.xhr = xhr;
+        return $("#dialog").dialog("close");
       }
     });
     return window.settingapp = SettingApp.init({

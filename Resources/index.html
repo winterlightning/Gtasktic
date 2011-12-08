@@ -21,6 +21,7 @@
 
 	<script src="lib/dateformat.js" type="text/javascript" charset="utf-8"></script>
 	<script src="lib/jquery.notify.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/client.js" type="text/javascript" charset="utf-8"></script>
 	
 	<script src="app/spine.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/spine.model.local.js" type="text/javascript" charset="utf-8"></script>
@@ -105,6 +106,7 @@
 		window.last_opened = ""; //global variable keeping track of the last opened div
 		window.cur = 0; //this is for the position of the selected task
 		window.taskdict = {}
+		window.obj = null;
 		
 		//For notification
 		function create( template, vars, opts ){
@@ -132,7 +134,7 @@
 				setting_url = keys[0].url;
 			}
 			else {
-				setting_url = create_link();
+				//setting_url = create_link();
 				Key.create({ url: setting_url });
 			};
 			$("#authlink").attr("href", setting_url)
@@ -250,8 +252,8 @@
 				//Delete all of the stuff before
 				delete localStorage['Task'];
 				
-				setting_url = create_link();
-				Key.create({ url: setting_url });
+				//setting_url = create_link();
+				//Key.create({ url: setting_url });
 				
 				//Set the version number 
 				new_version = Version.init({ number: "0.2" });
@@ -350,9 +352,15 @@
 
 	<div id="dialog" style="display: none">
 		<p>Go to the following link, login your google account and grant access: 
-		<a id="authlink" href='' target="_blank">authorization link</a><br />
+		<a id="authlink" onclick="window.settingapp.open_validation_window()">authorization link</a><br />
 		<p>Copy and paste the validation code from Google; Paste it into here and press validate. <br />
-		<input class="input-login" type="text" id="validation" name="email" placeholder="Validation Code"></p>
+		<form id="auth_submit">
+			<input class="input-login" type="text" id="validation" name="code" placeholder="Validation Code"></p>
+			<input type="text" style="display: none" name="client_id" value="784374432524.apps.googleusercontent.com" />
+			<input type="text" style="display: none" name="client_secret" value="u4K1AZXSj8P9hIlEddLsMi6d"/>
+			<input type="text" style="display: none" name="grant_type" value="authorization_code" />
+			<input type="text" style="display: none" name="redirect_uri" value="urn:ietf:wg:oauth:2.0:oob" />
+		</form>
 		
 		<div id="account-buttons" class="ui-dialog-buttonset">        
 	        <!-- LOGIN BUTTONS -->
@@ -399,6 +407,7 @@
 		<p>Name of the list: <br />
 		<input class="input-login" type="text" id="list_name" name="name" placeholder="name"></p>
 		<p>Description for the list: <br />
+		
 		<input class="input-login" type="text" id="list_description" name="description" placeholder="description"></p>
 		
 		<div id="account-buttons" class="ui-dialog-buttonset">        
@@ -408,6 +417,7 @@
 	         	<input class="input-button register button-login" type="submit" id="editlistbutton" onclick="edit_list()" value="Save">        	        
 	        </div>
 	    </div>
+	    
 	</div>
 
 	<div id="dialog_changebackground" style="display: none">

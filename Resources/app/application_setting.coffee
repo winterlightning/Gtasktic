@@ -12,20 +12,25 @@ jQuery ($) ->
     show_help: ->
       $("#dialog_help").dialog({ modal: true, title: 'Help Tips' })
     
-    validate_code: ->
-      code = $('#validation').val();
-      file = Titanium.Filesystem.getApplicationDataDirectory()
-      a = validate_code(code, file)
-      flag = a.flag
-      
-      if (flag == true)
-        $("#dialog").dialog("close")
-        keys = Key.all()
-        keys[0].validated = true
-        keys[0].save()
-        create("default", { title:'Successful Validation', text:'You may use sync now'})
-      else
-        create("default", { title:'Failed validation', text:'Please try again'})      
+    open_validation_window: ->
+      window.open('https://accounts.google.com/o/oauth2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ftasks&redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=code&client_id=784374432524.apps.googleusercontent.com')
     
+    validate_code: ->
+      xhr = new XMLHttpRequest()
+      
+      form_data = $('#auth_submit').serialize()
+      xhr.open("POST", "https://accounts.google.com/o/oauth2/token")
+      xhr.onreadystatechange = (status, response) ->
+        if xhr.readyState is 4
+          window.obj = $.parseJSON(window.xhr.response)
+          gapi.auth.setToken(window.obj);
+          gapi.client.load("tasks", "v1", -> console.log("api loaded"));
+          
+      xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
+      xhr.send(form_data)
+      
+      window.xhr = xhr
+      
+      $("#dialog").dialog("close")
   )
   window.settingapp = SettingApp.init(el: "#theapp")
