@@ -26,11 +26,27 @@ jQuery ($) ->
           gapi.auth.setToken(window.obj);
           gapi.client.load("tasks", "v1", -> console.log("api loaded"));
           
+          #1. Set the access token as the current token
+          #2. Set the refresh token 
+          #3. Set a timer for when the access token is expired
+          current_token = Token.first()
+          current_token.current_token = window.obj['access_token']
+          current_token.expiration = window.obj['expires_in']
+          current_token.refresh_token = window.obj['refresh_token']
+          current_token.save()
+          
       xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
       xhr.send(form_data)
       
       window.xhr = xhr
       
       $("#dialog").dialog("close")
+    
+    setup_api_on_entry: ->
+      alert("setup called")
+    
+    refresh_token: ->
+      alert("refresh token")
+      
   )
   window.settingapp = SettingApp.init(el: "#theapp")

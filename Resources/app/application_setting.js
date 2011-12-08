@@ -27,18 +27,30 @@
         form_data = $('#auth_submit').serialize();
         xhr.open("POST", "https://accounts.google.com/o/oauth2/token");
         xhr.onreadystatechange = function(status, response) {
+          var current_token;
           if (xhr.readyState === 4) {
             window.obj = $.parseJSON(window.xhr.response);
             gapi.auth.setToken(window.obj);
-            return gapi.client.load("tasks", "v1", function() {
+            gapi.client.load("tasks", "v1", function() {
               return console.log("api loaded");
             });
+            current_token = Token.first();
+            current_token.current_token = window.obj['access_token'];
+            current_token.expiration = window.obj['expires_in'];
+            current_token.refresh_token = window.obj['refresh_token'];
+            return current_token.save();
           }
         };
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.send(form_data);
         window.xhr = xhr;
         return $("#dialog").dialog("close");
+      },
+      setup_api_on_entry: function() {
+        return alert("setup called");
+      },
+      refresh_token: function() {
+        return alert("refresh token");
       }
     });
     return window.settingapp = SettingApp.init({
