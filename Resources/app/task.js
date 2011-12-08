@@ -1,5 +1,5 @@
 (function() {
-  var DeletedList, Deletion, Initialized, List, Task, Version, exports;
+  var DeletedList, Deletion, Initialized, List, Task, Token, Version, exports;
   Task = Spine.Model.setup("Task", ["name", "done", "time", "duedate", "note", "order", "synced", "listid"]);
   Task.extend(Spine.Model.Local);
   Task.extend({
@@ -37,6 +37,8 @@
   Version.extend(Spine.Model.Local);
   Initialized = Spine.Model.setup("Initialized", ["flag"]);
   Initialized.extend(Spine.Model.Local);
+  Token = Spine.Model.setup("Token", ["current_token", "expiration", "refresh_token"]);
+  Token.extend(Spine.Model.Local);
   exports = this;
   exports.Deletion = Deletion;
   exports.Task = Task;
@@ -44,4 +46,5 @@
   exports.List = List;
   exports.Version = Version;
   exports.Initialized = Initialized;
+  exports.Token = Token;
 }).call(this);

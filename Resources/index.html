@@ -95,7 +95,6 @@
 		Task.fetch();
 		Deletion.fetch();
 		List.fetch();
-		Key.fetch();
 		
 		Initialized.fetch();
 		
@@ -128,16 +127,6 @@
 				}
 			});
 			
-			//set auth link
-			keys = Key.all();
-			if (keys.length != 0) {
-				setting_url = keys[0].url;
-			}
-			else {
-				//setting_url = create_link();
-				Key.create({ url: setting_url });
-			};
-			$("#authlink").attr("href", setting_url)
 			$container = $("#container").notify();
 			
 			$('#calendar').fullCalendar({
@@ -274,6 +263,9 @@
 				new_task.save();
 				new_task_2.save();
 				
+				//create a container for the new token
+				new_token = Token.init({ current_token: "", expiration: "", refresh_token: "" });
+				new_token.save();
 			};
 		};
 		
