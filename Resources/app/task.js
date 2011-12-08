@@ -41,7 +41,6 @@
   exports.Deletion = Deletion;
   exports.Task = Task;
   exports.DeletedList = DeletedList;
-  exports.Key = Key;
   exports.List = List;
   exports.Version = Version;
   exports.Initialized = Initialized;
