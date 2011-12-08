@@ -27,7 +27,7 @@
         form_data = $('#auth_submit').serialize();
         xhr.open("POST", "https://accounts.google.com/o/oauth2/token");
         xhr.onreadystatechange = function(status, response) {
-          var current_token;
+          var current_token, now;
           if (xhr.readyState === 4) {
             window.obj = $.parseJSON(window.xhr.response);
             gapi.auth.setToken(window.obj);
@@ -36,7 +36,8 @@
             });
             current_token = Token.first();
             current_token.current_token = window.obj['access_token'];
-            current_token.expiration = window.obj['expires_in'];
+            now = moment().add('seconds', window.obj['expires_in']);
+            current_token.expiration = now.format('dddd, MMMM Do YYYY, h:mm:ss a');
             current_token.refresh_token = window.obj['refresh_token'];
             return current_token.save();
           }

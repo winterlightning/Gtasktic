@@ -31,7 +31,8 @@ jQuery ($) ->
           #3. Set a timer for when the access token is expired
           current_token = Token.first()
           current_token.current_token = window.obj['access_token']
-          current_token.expiration = window.obj['expires_in']
+          now = moment().add('seconds', window.obj['expires_in']);
+          current_token.expiration = now.format('dddd, MMMM Do YYYY, h:mm:ss a')
           current_token.refresh_token = window.obj['refresh_token']
           current_token.save()
           
@@ -43,9 +44,16 @@ jQuery ($) ->
       $("#dialog").dialog("close")
     
     setup_api_on_entry: ->
+      #if token not expired, set token and load api
+      
+      
+      #else, get refresh token and set it and load api on callback
+      
       alert("setup called")
     
     refresh_token: ->
+      #check if token is expired, if it is, get new token and set it
+      
       alert("refresh token")
       
   )
