@@ -37,7 +37,7 @@
             current_token = Token.first();
             current_token.current_token = window.obj['access_token'];
             now = moment().add('seconds', window.obj['expires_in']);
-            current_token.expiration = now.format('dddd, MMMM Do YYYY, h:mm:ss a');
+            current_token.expiration = now.toString();
             current_token.refresh_token = window.obj['refresh_token'];
             return current_token.save();
           }
@@ -48,7 +48,46 @@
         return $("#dialog").dialog("close");
       },
       setup_api_on_entry: function() {
-        return alert("setup called");
+        var current_token, data, expiration, now, xhr;
+        current_token = Token.first();
+        expiration = moment(current_token.expiration);
+        now = moment();
+        if (now < expiration) {
+          gapi.auth.setToken({
+            access_token: current_token.current_token,
+            expires_in: 3600,
+            token_type: "Bearer"
+          });
+          gapi.client.load("tasks", "v1", function() {
+            return console.log("api loaded");
+          });
+          return alert("token not expired");
+        } else {
+          xhr = new XMLHttpRequest();
+          alert("token expired");
+          current_token = Token.first();
+          window.refresh = current_token.refresh_token;
+          data = "client_id=784374432524.apps.googleusercontent.com&client_secret=u4K1AZXSj8P9hIlEddLsMi6d&refresh_token=" + window.refresh + "&grant_type=refresh_token";
+          window.data = data;
+          xhr.open("POST", "https://accounts.google.com/o/oauth2/token");
+          xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+          xhr.onreadystatechange = function(status, response) {
+            if (xhr.readyState === 4) {
+              window.obj = $.parseJSON(window.xhr.response);
+              gapi.auth.setToken(window.obj);
+              gapi.client.load("tasks", "v1", function() {
+                return console.log("api loaded");
+              });
+              current_token = Token.first();
+              current_token.current_token = window.obj['access_token'];
+              now = moment().add('seconds', window.obj['expires_in']);
+              current_token.expiration = now.toString();
+              return current_token.save();
+            }
+          };
+          xhr.send(data);
+          return window.xhr = xhr;
+        }
       },
       refresh_token: function() {
         return alert("refresh token");

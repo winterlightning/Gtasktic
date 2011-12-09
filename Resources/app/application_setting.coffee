@@ -32,7 +32,7 @@ jQuery ($) ->
           current_token = Token.first()
           current_token.current_token = window.obj['access_token']
           now = moment().add('seconds', window.obj['expires_in']);
-          current_token.expiration = now.format('dddd, MMMM Do YYYY, h:mm:ss a')
+          current_token.expiration = now.toString()
           current_token.refresh_token = window.obj['refresh_token']
           current_token.save()
           
@@ -45,14 +45,55 @@ jQuery ($) ->
     
     setup_api_on_entry: ->
       #if token not expired, set token and load api
+      current_token = Token.first()
+      expiration = moment( current_token.expiration )
       
+      now = moment()
       
+      if now < expiration
+        gapi.auth.setToken
+          access_token: current_token.current_token
+          expires_in: 3600
+          token_type: "Bearer"
+          
+        gapi.client.load("tasks", "v1", -> console.log("api loaded"));
+        alert("token not expired")
+      
+      else
+        xhr = new XMLHttpRequest()
+        
+        alert("token expired")
+        
+        #setup the data
+        current_token = Token.first()
+        
+        window.refresh = current_token.refresh_token
+        data = "client_id=784374432524.apps.googleusercontent.com&client_secret=u4K1AZXSj8P9hIlEddLsMi6d&refresh_token=#{ window.refresh }&grant_type=refresh_token"
+        window.data = data
+        
+        xhr.open("POST", "https://accounts.google.com/o/oauth2/token")
+        xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
+        xhr.onreadystatechange = (status, response) ->
+          if xhr.readyState is 4
+            window.obj = $.parseJSON(window.xhr.response)
+            gapi.auth.setToken(window.obj);
+            gapi.client.load("tasks", "v1", -> console.log("api loaded"));
+            
+            #1. Set the access token as the current token
+            #2. Set the refresh token 
+            #3. Set a timer for when the access token is expired
+            current_token = Token.first()
+            current_token.current_token = window.obj['access_token']
+            now = moment().add('seconds', window.obj['expires_in']);
+            current_token.expiration = now.toString()
+            current_token.save()
+        
+        xhr.send(data)
+        window.xhr = xhr
       #else, get refresh token and set it and load api on callback
       
-      alert("setup called")
     
     refresh_token: ->
-      #check if token is expired, if it is, get new token and set it
       
       alert("refresh token")
       
