@@ -1,4 +1,29 @@
 (function() {
+  window.new_sync = function() {
+    if ((navigator.onLine === false) || ($("#sync_button").hasClass("disabled"))) {}
+  };
+  window.sync_list = function() {
+    var request;
+    request = gapi.client.tasks.tasklists.list();
+    return request.execute(function(resp) {
+      console.log(resp);
+      window.list_response = resp;
+      return window.local_cloud_sync(List.all(), resp.items);
+    });
+  };
+  window.local_cloud_sync = function(local, cloud) {
+    var item, local_dict, local_ids, _i, _len, _results;
+    console.log(local);
+    console.log(cloud);
+    local_dict = {};
+    local_ids = [];
+    _results = [];
+    for (_i = 0, _len = local.length; _i < _len; _i++) {
+      item = local[_i];
+      _results.push(alert(item));
+    }
+    return _results;
+  };
   window.Sync = function() {
     var a, b, d, denied, e, f, file;
     if ((navigator.onLine === false) || ($("#sync_button").hasClass("disabled"))) {

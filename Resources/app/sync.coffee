@@ -1,3 +1,44 @@
+window.new_sync = ->
+  if (navigator.onLine == false) or ( $("#sync_button").hasClass("disabled") )
+    return
+
+  #save all the etags? alternative comparing
+  #lists = sync list the list syncs 
+  
+  #call sync on the list of tasklist
+
+window.sync_list = ->
+  request = gapi.client.tasks.tasklists.list()
+  request.execute( (resp) -> 
+    console.log(resp) 
+    window.list_response = resp 
+    window.local_cloud_sync( List.all(), resp.items )
+  )
+
+window.local_cloud_sync = (local, cloud) ->
+  console.log(local)
+  console.log(cloud)
+  
+  #convert both to sets of ids and dictionaries
+  local_dict = {}
+  local_ids = []
+  
+  for item in local
+    alert(item)
+  
+  #process the set of ids that are there locally but not there on the cloud
+  #If their synced flag is False, add them, else delete them
+  
+  
+  #process the set of ids that are there on the cloud but not there locally
+  #Add them back locally since everything deleted should be on the deleted list and taken care of first  
+  
+  
+  #process the set of ids that are there in the cloud and locally
+  #check their timestamps, if local > cloud, write local to cloud, if cloud > local, put it in passback to overwrite local,
+  #if cloud == local, do nothing
+  
+
 window.Sync = ->
   
   if (navigator.onLine == false) or ( $("#sync_button").hasClass("disabled") )
