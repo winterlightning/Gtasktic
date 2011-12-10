@@ -1,4 +1,5 @@
 (function() {
+  var de_array;
   window.new_sync = function() {
     if ((navigator.onLine === false) || ($("#sync_button").hasClass("disabled"))) {}
   };
@@ -11,18 +12,22 @@
       return window.local_cloud_sync(List.all(), resp.items);
     });
   };
-  window.local_cloud_sync = function(local, cloud) {
-    var item, local_dict, local_ids, _i, _len, _results;
-    console.log(local);
-    console.log(cloud);
+  de_array = function(array) {
+    var item, local_dict, local_ids, _i, _len;
     local_dict = {};
     local_ids = [];
-    _results = [];
     for (_i = 0, _len = local.length; _i < _len; _i++) {
       item = local[_i];
-      _results.push(alert(item));
+      local_dict[item.id] = item;
+      local_ids.append(item.id);
     }
-    return _results;
+    return [local_dict, local_ids];
+  };
+  window.local_cloud_sync = function(local, cloud) {
+    var a;
+    console.log(local);
+    console.log(cloud);
+    return a = de_array(local);
   };
   window.Sync = function() {
     var a, b, d, denied, e, f, file;

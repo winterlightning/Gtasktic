@@ -35,6 +35,9 @@ Initialized.extend Spine.Model.Local
 Token = Spine.Model.setup("Token", [ "current_token", "expiration", "refresh_token" ])
 Token.extend Spine.Model.Local
 
+TestStorage = Spine.Model.setup("TestStorage", [ "stored" ])
+TestStorage.extend Spine.Model.Local
+
 exports = this
 exports.Deletion = Deletion
 exports.Task = Task

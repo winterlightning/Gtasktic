@@ -15,16 +15,22 @@ window.sync_list = ->
     window.local_cloud_sync( List.all(), resp.items )
   )
 
+de_array = (array) ->
+  local_dict = {}
+  local_ids = []
+  
+  for item in local
+    local_dict[item.id] = item
+    local_ids.append( item.id )
+    
+  return [local_dict, local_ids]
+
 window.local_cloud_sync = (local, cloud) ->
   console.log(local)
   console.log(cloud)
   
   #convert both to sets of ids and dictionaries
-  local_dict = {}
-  local_ids = []
-  
-  for item in local
-    alert(item)
+  a = de_array(local)
   
   #process the set of ids that are there locally but not there on the cloud
   #If their synced flag is False, add them, else delete them
