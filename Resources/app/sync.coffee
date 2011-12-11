@@ -11,17 +11,17 @@ window.sync_list = ->
   request = gapi.client.tasks.tasklists.list()
   request.execute( (resp) -> 
     console.log(resp) 
-    window.list_response = resp 
+    window.list_response = resp  
     window.local_cloud_sync( List.all(), resp.items )
   )
 
-de_array = (array) ->
+window.de_array = (array) ->
   local_dict = {}
   local_ids = []
   
-  for item in local
+  for item in array
     local_dict[item.id] = item
-    local_ids.append( item.id )
+    local_ids.push( item.id )
     
   return [local_dict, local_ids]
 
@@ -30,7 +30,7 @@ window.local_cloud_sync = (local, cloud) ->
   console.log(cloud)
   
   #convert both to sets of ids and dictionaries
-  a = de_array(local)
+  [local_dict, local_ids] = de_array(local)
   
   #process the set of ids that are there locally but not there on the cloud
   #If their synced flag is False, add them, else delete them
