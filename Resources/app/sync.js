@@ -23,10 +23,13 @@
     return [local_dict, local_ids];
   };
   window.local_cloud_sync = function(local, cloud) {
-    var local_dict, local_ids, _ref;
+    var cloud_dict, cloud_ids, local_dict, local_ids, _ref, _ref2;
     console.log(local);
     console.log(cloud);
-    return _ref = de_array(local), local_dict = _ref[0], local_ids = _ref[1], _ref;
+    _ref = de_array(local), local_dict = _ref[0], local_ids = _ref[1];
+    _ref2 = de_array(cloud), cloud_dict = _ref2[0], cloud_ids = _ref2[1];
+    window.local_set = new Set(local_ids);
+    return window.cloud_set = new Set(cloud_ids);
   };
   window.Sync = function() {
     var a, b, d, denied, e, f, file;

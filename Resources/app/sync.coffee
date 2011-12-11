@@ -31,9 +31,14 @@ window.local_cloud_sync = (local, cloud) ->
   
   #convert both to sets of ids and dictionaries
   [local_dict, local_ids] = de_array(local)
+  [cloud_dict, cloud_ids] = de_array(cloud)
+  
+  window.local_set = new Set(local_ids)
+  window.cloud_set = new Set(cloud_ids)
   
   #process the set of ids that are there locally but not there on the cloud
   #If their synced flag is False, add them, else delete them
+  
   
   
   #process the set of ids that are there on the cloud but not there locally
