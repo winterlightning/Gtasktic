@@ -22,14 +22,50 @@
     }
     return [local_dict, local_ids];
   };
+  window.add_tasklist_to_cloud = function(tasklist) {
+    var request, request_json;
+    request_json = {
+      path: "/tasks/v1/users/@me/lists",
+      method: "POST",
+      params: "title=list",
+      body: {
+        title: tasklist
+      }
+    };
+    request = gapi.client.request(request_json);
+    return request.execute(function(resp) {
+      console.log(resp);
+      return window.add_response = resp;
+    });
+  };
   window.local_cloud_sync = function(local, cloud) {
-    var cloud_dict, cloud_ids, local_dict, local_ids, _ref, _ref2;
+    var cloud_dict, cloud_ids, cloud_set, id, local_dict, local_ids, local_set, _i, _j, _k, _len, _len2, _len3, _ref, _ref2, _ref3, _ref4, _ref5, _results;
     console.log(local);
     console.log(cloud);
     _ref = de_array(local), local_dict = _ref[0], local_ids = _ref[1];
     _ref2 = de_array(cloud), cloud_dict = _ref2[0], cloud_ids = _ref2[1];
-    window.local_set = new Set(local_ids);
-    return window.cloud_set = new Set(cloud_ids);
+    local_set = new Set(local_ids);
+    cloud_set = new Set(cloud_ids);
+    console.log("there locally, not on the cloud");
+    _ref3 = (local_set.difference(cloud_set)._set);
+    for (_i = 0, _len = _ref3.length; _i < _len; _i++) {
+      id = _ref3[_i];
+      console.log(id);
+    }
+    console.log("there on the cloud, not local");
+    _ref4 = (cloud_set.difference(local_set)._set);
+    for (_j = 0, _len2 = _ref4.length; _j < _len2; _j++) {
+      id = _ref4[_j];
+      console.log(id);
+    }
+    console.log("there on the cloud and local");
+    _ref5 = (cloud_set.intersection(local_set)._set);
+    _results = [];
+    for (_k = 0, _len3 = _ref5.length; _k < _len3; _k++) {
+      id = _ref5[_k];
+      _results.push(console.log(id));
+    }
+    return _results;
   };
   window.Sync = function() {
     var a, b, d, denied, e, f, file;

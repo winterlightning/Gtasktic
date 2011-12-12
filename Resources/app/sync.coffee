@@ -25,6 +25,21 @@ window.de_array = (array) ->
     
   return [local_dict, local_ids]
 
+window.add_tasklist_to_cloud = (tasklist) ->
+  #manually create the request since the api shit is not working
+  request_json = 
+    path: "/tasks/v1/users/@me/lists"
+    method: "POST"
+    params: "title=list"
+    body:  title: tasklist
+  
+  request = gapi.client.request(request_json)
+  request.execute( (resp) -> 
+    console.log(resp) 
+    window.add_response = resp
+  )  
+  
+#the item to be synced should be passed as a third param, and function to add/edit/delete should be attached to it.
 window.local_cloud_sync = (local, cloud) ->
   console.log(local)
   console.log(cloud)
@@ -33,23 +48,28 @@ window.local_cloud_sync = (local, cloud) ->
   [local_dict, local_ids] = de_array(local)
   [cloud_dict, cloud_ids] = de_array(cloud)
   
-  window.local_set = new Set(local_ids)
-  window.cloud_set = new Set(cloud_ids)
+  local_set = new Set(local_ids)
+  cloud_set = new Set(cloud_ids)
   
   #process the set of ids that are there locally but not there on the cloud
   #If their synced flag is False, add them, else delete them
-  
-  
+  console.log("there locally, not on the cloud")
+  for id in ( local_set.difference( cloud_set )._set )
+    console.log( id )
   
   #process the set of ids that are there on the cloud but not there locally
   #Add them back locally since everything deleted should be on the deleted list and taken care of first  
-  
+  console.log("there on the cloud, not local")
+  for id in ( cloud_set.difference( local_set )._set )
+    console.log( id )
   
   #process the set of ids that are there in the cloud and locally
   #check their timestamps, if local > cloud, write local to cloud, if cloud > local, put it in passback to overwrite local,
   #if cloud == local, do nothing
+  console.log("there on the cloud and local")
+  for id in ( cloud_set.intersection( local_set )._set )
+    console.log( id )
   
-
 window.Sync = ->
   
   if (navigator.onLine == false) or ( $("#sync_button").hasClass("disabled") )
