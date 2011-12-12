@@ -18,26 +18,61 @@ Task.extend
       Deletion.create deletion_id: rec.id  if rec.synced == true
       rec.destroy()
   
+  toCloudStructure: (task) ->
+    data = { title: task.name }
+    data.due = moment(a.duedate).format("YYYY-MM-DD")+"T12:00:00.000Z" if task.duedate?
+    data.notes = task.note if task.note?
+    if task.done
+      data.status = "completed"
+    else
+      data.status = "needsAction"
+      
+    data
+  
   #sync process
-  add_to_cloud: (list_name) ->
+  add_to_cloud: (task) -> #tasks needs to at least have a name and listid attribute
     #manually create the request since the api shit is not working
+    data = Task.toCloudStructure(task)
+    
     request_json = 
-      path: "/tasks/v1/users/@me/lists"
+      path: "/tasks/v1/lists/#{ task.listid }/tasks"
       method: "POST"
       params: ""
-      body:  title: list_name
+      body: data
     
     request = gapi.client.request(request_json)
     request.execute( (resp) -> 
       console.log(resp) 
       window.add_response = resp
-    )  
+    )
   
-  delete_from_cloud: (id) ->
-    alert("delete from cloud")
+  delete_from_cloud: (task) ->
+    request_json = 
+      path: "/tasks/v1/lists/#{ task.listid }/tasks/#{ task.id }"
+      method: "DELETE"
+      params: ""
+      body: ""
+
+    request = gapi.client.request(request_json)
+    request.execute( (resp) -> 
+      console.log(resp) 
+      window.delete_response = resp
+    )
   
-  update_to_cloud: (tasklist) ->
-    alert("update to cloud")
+  update_to_cloud: (task) ->
+    data = Task.toCloudStructure(task)
+    data.id = task.id
+    
+    request_json = 
+      path: "/tasks/v1/lists/#{ task.listid }/tasks/#{ task.id }"
+      method: "PUT"
+      params: ""
+      body: data
+    
+    request.execute( (resp) -> 
+      console.log(resp) 
+      window.update_response = resp
+    )    
     
   
 Deletion = Spine.Model.setup("Deletion", [ "deletion_id" ])

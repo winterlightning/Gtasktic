@@ -26,15 +26,32 @@
         return rec.destroy();
       });
     },
-    add_to_cloud: function(list_name) {
-      var request, request_json;
+    toCloudStructure: function(task) {
+      var data;
+      data = {
+        title: task.name
+      };
+      if (task.duedate != null) {
+        data.due = moment(a.duedate).format("YYYY-MM-DD") + "T12:00:00.000Z";
+      }
+      if (task.note != null) {
+        data.notes = task.note;
+      }
+      if (task.done) {
+        data.status = "completed";
+      } else {
+        data.status = "needsAction";
+      }
+      return data;
+    },
+    add_to_cloud: function(task) {
+      var data, request, request_json;
+      data = Task.toCloudStructure(task);
       request_json = {
-        path: "/tasks/v1/users/@me/lists",
+        path: "/tasks/v1/lists/" + task.listid + "/tasks",
         method: "POST",
         params: "",
-        body: {
-          title: list_name
-        }
+        body: data
       };
       request = gapi.client.request(request_json);
       return request.execute(function(resp) {
@@ -42,11 +59,34 @@
         return window.add_response = resp;
       });
     },
-    delete_from_cloud: function(id) {
-      return alert("delete from cloud");
+    delete_from_cloud: function(task) {
+      var request, request_json;
+      request_json = {
+        path: "/tasks/v1/lists/" + task.listid + "/tasks/" + task.id,
+        method: "DELETE",
+        params: "",
+        body: ""
+      };
+      request = gapi.client.request(request_json);
+      return request.execute(function(resp) {
+        console.log(resp);
+        return window.delete_response = resp;
+      });
     },
-    update_to_cloud: function(tasklist) {
-      return alert("update to cloud");
+    update_to_cloud: function(task) {
+      var data, request_json;
+      data = Task.toCloudStructure(task);
+      data.id = task.id;
+      request_json = {
+        path: "/tasks/v1/lists/" + task.listid + "/tasks/" + task.id,
+        method: "PUT",
+        params: "",
+        body: data
+      };
+      return request.execute(function(resp) {
+        console.log(resp);
+        return window.update_response = resp;
+      });
     }
   });
   Deletion = Spine.Model.setup("Deletion", ["deletion_id"]);
