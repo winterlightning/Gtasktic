@@ -62,13 +62,35 @@ List.extend
     request.execute( (resp) -> 
       console.log(resp) 
       window.add_response = resp
+    
+      #change all the ids of the local task with that task list id and also change that list's id
     )  
   
   delete_from_cloud: (id) ->
-    alert("delete from cloud")
+    request_json = 
+      path: "/tasks/v1/users/@me/lists/"+ id
+      method: "DELETE"
+      params: ""
+      body:  ""
+    
+    request = gapi.client.request(request_json)
+    request.execute( (resp) -> 
+      console.log(resp) 
+      window.delete_response = resp
+    )  
   
   update_to_cloud: (tasklist) ->
-    alert("update to cloud")
+    request_json = 
+      path: "/tasks/v1/users/@me/lists/"+tasklist.id
+      method: "PUT"
+      params: ""
+      body:  { id: tasklist.id, kind: "tasks#taskList", title: tasklist.title }
+    
+    request = gapi.client.request(request_json)
+    request.execute( (resp) -> 
+      console.log(resp) 
+      window.update_response = resp
+    )  
 
 Version = Spine.Model.setup("Version", [ "number" ])
 Version.extend Spine.Model.Local

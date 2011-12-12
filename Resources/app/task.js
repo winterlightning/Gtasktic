@@ -73,10 +73,36 @@
       });
     },
     delete_from_cloud: function(id) {
-      return alert("delete from cloud");
+      var request, request_json;
+      request_json = {
+        path: "/tasks/v1/users/@me/lists/" + id,
+        method: "DELETE",
+        params: "",
+        body: ""
+      };
+      request = gapi.client.request(request_json);
+      return request.execute(function(resp) {
+        console.log(resp);
+        return window.delete_response = resp;
+      });
     },
     update_to_cloud: function(tasklist) {
-      return alert("update to cloud");
+      var request, request_json;
+      request_json = {
+        path: "/tasks/v1/users/@me/lists/" + tasklist.id,
+        method: "PUT",
+        params: "",
+        body: {
+          id: tasklist.id,
+          kind: "tasks#taskList",
+          title: tasklist.title
+        }
+      };
+      request = gapi.client.request(request_json);
+      return request.execute(function(resp) {
+        console.log(resp);
+        return window.update_response = resp;
+      });
     }
   });
   Version = Spine.Model.setup("Version", ["number"]);
