@@ -25,6 +25,28 @@
         });
         return rec.destroy();
       });
+    },
+    add_to_cloud: function(list_name) {
+      var request, request_json;
+      request_json = {
+        path: "/tasks/v1/users/@me/lists",
+        method: "POST",
+        params: "",
+        body: {
+          title: list_name
+        }
+      };
+      request = gapi.client.request(request_json);
+      return request.execute(function(resp) {
+        console.log(resp);
+        return window.add_response = resp;
+      });
+    },
+    delete_from_cloud: function(id) {
+      return alert("delete from cloud");
+    },
+    update_to_cloud: function(tasklist) {
+      return alert("update to cloud");
     }
   });
   Deletion = Spine.Model.setup("Deletion", ["deletion_id"]);
@@ -33,6 +55,30 @@
   DeletedList.extend(Spine.Model.Local);
   List = Spine.Model.setup("List", ["name", "description", "synced", "time"]);
   List.extend(Spine.Model.Local);
+  List.extend({
+    add_to_cloud: function(list_name) {
+      var request, request_json;
+      request_json = {
+        path: "/tasks/v1/users/@me/lists",
+        method: "POST",
+        params: "",
+        body: {
+          title: list_name
+        }
+      };
+      request = gapi.client.request(request_json);
+      return request.execute(function(resp) {
+        console.log(resp);
+        return window.add_response = resp;
+      });
+    },
+    delete_from_cloud: function(id) {
+      return alert("delete from cloud");
+    },
+    update_to_cloud: function(tasklist) {
+      return alert("update to cloud");
+    }
+  });
   Version = Spine.Model.setup("Version", ["number"]);
   Version.extend(Spine.Model.Local);
   Initialized = Spine.Model.setup("Initialized", ["flag"]);

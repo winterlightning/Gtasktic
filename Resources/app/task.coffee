@@ -19,7 +19,27 @@ Task.extend
       rec.destroy()
   
   #sync process
-
+  add_to_cloud: (list_name) ->
+    #manually create the request since the api shit is not working
+    request_json = 
+      path: "/tasks/v1/users/@me/lists"
+      method: "POST"
+      params: ""
+      body:  title: list_name
+    
+    request = gapi.client.request(request_json)
+    request.execute( (resp) -> 
+      console.log(resp) 
+      window.add_response = resp
+    )  
+  
+  delete_from_cloud: (id) ->
+    alert("delete from cloud")
+  
+  update_to_cloud: (tasklist) ->
+    alert("update to cloud")
+    
+  
 Deletion = Spine.Model.setup("Deletion", [ "deletion_id" ])
 Deletion.extend Spine.Model.Local
 DeletedList = Spine.Model.setup("DeletedList", [ "deletion_id" ])
@@ -27,6 +47,29 @@ DeletedList.extend Spine.Model.Local
 
 List = Spine.Model.setup("List", [ "name", "description", "synced", "time" ])
 List.extend Spine.Model.Local
+
+List.extend
+  #sync processes
+  add_to_cloud: (list_name) ->
+    #manually create the request since the api shit is not working
+    request_json = 
+      path: "/tasks/v1/users/@me/lists"
+      method: "POST"
+      params: ""
+      body:  title: list_name
+    
+    request = gapi.client.request(request_json)
+    request.execute( (resp) -> 
+      console.log(resp) 
+      window.add_response = resp
+    )  
+  
+  delete_from_cloud: (id) ->
+    alert("delete from cloud")
+  
+  update_to_cloud: (tasklist) ->
+    alert("update to cloud")
+
 Version = Spine.Model.setup("Version", [ "number" ])
 Version.extend Spine.Model.Local
 Initialized = Spine.Model.setup("Initialized", [ "flag" ])

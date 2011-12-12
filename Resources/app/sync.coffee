@@ -24,20 +24,6 @@ window.de_array = (array) ->
     local_ids.push( item.id )
     
   return [local_dict, local_ids]
-
-window.add_tasklist_to_cloud = (tasklist) ->
-  #manually create the request since the api shit is not working
-  request_json = 
-    path: "/tasks/v1/users/@me/lists"
-    method: "POST"
-    params: "title=list"
-    body:  title: tasklist
-  
-  request = gapi.client.request(request_json)
-  request.execute( (resp) -> 
-    console.log(resp) 
-    window.add_response = resp
-  )  
   
 #the item to be synced should be passed as a third param, and function to add/edit/delete should be attached to it.
 window.local_cloud_sync = (local, cloud) ->

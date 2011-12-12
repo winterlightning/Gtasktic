@@ -22,22 +22,6 @@
     }
     return [local_dict, local_ids];
   };
-  window.add_tasklist_to_cloud = function(tasklist) {
-    var request, request_json;
-    request_json = {
-      path: "/tasks/v1/users/@me/lists",
-      method: "POST",
-      params: "title=list",
-      body: {
-        title: tasklist
-      }
-    };
-    request = gapi.client.request(request_json);
-    return request.execute(function(resp) {
-      console.log(resp);
-      return window.add_response = resp;
-    });
-  };
   window.local_cloud_sync = function(local, cloud) {
     var cloud_dict, cloud_ids, cloud_set, id, local_dict, local_ids, local_set, _i, _j, _k, _len, _len2, _len3, _ref, _ref2, _ref3, _ref4, _ref5, _results;
     console.log(local);
