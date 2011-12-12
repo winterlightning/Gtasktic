@@ -44,6 +44,9 @@ Task.extend
     request.execute( (resp) -> 
       console.log(resp) 
       window.add_response = resp
+      
+      #response need to update the local with correct id
+      
     )
   
   delete_from_cloud: (task) ->
@@ -69,6 +72,7 @@ Task.extend
       params: ""
       body: data
     
+    request = gapi.client.request(request_json)
     request.execute( (resp) -> 
       console.log(resp) 
       window.update_response = resp

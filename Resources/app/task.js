@@ -74,7 +74,7 @@
       });
     },
     update_to_cloud: function(task) {
-      var data, request_json;
+      var data, request, request_json;
       data = Task.toCloudStructure(task);
       data.id = task.id;
       request_json = {
@@ -83,6 +83,7 @@
         params: "",
         body: data
       };
+      request = gapi.client.request(request_json);
       return request.execute(function(resp) {
         console.log(resp);
         return window.update_response = resp;
