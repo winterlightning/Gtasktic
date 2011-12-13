@@ -89,20 +89,37 @@ List.extend Spine.Model.Local
 
 List.extend
   #sync processes
-  add_to_cloud: (list_name) ->
+  add_to_cloud: (tasklist) ->
+    if tasklist.name is "@default"
+      return true
+    
     #manually create the request since the api shit is not working
     request_json = 
       path: "/tasks/v1/users/@me/lists"
       method: "POST"
       params: ""
-      body:  title: list_name
+      body:  title: tasklist.name
     
     request = gapi.client.request(request_json)
     request.execute( (resp) -> 
       console.log(resp) 
       window.add_response = resp
     
-      #change all the ids of the local task with that task list id and also change that list's id
+      #destroy the old tasklist and create one with id corresponding to the new one
+      old_id = tasklist.id
+      
+      new_tasklist = List.init( name: tasklist.name, time: (new Date()).toString() )
+      new_tasklist.id = resp.id
+      new_tasklist.save()
+      
+      window.test = new_tasklist
+      
+      tasklist.destroy()
+      
+      #change all the ids of the local task with that task list id
+      for task in Task.findAllByAttribute("listid", old_id)
+        task.listid = new_tasklist.id
+        task.save()
     )  
   
   delete_from_cloud: (id) ->

@@ -97,20 +97,41 @@
   List = Spine.Model.setup("List", ["name", "description", "synced", "time"]);
   List.extend(Spine.Model.Local);
   List.extend({
-    add_to_cloud: function(list_name) {
+    add_to_cloud: function(tasklist) {
       var request, request_json;
+      if (tasklist.name === "@default") {
+        return true;
+      }
       request_json = {
         path: "/tasks/v1/users/@me/lists",
         method: "POST",
         params: "",
         body: {
-          title: list_name
+          title: tasklist.name
         }
       };
       request = gapi.client.request(request_json);
       return request.execute(function(resp) {
+        var new_tasklist, old_id, task, _i, _len, _ref, _results;
         console.log(resp);
-        return window.add_response = resp;
+        window.add_response = resp;
+        old_id = tasklist.id;
+        new_tasklist = List.init({
+          name: tasklist.name,
+          time: (new Date()).toString()
+        });
+        new_tasklist.id = resp.id;
+        new_tasklist.save();
+        window.test = new_tasklist;
+        tasklist.destroy();
+        _ref = Task.findAllByAttribute("listid", old_id);
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          task = _ref[_i];
+          task.listid = new_tasklist.id;
+          _results.push(task.save());
+        }
+        return _results;
       });
     },
     delete_from_cloud: function(id) {
