@@ -23,7 +23,7 @@
     return [local_dict, local_ids];
   };
   window.local_cloud_sync = function(local, cloud, item) {
-    var cloud_dict, cloud_ids, cloud_set, id, local_dict, local_ids, local_set, _i, _j, _k, _len, _len2, _len3, _ref, _ref2, _ref3, _ref4, _ref5, _results;
+    var cloud_dict, cloud_ids, cloud_set, id, local_dict, local_ids, local_set, _i, _j, _len, _len2, _ref, _ref2, _ref3, _ref4, _results;
     console.log(local);
     console.log(cloud);
     _ref = de_array(local), local_dict = _ref[0], local_ids = _ref[1];
@@ -43,16 +43,22 @@
       }
     }
     console.log("there on the cloud, not local");
-    _ref4 = (cloud_set.difference(local_set)._set);
+    window.cloud_dict = (function() {
+      var _j, _len2, _ref4, _results;
+      _ref4 = (cloud_set.difference(local_set)._set);
+      _results = [];
+      for (_j = 0, _len2 = _ref4.length; _j < _len2; _j++) {
+        id = _ref4[_j];
+        console.log(id);
+        _results.push(item.add_from_cloud(cloud_dict[id]));
+      }
+      return _results;
+    })();
+    console.log("there on the cloud and local");
+    _ref4 = (cloud_set.intersection(local_set)._set);
+    _results = [];
     for (_j = 0, _len2 = _ref4.length; _j < _len2; _j++) {
       id = _ref4[_j];
-      console.log(id);
-    }
-    console.log("there on the cloud and local");
-    _ref5 = (cloud_set.intersection(local_set)._set);
-    _results = [];
-    for (_k = 0, _len3 = _ref5.length; _k < _len3; _k++) {
-      id = _ref5[_k];
       _results.push(console.log(id));
     }
     return _results;

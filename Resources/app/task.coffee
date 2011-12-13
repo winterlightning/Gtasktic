@@ -100,6 +100,15 @@ List.extend Spine.Model.Local
 
 List.extend
   #sync processes
+  
+  #add a cloud list to your local storage
+  add_from_cloud: (tasklist) ->
+    new_tasklist = List.init( name: tasklist.title, time: (new Date()).toString() )
+    new_tasklist.id = tasklist.id
+    new_tasklist.save()
+    
+    window.App.render_new new_tasklist
+  
   add_to_cloud: (tasklist) ->
     if tasklist.name is "@default"
       return true

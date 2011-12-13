@@ -51,8 +51,10 @@ window.local_cloud_sync = (local, cloud, item) ->
   #process the set of ids that are there on the cloud but not there locally
   #Add them back locally since everything deleted should be on the deleted list and taken care of first  
   console.log("there on the cloud, not local")
+  window.cloud_dict = 
   for id in ( cloud_set.difference( local_set )._set )
     console.log( id )
+    item.add_from_cloud(cloud_dict[id])
   
   #process the set of ids that are there in the cloud and locally
   #check their timestamps, if local > cloud, write local to cloud, if cloud > local, put it in passback to overwrite local,

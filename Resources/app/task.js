@@ -114,6 +114,16 @@
   List = Spine.Model.setup("List", ["name", "description", "synced", "time"]);
   List.extend(Spine.Model.Local);
   List.extend({
+    add_from_cloud: function(tasklist) {
+      var new_tasklist;
+      new_tasklist = List.init({
+        name: tasklist.title,
+        time: (new Date()).toString()
+      });
+      new_tasklist.id = tasklist.id;
+      new_tasklist.save();
+      return window.App.render_new(new_tasklist);
+    },
     add_to_cloud: function(tasklist) {
       var request, request_json;
       if (tasklist.name === "@default") {
