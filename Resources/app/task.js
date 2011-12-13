@@ -55,8 +55,25 @@
       };
       request = gapi.client.request(request_json);
       return request.execute(function(resp) {
+        var new_task, old_id;
         console.log(resp);
-        return window.add_response = resp;
+        window.add_response = resp;
+        old_id = task.id;
+        data = {
+          name: task.name,
+          time: task.time,
+          listid: task.listid
+        };
+        if (task.duedate != null) {
+          data.duedate = task.duedate;
+        }
+        if (task.note != null) {
+          data.note = task.note;
+        }
+        new_task = Task.init(data);
+        new_task.id = resp.id;
+        new_task.save();
+        return task.destroy();
       });
     },
     delete_from_cloud: function(task) {

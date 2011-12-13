@@ -46,6 +46,17 @@ Task.extend
       window.add_response = resp
       
       #response need to update the local with correct id
+      old_id = task.id
+      
+      data = { name: task.name, time: task.time, listid: task.listid}
+      data.duedate = task.duedate if task.duedate?
+      data.note = task.note if task.note?
+      
+      new_task = Task.init( data )
+      new_task.id = resp.id
+      new_task.save()
+      
+      task.destroy()
       
     )
   
