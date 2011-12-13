@@ -8,7 +8,7 @@
     return request.execute(function(resp) {
       console.log(resp);
       window.list_response = resp;
-      return window.local_cloud_sync(List.all(), resp.items);
+      return window.local_cloud_sync(List.all(), resp.items, List);
     });
   };
   window.de_array = function(array) {
@@ -22,7 +22,7 @@
     }
     return [local_dict, local_ids];
   };
-  window.local_cloud_sync = function(local, cloud) {
+  window.local_cloud_sync = function(local, cloud, item) {
     var cloud_dict, cloud_ids, cloud_set, id, local_dict, local_ids, local_set, _i, _j, _k, _len, _len2, _len3, _ref, _ref2, _ref3, _ref4, _ref5, _results;
     console.log(local);
     console.log(cloud);
@@ -34,7 +34,13 @@
     _ref3 = (local_set.difference(cloud_set)._set);
     for (_i = 0, _len = _ref3.length; _i < _len; _i++) {
       id = _ref3[_i];
-      console.log(id);
+      if (local_dict[id].synced === false) {
+        console.log(id);
+        window.local_dict = local_dict;
+        item.add_to_cloud(local_dict[id]);
+      } else {
+        item.find(id).destroy();
+      }
     }
     console.log("there on the cloud, not local");
     _ref4 = (cloud_set.difference(local_set)._set);

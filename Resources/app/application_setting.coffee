@@ -60,6 +60,7 @@ jQuery ($) ->
         alert("token not expired")
       
       else
+        #else, get refresh token and set it and load api on callback
         xhr = new XMLHttpRequest()
         
         alert("token expired")
@@ -90,7 +91,7 @@ jQuery ($) ->
         
         xhr.send(data)
         window.xhr = xhr
-      #else, get refresh token and set it and load api on callback
+      
       
     
     refresh_token: ->

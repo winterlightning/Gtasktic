@@ -12,7 +12,7 @@ window.sync_list = ->
   request.execute( (resp) -> 
     console.log(resp) 
     window.list_response = resp  
-    window.local_cloud_sync( List.all(), resp.items )
+    window.local_cloud_sync( List.all(), resp.items, List )
   )
 
 window.de_array = (array) ->
@@ -26,7 +26,7 @@ window.de_array = (array) ->
   return [local_dict, local_ids]
   
 #the item to be synced should be passed as a third param, and function to add/edit/delete should be attached to it.
-window.local_cloud_sync = (local, cloud) ->
+window.local_cloud_sync = (local, cloud, item) ->
   console.log(local)
   console.log(cloud)
   
@@ -41,7 +41,12 @@ window.local_cloud_sync = (local, cloud) ->
   #If their synced flag is False, add them, else delete them
   console.log("there locally, not on the cloud")
   for id in ( local_set.difference( cloud_set )._set )
-    console.log( id )
+    if local_dict[id].synced is false
+      console.log(id)
+      window.local_dict = local_dict
+      item.add_to_cloud(local_dict[id])
+    else
+      item.find(id).destroy()
   
   #process the set of ids that are there on the cloud but not there locally
   #Add them back locally since everything deleted should be on the deleted list and taken care of first  
