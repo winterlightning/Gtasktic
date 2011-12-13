@@ -112,14 +112,13 @@ List.extend
       new_tasklist.id = resp.id
       new_tasklist.save()
       
-      window.test = new_tasklist
-      
-      tasklist.destroy()
-      
       #change all the ids of the local task with that task list id
       for task in Task.findAllByAttribute("listid", old_id)
         task.listid = new_tasklist.id
         task.save()
+        
+      window.App.render_new new_tasklist
+      tasklist.destroy()
     )  
   
   delete_from_cloud: (id) ->

@@ -112,7 +112,7 @@
       };
       request = gapi.client.request(request_json);
       return request.execute(function(resp) {
-        var new_tasklist, old_id, task, _i, _len, _ref, _results;
+        var new_tasklist, old_id, task, _i, _len, _ref;
         console.log(resp);
         window.add_response = resp;
         old_id = tasklist.id;
@@ -122,16 +122,14 @@
         });
         new_tasklist.id = resp.id;
         new_tasklist.save();
-        window.test = new_tasklist;
-        tasklist.destroy();
         _ref = Task.findAllByAttribute("listid", old_id);
-        _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           task = _ref[_i];
           task.listid = new_tasklist.id;
-          _results.push(task.save());
+          task.save();
         }
-        return _results;
+        window.App.render_new(new_tasklist);
+        return tasklist.destroy();
       });
     },
     delete_from_cloud: function(id) {
