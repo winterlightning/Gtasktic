@@ -187,7 +187,7 @@
         return inactive = Task.done(this.item.id).length;
       },
       clear: function() {
-        return Task.destroyDone(this.item.id);
+        return Task.logDone(this.item.id);
       },
       addOne: function() {
         var new_task, view;

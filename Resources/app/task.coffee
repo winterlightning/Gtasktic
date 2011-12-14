@@ -1,5 +1,5 @@
 Finished = Spine.Model.setup("Task", [ "name", "done", "time", "duedate", "note", "order", "synced", "listid", "time_finished" ])
-Task.extend Spine.Model.Local
+Finished.extend Spine.Model.Local
 
 Task = Spine.Model.setup("Task", [ "name", "done", "time", "duedate", "note", "order", "synced", "listid" ]) #nestlevel from 0 to whatever
 Task.extend Spine.Model.Local
@@ -20,6 +20,16 @@ Task.extend
     @done(id).forEach (rec) ->
       Deletion.create deletion_id: rec.id  if rec.synced == true
       rec.destroy()
+  
+  logDone: ( id ) ->
+    @done(id).forEach (rec) ->
+      Deletion.create deletion_id: rec.id  if rec.synced == true
+      Finished.create 
+        name: rec.name
+        note: rec.note
+        listid: listid
+        time_finished: moment().format('MM/DD/YYYY')
+      rec.destroy()    
   
   toCloudStructure: (task) ->
     data = { title: task.name }

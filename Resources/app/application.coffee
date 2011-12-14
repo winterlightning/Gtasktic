@@ -168,7 +168,7 @@ jQuery ($) ->
       inactive = Task.done(@item.id).length
     
     clear: ->
-      Task.destroyDone @item.id
+      Task.logDone @item.id
     
     addOne: ->
       new_task = Task.create(

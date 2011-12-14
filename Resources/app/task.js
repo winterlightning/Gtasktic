@@ -1,7 +1,7 @@
 (function() {
   var DeletedList, Deletion, Finished, Initialized, List, Task, TestStorage, Token, Version, exports;
   Finished = Spine.Model.setup("Task", ["name", "done", "time", "duedate", "note", "order", "synced", "listid", "time_finished"]);
-  Task.extend(Spine.Model.Local);
+  Finished.extend(Spine.Model.Local);
   Task = Spine.Model.setup("Task", ["name", "done", "time", "duedate", "note", "order", "synced", "listid"]);
   Task.extend(Spine.Model.Local);
   Task.extend({
@@ -24,6 +24,20 @@
       return this.done(id).forEach(function(rec) {
         Deletion.create({
           deletion_id: rec.synced === true ? rec.id : void 0
+        });
+        return rec.destroy();
+      });
+    },
+    logDone: function(id) {
+      return this.done(id).forEach(function(rec) {
+        Deletion.create({
+          deletion_id: rec.synced === true ? rec.id : void 0
+        });
+        Finished.create({
+          name: rec.name,
+          note: rec.note,
+          listid: listid,
+          time_finished: moment().format('MM/DD/YYYY')
         });
         return rec.destroy();
       });
