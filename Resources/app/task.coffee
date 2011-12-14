@@ -1,3 +1,6 @@
+Finished = Spine.Model.setup("Task", [ "name", "done", "time", "duedate", "note", "order", "synced", "listid", "time_finished" ])
+Task.extend Spine.Model.Local
+
 Task = Spine.Model.setup("Task", [ "name", "done", "time", "duedate", "note", "order", "synced", "listid" ]) #nestlevel from 0 to whatever
 Task.extend Spine.Model.Local
 Task.extend 

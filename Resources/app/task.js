@@ -1,5 +1,7 @@
 (function() {
-  var DeletedList, Deletion, Initialized, List, Task, TestStorage, Token, Version, exports;
+  var DeletedList, Deletion, Finished, Initialized, List, Task, TestStorage, Token, Version, exports;
+  Finished = Spine.Model.setup("Task", ["name", "done", "time", "duedate", "note", "order", "synced", "listid", "time_finished"]);
+  Task.extend(Spine.Model.Local);
   Task = Spine.Model.setup("Task", ["name", "done", "time", "duedate", "note", "order", "synced", "listid"]);
   Task.extend(Spine.Model.Local);
   Task.extend({
