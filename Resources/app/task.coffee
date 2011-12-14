@@ -161,7 +161,7 @@ List.extend
       path: "/tasks/v1/users/@me/lists/"+tasklist.id
       method: "PUT"
       params: ""
-      body:  { id: tasklist.id, kind: "tasks#taskList", title: tasklist.title }
+      body:  { id: tasklist.id, kind: "tasks#taskList", title: tasklist.name }
     
     request = gapi.client.request(request_json)
     request.execute( (resp) -> 

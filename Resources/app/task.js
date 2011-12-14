@@ -185,7 +185,7 @@
         body: {
           id: tasklist.id,
           kind: "tasks#taskList",
-          title: tasklist.title
+          title: tasklist.name
         }
       };
       request = gapi.client.request(request_json);

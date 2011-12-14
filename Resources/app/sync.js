@@ -59,7 +59,7 @@
     _results = [];
     for (_j = 0, _len2 = _ref4.length; _j < _len2; _j++) {
       id = _ref4[_j];
-      _results.push(cloud_dict[id].updated != null ? (local_time = moment(local_dict[id].time), cloud_time = moment(cloud_dict[id].updated), local_time > cloud_time ? item.update_to_cloud(local_dict[id]) : item.update_to_local(cloud_dict[id])) : item.update_to_cloud(local_dict[id]));
+      _results.push(cloud_dict[id].updated != null ? (local_time = moment(local_dict[id].time), cloud_time = moment(cloud_dict[id].updated), local_time > cloud_time ? item.update_to_cloud(local_dict[id]) : item.update_to_local(cloud_dict[id])) : (console.log("no timestamp, local updating to cloud"), item.update_to_cloud(local_dict[id])));
     }
     return _results;
   };

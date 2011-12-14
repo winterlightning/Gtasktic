@@ -72,6 +72,7 @@ window.local_cloud_sync = (local, cloud, item) ->
         item.update_to_local( cloud_dict[id] )
       
     else
+      console.log("no timestamp, local updating to cloud")
       item.update_to_cloud( local_dict[id] )
       
   
