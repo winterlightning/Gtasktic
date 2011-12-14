@@ -47,24 +47,25 @@
         window.xhr = xhr;
         return $("#dialog").dialog("close");
       },
-      setup_api_on_entry: function() {
+      setup_api_on_entry: function(callback) {
         var current_token, data, expiration, now, xhr;
         current_token = Token.first();
         expiration = moment(current_token.expiration);
         now = moment();
         if (now < expiration) {
+          console.log("token not expired");
           gapi.auth.setToken({
             access_token: current_token.current_token,
             expires_in: 3600,
             token_type: "Bearer"
           });
-          gapi.client.load("tasks", "v1", function() {
-            return console.log("api loaded");
+          return gapi.client.load("tasks", "v1", function() {
+            console.log("api loaded");
+            return callback();
           });
-          return alert("token not expired");
         } else {
+          console.log("token expired");
           xhr = new XMLHttpRequest();
-          alert("token expired");
           current_token = Token.first();
           window.refresh = current_token.refresh_token;
           data = "client_id=784374432524.apps.googleusercontent.com&client_secret=u4K1AZXSj8P9hIlEddLsMi6d&refresh_token=" + window.refresh + "&grant_type=refresh_token";
@@ -76,7 +77,8 @@
               window.obj = $.parseJSON(window.xhr.response);
               gapi.auth.setToken(window.obj);
               gapi.client.load("tasks", "v1", function() {
-                return console.log("api loaded");
+                console.log("api loaded");
+                return callback();
               });
               current_token = Token.first();
               current_token.current_token = window.obj['access_token'];

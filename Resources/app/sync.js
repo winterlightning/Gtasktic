@@ -2,6 +2,9 @@
   window.new_sync = function() {
     if ((navigator.onLine === false) || ($("#sync_button").hasClass("disabled"))) {}
   };
+  window.initialize_and_sync_list = function() {
+    return window.settingapp.setup_api_on_entry(window.sync_list);
+  };
   window.sync_list = function() {
     var request;
     request = gapi.client.tasks.tasklists.list();

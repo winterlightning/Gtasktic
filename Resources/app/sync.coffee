@@ -7,6 +7,9 @@ window.new_sync = ->
   
   #call sync on the list of tasklist
 
+window.initialize_and_sync_list = ->
+  window.settingapp.setup_api_on_entry( window.sync_list )
+
 window.sync_list = ->
   request = gapi.client.tasks.tasklists.list()
   request.execute( (resp) -> 
