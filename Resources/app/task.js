@@ -1,6 +1,6 @@
 (function() {
   var DeletedList, Deletion, Finished, Initialized, List, Task, TestStorage, Token, Version, exports;
-  Finished = Spine.Model.setup("Task", ["name", "done", "time", "duedate", "note", "order", "synced", "listid", "time_finished"]);
+  Finished = Spine.Model.setup("Finished", ["name", "done", "time", "duedate", "note", "order", "synced", "listid", "time_finished"]);
   Finished.extend(Spine.Model.Local);
   Task = Spine.Model.setup("Task", ["name", "done", "time", "duedate", "note", "order", "synced", "listid"]);
   Task.extend(Spine.Model.Local);
@@ -36,7 +36,7 @@
         Finished.create({
           name: rec.name,
           note: rec.note,
-          listid: listid,
+          listid: rec.listid,
           time_finished: moment().format('MM/DD/YYYY')
         });
         return rec.destroy();
@@ -227,4 +227,5 @@
   exports.Version = Version;
   exports.Initialized = Initialized;
   exports.Token = Token;
+  exports.Finished = Finished;
 }).call(this);

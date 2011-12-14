@@ -480,3 +480,14 @@ a.listbutton {
 .disabled {
 	opacity: 0.5 !Important;
 }
+
+/*css for calendar*/
+.finished_task .fc-event-skin {
+	border-color:  #bbb !important;
+	background-color: #bbb !important;
+	color: #666 !important;
+}
+
+.finished_task {
+	border-color:  #bbb !important;
+}
