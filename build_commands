@@ -26,6 +26,6 @@ productbuild --component Gtasktic.app /Applications --sign "3rd Party Mac Develo
 
 cat css/dialogs.css css/tipsy.css css/ui.notify.css css/wunderlist.css css/app.css > alldacss.css
 
-coffee -j all.js --compile app/set app/spine app/spine.model.sqlite app/task app/application app/hotkeys app/application_setting app/sync app/util app/calendar
+coffee -j all.js --compile app/set app/spine app/spine.model.sqlite app/task app/application app/hotkeys app/application_setting app/sync app/util app/calendar app/initialize
 
 cat lib/json2.js lib/jquery.tmpl.js lib/jquery.ui.1.8.10.min.js lib/jquery.async.js lib/shortcuts.js lib/encoder.js lib/dateformat.js lib/jquery.notify.min.js > alllibs.js
