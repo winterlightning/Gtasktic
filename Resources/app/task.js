@@ -105,6 +105,9 @@
         console.log(resp);
         return window.update_response = resp;
       });
+    },
+    update_to_local: function(task) {
+      return alert("update to local");
     }
   });
   Deletion = Spine.Model.setup("Deletion", ["deletion_id"]);

@@ -23,7 +23,7 @@
     return [local_dict, local_ids];
   };
   window.local_cloud_sync = function(local, cloud, item) {
-    var cloud_dict, cloud_ids, cloud_set, id, local_dict, local_ids, local_set, _i, _j, _len, _len2, _ref, _ref2, _ref3, _ref4, _results;
+    var cloud_dict, cloud_ids, cloud_set, cloud_time, id, local_dict, local_ids, local_set, local_time, _i, _j, _len, _len2, _ref, _ref2, _ref3, _ref4, _results;
     console.log(local);
     console.log(cloud);
     _ref = de_array(local), local_dict = _ref[0], local_ids = _ref[1];
@@ -59,7 +59,7 @@
     _results = [];
     for (_j = 0, _len2 = _ref4.length; _j < _len2; _j++) {
       id = _ref4[_j];
-      _results.push(console.log(id));
+      _results.push(cloud_dict[id].updated != null ? (local_time = moment(local_dict[id].time), cloud_time = moment(cloud_dict[id].updated), local_time > cloud_time ? item.update_to_cloud(local_dict[id]) : item.update_to_local(cloud_dict[id])) : item.update_to_cloud(local_dict[id]));
     }
     return _results;
   };

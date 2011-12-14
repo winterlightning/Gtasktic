@@ -61,7 +61,19 @@ window.local_cloud_sync = (local, cloud, item) ->
   #if cloud == local, do nothing
   console.log("there on the cloud and local")
   for id in ( cloud_set.intersection( local_set )._set )
-    console.log( id )
+    #if the cloud has a timestamp, then compare it, else just overwrite cloud with local
+    if cloud_dict[id].updated?
+      local_time = moment(local_dict[id].time)
+      cloud_time = moment(cloud_dict[id].updated)
+      
+      if local_time > cloud_time
+        item.update_to_cloud( local_dict[id] )
+      else
+        item.update_to_local( cloud_dict[id] )
+      
+    else
+      item.update_to_cloud( local_dict[id] )
+      
   
 window.Sync = ->
   

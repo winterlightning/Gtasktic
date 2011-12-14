@@ -88,8 +88,10 @@ Task.extend
       console.log(resp) 
       window.update_response = resp
     )    
-    
   
+  update_to_local: (task) ->
+    alert("update to local")
+   
 Deletion = Spine.Model.setup("Deletion", [ "deletion_id" ])
 Deletion.extend Spine.Model.Local
 DeletedList = Spine.Model.setup("DeletedList", [ "deletion_id" ])
