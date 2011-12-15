@@ -173,7 +173,7 @@ jQuery ($) ->
     addOne: ->
       new_task = Task.create(
         name: ""
-        time: (new Date().getTime()).toString()
+        time: moment().toString()
         done: false
         order: Task.all().length + 1
         synced: false
@@ -200,7 +200,7 @@ jQuery ($) ->
       
       new_task = Task.create(
         name: input_value
-        time: (new Date().getTime()).toString()
+        time: moment().toString()
         done: false
         order: Task.all().length + 1
         synced: false
