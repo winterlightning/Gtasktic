@@ -10,8 +10,16 @@ window.new_sync = ->
 window.initialize_and_sync_list = ->
   window.settingapp.setup_api_on_entry( window.sync_list )
 
+#syncs a tasks list, assumes that the task list exist in the cloud already
+window.sync_task= (tasklist) ->
+  request = gapi.client.tasks.tasks.list tasklist: tasklist.id 
+  request.execute( (resp) -> 
+    console.log(resp) 
+    window.list_response = resp  
+  )
+
 window.sync_list = ->
-  if List.find("@default")?
+  if List.exists "@default"
     #find if any of them is the default list, if it is, then sync by replacing our default list with theirs
     #this should only happen once when the user first syncs
     request = gapi.client.tasks.tasklists.get tasklist: "@default"
@@ -37,7 +45,7 @@ window.sync_list = ->
       request.execute( (resp) -> 
         console.log(resp) 
         window.list_response = resp  
-        window.local_cloud_sync( List.all(), resp.items, List )
+        window.local_cloud_sync( List.all(), resp.items, List, window.sync_task )
       )
       
     )  
@@ -46,9 +54,12 @@ window.sync_list = ->
     request.execute( (resp) -> 
       console.log(resp) 
       window.list_response = resp  
-      window.local_cloud_sync( List.all(), resp.items, List )
+      window.local_cloud_sync( List.all(), resp.items, List, window.sync_task )
     )
-
+  
+  
+#inputs: array
+#outputs: a dictionary with the id as the key, array of ids
 window.de_array = (array) ->
   local_dict = {}
   local_ids = []
@@ -60,7 +71,7 @@ window.de_array = (array) ->
   return [local_dict, local_ids]
   
 #the item to be synced should be passed as a third param, and function to add/edit/delete should be attached to it.
-window.local_cloud_sync = (local, cloud, item) ->
+window.local_cloud_sync = (local, cloud, item, callback) ->
   console.log(local)
   console.log(cloud)
   
@@ -78,7 +89,7 @@ window.local_cloud_sync = (local, cloud, item) ->
     if local_dict[id].synced is false
       console.log(id)
       window.local_dict = local_dict
-      item.add_to_cloud(local_dict[id])
+      item.add_to_cloud(local_dict[id], callback)
     else
       item.find(id).destroy()
   
@@ -88,7 +99,7 @@ window.local_cloud_sync = (local, cloud, item) ->
   window.cloud_dict = 
   for id in ( cloud_set.difference( local_set )._set )
     console.log( id )
-    item.add_from_cloud(cloud_dict[id])
+    item.add_from_cloud(cloud_dict[id], callback)
   
   #process the set of ids that are there in the cloud and locally
   #check their timestamps, if local > cloud, write local to cloud, if cloud > local, put it in passback to overwrite local,
@@ -101,13 +112,13 @@ window.local_cloud_sync = (local, cloud, item) ->
       cloud_time = moment(cloud_dict[id].updated)
       
       if local_time > cloud_time
-        item.update_to_cloud( local_dict[id] )
+        item.update_to_cloud( local_dict[id], callback )
       else
-        item.update_to_local( cloud_dict[id] )
+        item.update_to_local( cloud_dict[id], callback )
       
     else
       console.log("no timestamp, local updating to cloud")
-      item.update_to_cloud( local_dict[id] )
+      item.update_to_cloud( local_dict[id], callback )
       
   
 window.Sync = ->

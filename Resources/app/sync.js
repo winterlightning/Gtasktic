@@ -5,9 +5,19 @@
   window.initialize_and_sync_list = function() {
     return window.settingapp.setup_api_on_entry(window.sync_list);
   };
+  window.sync_task = function(tasklist) {
+    var request;
+    request = gapi.client.tasks.tasks.list({
+      tasklist: tasklist.id
+    });
+    return request.execute(function(resp) {
+      console.log(resp);
+      return window.list_response = resp;
+    });
+  };
   window.sync_list = function() {
     var request;
-    if (List.find("@default") != null) {
+    if (List.exists("@default")) {
       request = gapi.client.tasks.tasklists.get({
         tasklist: "@default"
       });
@@ -33,7 +43,7 @@
         return request.execute(function(resp) {
           console.log(resp);
           window.list_response = resp;
-          return window.local_cloud_sync(List.all(), resp.items, List);
+          return window.local_cloud_sync(List.all(), resp.items, List, window.sync_task);
         });
       });
     } else {
@@ -41,7 +51,7 @@
       return request.execute(function(resp) {
         console.log(resp);
         window.list_response = resp;
-        return window.local_cloud_sync(List.all(), resp.items, List);
+        return window.local_cloud_sync(List.all(), resp.items, List, window.sync_task);
       });
     }
   };
@@ -56,7 +66,7 @@
     }
     return [local_dict, local_ids];
   };
-  window.local_cloud_sync = function(local, cloud, item) {
+  window.local_cloud_sync = function(local, cloud, item, callback) {
     var cloud_dict, cloud_ids, cloud_set, cloud_time, id, local_dict, local_ids, local_set, local_time, _i, _j, _len, _len2, _ref, _ref2, _ref3, _ref4, _results;
     console.log(local);
     console.log(cloud);
@@ -71,7 +81,7 @@
       if (local_dict[id].synced === false) {
         console.log(id);
         window.local_dict = local_dict;
-        item.add_to_cloud(local_dict[id]);
+        item.add_to_cloud(local_dict[id], callback);
       } else {
         item.find(id).destroy();
       }
@@ -84,7 +94,7 @@
       for (_j = 0, _len2 = _ref4.length; _j < _len2; _j++) {
         id = _ref4[_j];
         console.log(id);
-        _results.push(item.add_from_cloud(cloud_dict[id]));
+        _results.push(item.add_from_cloud(cloud_dict[id], callback));
       }
       return _results;
     })();
@@ -93,7 +103,7 @@
     _results = [];
     for (_j = 0, _len2 = _ref4.length; _j < _len2; _j++) {
       id = _ref4[_j];
-      _results.push(cloud_dict[id].updated != null ? (local_time = moment(local_dict[id].time), cloud_time = moment(cloud_dict[id].updated), local_time > cloud_time ? item.update_to_cloud(local_dict[id]) : item.update_to_local(cloud_dict[id])) : (console.log("no timestamp, local updating to cloud"), item.update_to_cloud(local_dict[id])));
+      _results.push(cloud_dict[id].updated != null ? (local_time = moment(local_dict[id].time), cloud_time = moment(cloud_dict[id].updated), local_time > cloud_time ? item.update_to_cloud(local_dict[id], callback) : item.update_to_local(cloud_dict[id], callback)) : (console.log("no timestamp, local updating to cloud"), item.update_to_cloud(local_dict[id], callback)));
     }
     return _results;
   };

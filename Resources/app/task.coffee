@@ -117,14 +117,15 @@ List.extend
   #sync processes
   
   #add a cloud list to your local storage
-  add_from_cloud: (tasklist) ->
+  add_from_cloud: (tasklist, callback ) ->
     new_tasklist = List.init( name: tasklist.title, time: (new Date()).toString() )
     new_tasklist.id = tasklist.id
     new_tasklist.save()
     
     window.App.render_new new_tasklist
+    callback(new_tasklist)
 
-  add_to_cloud: (tasklist) ->
+  add_to_cloud: (tasklist, callback) ->
     if tasklist.id is "@default"
       return true
     
@@ -154,6 +155,8 @@ List.extend
         
       window.App.render_new new_tasklist
       tasklist.destroy()
+      
+      callback(new_tasklist)
     )  
   
   delete_from_cloud: (id) ->
@@ -169,7 +172,9 @@ List.extend
       window.delete_response = resp
     )  
   
-  update_to_cloud: (tasklist) ->
+    #delete all it's children tasks too!!
+  
+  update_to_cloud: (tasklist, callback) ->
     request_json = 
       path: "/tasks/v1/users/@me/lists/"+tasklist.id
       method: "PUT"
@@ -180,7 +185,9 @@ List.extend
     request.execute( (resp) -> 
       console.log(resp) 
       window.update_response = resp
-    )  
+    
+      callback(tasklist)  
+    )
 
 Version = Spine.Model.setup("Version", [ "number" ])
 Version.extend Spine.Model.Local
