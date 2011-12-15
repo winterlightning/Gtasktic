@@ -60,6 +60,26 @@
       }
       return data;
     },
+    add_from_cloud: function(value, callback) {
+      var duedate, task;
+      duedate = null;
+      if (value.hasOwnProperty("due")) {
+        duedate = (new Date(value.due)).format("mm/dd/yyyy");
+      }
+      task = Task.init({
+        name: value.title,
+        time: (new Date().getTime()).toString(),
+        synced: true,
+        done: value.status === "completed",
+        duedate: duedate,
+        listid: value.listid
+      });
+      task.id = value.id;
+      if (value.hasOwnProperty("notes")) {
+        task.note = value.notes;
+      }
+      return task.save();
+    },
     add_to_cloud: function(task) {
       var data, request, request_json;
       data = Task.toCloudStructure(task);

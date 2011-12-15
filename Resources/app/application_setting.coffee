@@ -36,6 +36,10 @@ jQuery ($) ->
           current_token.refresh_token = window.obj['refresh_token']
           current_token.save()
           
+          create "default", 
+            title: "Validation succeeded"
+            text: "You can now sync your list"
+          
       xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
       xhr.send(form_data)
       
@@ -99,10 +103,6 @@ jQuery ($) ->
         
         xhr.send(data)
         window.xhr = xhr
-    
-    refresh_token: ->
-      
-      alert("refresh token")
       
   )
   window.settingapp = SettingApp.init(el: "#theapp")

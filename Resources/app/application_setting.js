@@ -39,7 +39,11 @@
             now = moment().add('seconds', window.obj['expires_in']);
             current_token.expiration = now.toString();
             current_token.refresh_token = window.obj['refresh_token'];
-            return current_token.save();
+            current_token.save();
+            return create("default", {
+              title: "Validation succeeded",
+              text: "You can now sync your list"
+            });
           }
         };
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -90,9 +94,6 @@
           xhr.send(data);
           return window.xhr = xhr;
         }
-      },
-      refresh_token: function() {
-        return alert("refresh token");
       }
     });
     return window.settingapp = SettingApp.init({

@@ -42,6 +42,22 @@ Task.extend
       
     data
   
+  add_from_cloud: (value, callback) ->
+    duedate = null
+    duedate = (new Date(value.due)).format("mm/dd/yyyy")  if value.hasOwnProperty("due")    
+    
+    task = Task.init(
+      name: value.title
+      time: (new Date().getTime()).toString()
+      synced: true
+      done: (value.status == "completed")
+      duedate: duedate
+      listid: value.listid
+    )
+    task.id = value.id
+    task.note = value.notes  if value.hasOwnProperty("notes")
+    task.save()
+  
   #sync process
   add_to_cloud: (task) -> #tasks needs to at least have a name and listid attribute
     #manually create the request since the api shit is not working

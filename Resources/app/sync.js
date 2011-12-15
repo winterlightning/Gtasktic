@@ -11,8 +11,18 @@
       tasklist: tasklist.id
     });
     return request.execute(function(resp) {
+      var c, cloud_tasks, local_tasks_for_list, _i, _len;
       console.log(resp);
-      return window.list_response = resp;
+      window.list_response = resp;
+      cloud_tasks = resp.items;
+      for (_i = 0, _len = cloud_tasks.length; _i < _len; _i++) {
+        c = cloud_tasks[_i];
+        c.listid = tasklist.id;
+      }
+      local_tasks_for_list = Task.findAllByAttribute("listid", tasklist.id);
+      return window.local_cloud_sync(local_tasks_for_list, cloud_tasks, Task, function() {
+        return console.log("task synced");
+      });
     });
   };
   window.sync_list = function() {
@@ -103,7 +113,7 @@
     _results = [];
     for (_j = 0, _len2 = _ref4.length; _j < _len2; _j++) {
       id = _ref4[_j];
-      _results.push(cloud_dict[id].updated != null ? (local_time = moment(local_dict[id].time), cloud_time = moment(cloud_dict[id].updated), local_time > cloud_time ? item.update_to_cloud(local_dict[id], callback) : item.update_to_local(cloud_dict[id], callback)) : (console.log("no timestamp, local updating to cloud"), item.update_to_cloud(local_dict[id], callback)));
+      _results.push(cloud_dict[id].updated != null ? (local_time = moment(local_dict[id].time), cloud_time = moment(cloud_dict[id].updated), local_time > cloud_time ? item.update_to_cloud(local_dict[id], callback) : item.update_to_local(cloud_dict[id], callback)) : (console.log("no timestamp, local updating to cloud"), typeof parent_id !== "undefined" && parent_id !== null ? item.update_to_cloud(local_dict[id], callback, parent_id) : item.update_to_cloud(local_dict[id], callback)));
     }
     return _results;
   };
