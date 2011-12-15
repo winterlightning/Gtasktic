@@ -7,12 +7,43 @@
   };
   window.sync_list = function() {
     var request;
-    request = gapi.client.tasks.tasklists.list();
-    return request.execute(function(resp) {
-      console.log(resp);
-      window.list_response = resp;
-      return window.local_cloud_sync(List.all(), resp.items, List);
-    });
+    if (List.find("@default") != null) {
+      request = gapi.client.tasks.tasklists.get({
+        tasklist: "@default"
+      });
+      return request.execute(function(resp) {
+        var initial_list, new_tasklist, task, _i, _len, _ref;
+        console.log(resp);
+        initial_list = List.find("@default");
+        new_tasklist = List.init({
+          name: resp.title,
+          time: (new Date()).toString()
+        });
+        new_tasklist.id = resp.id;
+        new_tasklist.save();
+        _ref = Task.findAllByAttribute("listid", initial_list.id);
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          task = _ref[_i];
+          task.listid = new_tasklist.id;
+          task.save();
+        }
+        window.App.render_new(new_tasklist);
+        initial_list.destroy();
+        request = gapi.client.tasks.tasklists.list();
+        return request.execute(function(resp) {
+          console.log(resp);
+          window.list_response = resp;
+          return window.local_cloud_sync(List.all(), resp.items, List);
+        });
+      });
+    } else {
+      request = gapi.client.tasks.tasklists.list();
+      return request.execute(function(resp) {
+        console.log(resp);
+        window.list_response = resp;
+        return window.local_cloud_sync(List.all(), resp.items, List);
+      });
+    }
   };
   window.de_array = function(array) {
     var item, local_dict, local_ids, _i, _len;

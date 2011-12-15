@@ -193,7 +193,7 @@
         var new_task, view;
         new_task = Task.create({
           name: "",
-          time: (new Date().getTime()).toString(),
+          time: moment().toString(),
           done: false,
           order: Task.all().length + 1,
           synced: false,
@@ -228,7 +228,7 @@
         input_value = this.input.val().replace("'", "''");
         new_task = Task.create({
           name: input_value,
-          time: (new Date().getTime()).toString(),
+          time: moment().toString(),
           done: false,
           order: Task.all().length + 1,
           synced: false,

@@ -123,9 +123,9 @@ List.extend
     new_tasklist.save()
     
     window.App.render_new new_tasklist
-  
+
   add_to_cloud: (tasklist) ->
-    if tasklist.name is "@default"
+    if tasklist.id is "@default"
       return true
     
     #manually create the request since the api shit is not working

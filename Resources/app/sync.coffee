@@ -11,12 +11,43 @@ window.initialize_and_sync_list = ->
   window.settingapp.setup_api_on_entry( window.sync_list )
 
 window.sync_list = ->
-  request = gapi.client.tasks.tasklists.list()
-  request.execute( (resp) -> 
-    console.log(resp) 
-    window.list_response = resp  
-    window.local_cloud_sync( List.all(), resp.items, List )
-  )
+  if List.find("@default")?
+    #find if any of them is the default list, if it is, then sync by replacing our default list with theirs
+    #this should only happen once when the user first syncs
+    request = gapi.client.tasks.tasklists.get tasklist: "@default"
+    request.execute( (resp) -> 
+      console.log(resp) 
+      
+      initial_list = List.find("@default")
+      
+      new_tasklist = List.init( name: resp.title, time: (new Date()).toString() )
+      new_tasklist.id = resp.id
+      new_tasklist.save()
+      
+      #change all the ids of the local task with that task list id
+      for task in Task.findAllByAttribute("listid", initial_list.id)
+        task.listid = new_tasklist.id
+        task.save()
+      
+      window.App.render_new new_tasklist
+      initial_list.destroy()  
+      
+      #now do the sync 
+      request = gapi.client.tasks.tasklists.list()
+      request.execute( (resp) -> 
+        console.log(resp) 
+        window.list_response = resp  
+        window.local_cloud_sync( List.all(), resp.items, List )
+      )
+      
+    )  
+  else
+    request = gapi.client.tasks.tasklists.list()
+    request.execute( (resp) -> 
+      console.log(resp) 
+      window.list_response = resp  
+      window.local_cloud_sync( List.all(), resp.items, List )
+    )
 
 window.de_array = (array) ->
   local_dict = {}

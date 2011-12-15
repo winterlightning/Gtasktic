@@ -145,7 +145,7 @@
     },
     add_to_cloud: function(tasklist) {
       var request, request_json;
-      if (tasklist.name === "@default") {
+      if (tasklist.id === "@default") {
         return true;
       }
       request_json = {
