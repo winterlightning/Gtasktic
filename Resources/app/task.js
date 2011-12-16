@@ -62,6 +62,9 @@
     },
     add_from_cloud: function(value, callback) {
       var duedate, task;
+      if (value.title === "") {
+        return true;
+      }
       duedate = null;
       if (value.hasOwnProperty("due")) {
         duedate = (new Date(value.due)).format("mm/dd/yyyy");
@@ -197,7 +200,6 @@
           task.listid = new_tasklist.id;
           task.save();
         }
-        window.App.render_new(new_tasklist);
         tasklist.destroy();
         return callback(new_tasklist);
       });

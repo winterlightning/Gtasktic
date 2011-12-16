@@ -43,6 +43,9 @@ Task.extend
     data
   
   add_from_cloud: (value, callback) ->
+    if value.title is ""
+      return true
+    
     duedate = null
     duedate = (new Date(value.due)).format("mm/dd/yyyy")  if value.hasOwnProperty("due")    
     
@@ -175,7 +178,6 @@ List.extend
         task.listid = new_tasklist.id
         task.save()
         
-      window.App.render_new new_tasklist
       tasklist.destroy()
       
       callback(new_tasklist)
