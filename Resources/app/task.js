@@ -80,7 +80,7 @@
       }
       return task.save();
     },
-    add_to_cloud: function(task) {
+    add_to_cloud: function(task, callback) {
       var data, request, request_json;
       data = Task.toCloudStructure(task);
       request_json = {
@@ -90,6 +90,7 @@
         body: data
       };
       request = gapi.client.request(request_json);
+      window.incrementer[task.listid] = window.incrementer[task.listid] + 1;
       return request.execute(function(resp) {
         var new_task, old_id;
         console.log(resp);
@@ -109,10 +110,12 @@
         new_task = Task.init(data);
         new_task.id = resp.id;
         new_task.save();
-        return task.destroy();
+        task.destroy();
+        window.incrementer[task.listid] = window.incrementer[task.listid] - 1;
+        return callback(new_task);
       });
     },
-    delete_from_cloud: function(task) {
+    delete_from_cloud: function(task, callback) {
       var request, request_json;
       request_json = {
         path: "/tasks/v1/lists/" + task.listid + "/tasks/" + task.id,
@@ -126,7 +129,7 @@
         return window.delete_response = resp;
       });
     },
-    update_to_cloud: function(task) {
+    update_to_cloud: function(task, callback) {
       var data, request, request_json;
       data = Task.toCloudStructure(task);
       data.id = task.id;
@@ -142,7 +145,7 @@
         return window.update_response = resp;
       });
     },
-    update_to_local: function(task) {
+    update_to_local: function(task, callback) {
       return alert("update to local");
     }
   });

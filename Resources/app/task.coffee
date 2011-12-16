@@ -59,7 +59,7 @@ Task.extend
     task.save()
   
   #sync process
-  add_to_cloud: (task) -> #tasks needs to at least have a name and listid attribute
+  add_to_cloud: (task, callback) -> #tasks needs to at least have a name and listid attribute
     #manually create the request since the api shit is not working
     data = Task.toCloudStructure(task)
     
@@ -70,6 +70,10 @@ Task.extend
       body: data
     
     request = gapi.client.request(request_json)
+    
+    #increment the incrementor to keep track of outstanding requests
+    window.incrementer[task.listid] = window.incrementer[task.listid] + 1
+    
     request.execute( (resp) -> 
       console.log(resp) 
       window.add_response = resp
@@ -87,9 +91,11 @@ Task.extend
       
       task.destroy()
       
+      window.incrementer[task.listid] = window.incrementer[task.listid] - 1
+      callback(new_task)
     )
   
-  delete_from_cloud: (task) ->
+  delete_from_cloud: (task, callback) ->
     request_json = 
       path: "/tasks/v1/lists/#{ task.listid }/tasks/#{ task.id }"
       method: "DELETE"
@@ -102,7 +108,7 @@ Task.extend
       window.delete_response = resp
     )
   
-  update_to_cloud: (task) ->
+  update_to_cloud: (task, callback) ->
     data = Task.toCloudStructure(task)
     data.id = task.id
     
@@ -113,12 +119,13 @@ Task.extend
       body: data
     
     request = gapi.client.request(request_json)
+    
     request.execute( (resp) -> 
       console.log(resp) 
       window.update_response = resp
     )    
   
-  update_to_local: (task) ->
+  update_to_local: (task, callback) ->
     alert("update to local")
    
 Deletion = Spine.Model.setup("Deletion", [ "deletion_id" ])

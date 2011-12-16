@@ -10,6 +10,8 @@ window.new_sync = ->
 window.initialize_and_sync_list = ->
   window.settingapp.setup_api_on_entry( window.sync_list )
 
+window.incrementer = {}
+
 #syncs a tasks list, assumes that the task list exist in the cloud already
 window.sync_task= (tasklist) ->
   request = gapi.client.tasks.tasks.list( tasklist: tasklist.id )
@@ -23,8 +25,21 @@ window.sync_task= (tasklist) ->
       c.listid = tasklist.id
     
     local_tasks_for_list = Task.findAllByAttribute("listid", tasklist.id)
-    window.local_cloud_sync( local_tasks_for_list, cloud_tasks, Task, ()-> console.log("task synced"))
+    
+    #create a counter to increment and decrement when things come back
+    window.incrementer[tasklist.id] = 0
+    
+    window.local_cloud_sync( local_tasks_for_list, cloud_tasks, Task, (task)-> 
+      console.log( "CALLBACK called " + window.incrementer[task.listid].toString() )
+      
+      if window.incrementer[task.listid] is 0
+        alert("all syncing ajax done for" + task.id)
+    )
   )
+  
+  #if no outstanding ajax request, render window
+  if window.incrementer[tasklist.id] is 0
+    alert("all syncing done for" + task.id)
 
 window.sync_list = ->
   if List.exists "@default"
