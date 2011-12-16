@@ -11,7 +11,8 @@
     request = gapi.client.tasks.tasks.list({
       tasklist: tasklist.id
     });
-    request.execute(function(resp) {
+    window.incrementer[tasklist.id] = 0;
+    return request.execute(function(resp) {
       var c, cloud_tasks, local_tasks_for_list, _i, _len;
       console.log(resp);
       window.list_response = resp;
@@ -21,17 +22,16 @@
         c.listid = tasklist.id;
       }
       local_tasks_for_list = Task.findAllByAttribute("listid", tasklist.id);
-      window.incrementer[tasklist.id] = 0;
-      return window.local_cloud_sync(local_tasks_for_list, cloud_tasks, Task, function(task) {
+      window.local_cloud_sync(local_tasks_for_list, cloud_tasks, Task, function(task) {
         console.log("CALLBACK called " + window.incrementer[task.listid].toString());
         if (window.incrementer[task.listid] === 0) {
-          return alert("all syncing ajax done for" + task.id);
+          return window.App.render_new(List.find(task.listid));
         }
       });
+      if (window.incrementer[tasklist.id] === 0) {
+        return window.App.render_new(tasklist);
+      }
     });
-    if (window.incrementer[tasklist.id] === 0) {
-      return alert("all syncing done for" + task.id);
-    }
   };
   window.sync_list = function() {
     var request;

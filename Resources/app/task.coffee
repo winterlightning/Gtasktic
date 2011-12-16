@@ -145,7 +145,6 @@ List.extend
     new_tasklist.id = tasklist.id
     new_tasklist.save()
     
-    window.App.render_new new_tasklist
     callback(new_tasklist)
 
   add_to_cloud: (tasklist, callback) ->

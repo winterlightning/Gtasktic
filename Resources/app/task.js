@@ -164,7 +164,6 @@
       });
       new_tasklist.id = tasklist.id;
       new_tasklist.save();
-      window.App.render_new(new_tasklist);
       return callback(new_tasklist);
     },
     add_to_cloud: function(tasklist, callback) {
