@@ -62,7 +62,6 @@ window.sync_list = ->
         task.listid = new_tasklist.id
         task.save()
       
-      window.App.render_new new_tasklist
       initial_list.destroy()  
       
       #now do the sync 

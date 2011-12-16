@@ -55,7 +55,6 @@
           task.listid = new_tasklist.id;
           task.save();
         }
-        window.App.render_new(new_tasklist);
         initial_list.destroy();
         request = gapi.client.tasks.tasklists.list();
         return request.execute(function(resp) {
