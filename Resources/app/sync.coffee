@@ -34,12 +34,20 @@ window.sync_task= (tasklist) ->
       console.log( "CALLBACK called " + window.incrementer[task.listid].toString() )
       
       if window.incrementer[task.listid] is 0
-        window.App.render_new List.find(task.listid)
+        #check if it already exist to avoid making a duplicate
+        if $("#"+task.listid).length > 0
+          List.find(tasklist.id).save()
+        else
+          window.App.render_new List.find(task.listid)
     )
     
     #if no outstanding ajax request, render window
     if window.incrementer[tasklist.id] is 0
-      window.App.render_new tasklist
+      #check if it already exist to avoid making a duplicate
+      if $("#"+tasklist.id).length > 0
+        List.find(tasklist.id).save()
+      else
+        window.App.render_new List.find(tasklist.id)
     
   )
 

@@ -25,11 +25,19 @@
       window.local_cloud_sync(local_tasks_for_list, cloud_tasks, Task, function(task) {
         console.log("CALLBACK called " + window.incrementer[task.listid].toString());
         if (window.incrementer[task.listid] === 0) {
-          return window.App.render_new(List.find(task.listid));
+          if ($("#" + task.listid).length > 0) {
+            return List.find(tasklist.id).save();
+          } else {
+            return window.App.render_new(List.find(task.listid));
+          }
         }
       });
       if (window.incrementer[tasklist.id] === 0) {
-        return window.App.render_new(tasklist);
+        if ($("#" + tasklist.id).length > 0) {
+          return List.find(tasklist.id).save();
+        } else {
+          return window.App.render_new(List.find(tasklist.id));
+        }
       }
     });
   };

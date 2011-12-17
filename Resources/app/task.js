@@ -149,7 +149,20 @@
       });
     },
     update_to_local: function(task, callback) {
-      return alert("update to local");
+      var duedate, local_task;
+      local_task = Task.find(task.id);
+      duedate = null;
+      if (task.hasOwnProperty("due")) {
+        duedate = (new Date(task.due)).format("mm/dd/yyyy");
+      }
+      return local_task.updateAttributes({
+        name: task.title,
+        time: (new Date().getTime()).toString(),
+        synced: true,
+        done: task.status === "completed",
+        duedate: duedate,
+        listid: task.listid
+      });
     }
   });
   Deletion = Spine.Model.setup("Deletion", ["deletion_id"]);

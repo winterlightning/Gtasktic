@@ -129,7 +129,18 @@ Task.extend
     )    
   
   update_to_local: (task, callback) ->
-    alert("update to local")
+    local_task = Task.find(task.id)
+    
+    duedate = null
+    duedate = (new Date(task.due)).format("mm/dd/yyyy")  if task.hasOwnProperty("due")        
+    
+    local_task.updateAttributes
+      name: task.title
+      time: (new Date().getTime()).toString()
+      synced: true
+      done: (task.status == "completed")
+      duedate: duedate
+      listid: task.listid
    
 Deletion = Spine.Model.setup("Deletion", [ "deletion_id" ])
 Deletion.extend Spine.Model.Local
