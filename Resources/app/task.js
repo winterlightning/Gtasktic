@@ -71,7 +71,7 @@
       }
       task = Task.init({
         name: value.title,
-        time: (new Date().getTime()).toString(),
+        time: moment(value.updated).toString(),
         synced: true,
         done: value.status === "completed",
         duedate: duedate,
@@ -158,7 +158,7 @@
       }
       return local_task.updateAttributes({
         name: task.title,
-        time: (new Date().getTime()).toString(),
+        time: moment(task.updated).toString(),
         synced: true,
         done: task.status === "completed",
         duedate: duedate,

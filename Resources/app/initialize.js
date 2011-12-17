@@ -14,14 +14,14 @@
       newlist = List.init({
         name: "Your Todos",
         description: "",
-        time: (new Date().getTime()).toString(),
+        time: moment().toString(),
         synced: false
       });
       newlist.id = "@default";
       newlist.save();
       new_task = Task.init({
         name: "Click on settings and link your gtask account",
-        time: (new Date().getTime()).toString(),
+        time: moment().toString(),
         done: false,
         order: Task.all().length + 1,
         synced: false,
@@ -29,7 +29,7 @@
       });
       new_task_2 = Task.init({
         name: "Click on sync to get the tasks in your current google account",
-        time: (new Date().getTime()).toString(),
+        time: moment().toString(),
         done: false,
         order: Task.all().length + 1,
         synced: false,

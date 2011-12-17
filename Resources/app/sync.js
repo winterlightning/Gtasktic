@@ -150,13 +150,13 @@
     return [local_dict, local_ids];
   };
   window.local_cloud_sync = function(local, cloud, item, callback) {
-    var cloud_dict, cloud_ids, cloud_set, cloud_time, id, local_dict, local_ids, local_set, local_time, _i, _j, _len, _len2, _ref, _ref2, _ref3, _ref4, _results;
+    var cloud_dict, cloud_ids, cloud_time, id, local_dict, local_ids, local_time, _i, _j, _len, _len2, _ref, _ref2, _ref3, _ref4, _results;
     console.log(local);
     console.log(cloud);
     _ref = de_array(local), local_dict = _ref[0], local_ids = _ref[1];
     _ref2 = de_array(cloud), cloud_dict = _ref2[0], cloud_ids = _ref2[1];
-    local_set = new Set(local_ids);
-    cloud_set = new Set(cloud_ids);
+    window.local_set = new Set(local_ids);
+    window.cloud_set = new Set(cloud_ids);
     console.log("there locally, not on the cloud");
     _ref3 = (local_set.difference(cloud_set)._set);
     for (_i = 0, _len = _ref3.length; _i < _len; _i++) {
@@ -186,7 +186,8 @@
     _results = [];
     for (_j = 0, _len2 = _ref4.length; _j < _len2; _j++) {
       id = _ref4[_j];
-      _results.push(cloud_dict[id].updated != null ? (local_time = moment(local_dict[id].time), cloud_time = moment(cloud_dict[id].updated), local_time > cloud_time ? item.update_to_cloud(local_dict[id], callback) : item.update_to_local(cloud_dict[id], callback)) : (console.log("no timestamp, local updating to cloud"), typeof parent_id !== "undefined" && parent_id !== null ? item.update_to_cloud(local_dict[id], callback, parent_id) : item.update_to_cloud(local_dict[id], callback)));
+      console.log(id);
+      _results.push(cloud_dict[id].updated != null ? (local_time = moment(local_dict[id].time), cloud_time = moment(cloud_dict[id].updated), console.log(local_time.toString()), console.log(cloud_time.toString()), local_time > cloud_time ? item.update_to_cloud(local_dict[id], callback) : item.update_to_local(cloud_dict[id], callback)) : (console.log("no timestamp, local updating to cloud"), typeof parent_id !== "undefined" && parent_id !== null ? item.update_to_cloud(local_dict[id], callback, parent_id) : item.update_to_cloud(local_dict[id], callback)));
     }
     return _results;
   };

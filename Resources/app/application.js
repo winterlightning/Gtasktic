@@ -42,7 +42,7 @@
       },
       toggle: function() {
         this.item.done = !this.item.done;
-        this.item.time = (new Date().getTime()).toString();
+        this.item.time = moment().toString();
         return this.item.save();
       },
       destroy: function() {
@@ -100,7 +100,7 @@
         this.wrapper.removeClass("editing");
         this.item.updateAttributes({
           name: input_value,
-          time: (new Date().getTime()).toString(),
+          time: moment().toString(),
           duedate: this.inputdate.val(),
           note: this.textarea.val()
         });
@@ -271,7 +271,7 @@
               current = Task.find($(this).data("id"));
               current.order = $(this).index();
               current.listid = ($(this).parent().parent())[0].id;
-              current.time = (new Date().getTime()).toString();
+              current.time = moment().toString();
               return current.save();
             });
           },

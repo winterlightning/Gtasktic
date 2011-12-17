@@ -36,7 +36,7 @@ jQuery ($) ->
     
     toggle: ->
       @item.done = not @item.done
-      @item.time = (new Date().getTime()).toString()
+      @item.time = moment().toString()
       @item.save()
     
     destroy: ->
@@ -88,7 +88,7 @@ jQuery ($) ->
       @wrapper.removeClass "editing"
       @item.updateAttributes 
         name: input_value
-        time: (new Date().getTime()).toString()
+        time: moment().toString()
         duedate: @inputdate.val()
         note: @textarea.val()
       
@@ -235,7 +235,7 @@ jQuery ($) ->
           current = Task.find($(this).data("id"))
           current.order = $(this).index()
           current.listid = ($(this).parent().parent())[0].id
-          current.time = (new Date().getTime()).toString()
+          current.time = moment().toString()
           current.save()
       connectWith: ".connectedsortable"
       
