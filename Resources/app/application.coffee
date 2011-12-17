@@ -40,7 +40,11 @@ jQuery ($) ->
       @item.save()
     
     destroy: ->
-      Deletion.create deletion_id: @item.id  if @item.synced == true
+      if @item.synced == true
+        d = Deletion.init deletion_id: @item.id, listid: @item.listid 
+        d.id = @item.id
+        d.save()
+        
       @item.destroy()
     
     edit: ->
@@ -189,7 +193,7 @@ jQuery ($) ->
         DeletedList.create deletion_id: @item.id  if @item.synced == true
         tasks = Task.list(@item.id)
         $.each tasks, (key, value) ->
-          Deletion.create deletion_id: value.id  if value.synced == true
+          Deletion.create deletion_id: value.id, listid: value.listid if value.synced == true
           value.destroy()
         
         @remove()

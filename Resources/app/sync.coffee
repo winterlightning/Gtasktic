@@ -22,17 +22,31 @@ window.delete_lists= () ->
       window.incrementer["delete_list"] = window.incrementer["delete_list"] - 1
       
       if window.incrementer["delete_list"] is 0
+        del.destroy() for del in DeletedList.all()
         window.delete_tasks()
     )
     
   if window.incrementer["delete_list"] is 0
+    del.destroy() for del in DeletedList.all()
     window.delete_tasks()
   
 #a function to delete all the tasks from the cloud that has been deleted locally
-window.delete_tasks = ( ) ->
-  alert("delete tasks")
+window.delete_tasks = () ->
+  window.incrementer["delete_task"] = 0
   
-  window.sync_list()
+  for d in Deletion.all()
+    window.incrementer["delete_task"] = window.incrementer["delete_task"] + 1
+    Task.delete_from_cloud( d,  () ->
+      window.incrementer["delete_task"] = window.incrementer["delete_task"] - 1
+      
+      if window.incrementer["delete_task"] is 0
+        del.destroy() for del in Deletion.all()
+        window.sync_list()
+    )
+    
+  if window.incrementer["delete_task"] is 0
+    del.destroy() for del in Deletion.all()
+    window.sync_list()
   
 #syncs a tasks list, assumes that the task list exist in the cloud already
 window.sync_task= (tasklist) ->

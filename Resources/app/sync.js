@@ -7,26 +7,62 @@
   };
   window.incrementer = {};
   window.delete_lists = function() {
-    var d, _i, _len, _ref;
+    var d, del, _i, _j, _len, _len2, _ref, _ref2;
     window.incrementer["delete_list"] = 0;
     _ref = DeletedList.all();
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       d = _ref[_i];
       window.incrementer["delete_list"] = window.incrementer["delete_list"] + 1;
       List.delete_from_cloud(d.deletion_id, function() {
+        var del, _j, _len2, _ref2;
         window.incrementer["delete_list"] = window.incrementer["delete_list"] - 1;
         if (window.incrementer["delete_list"] === 0) {
+          _ref2 = DeletedList.all();
+          for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+            del = _ref2[_j];
+            del.destroy();
+          }
           return window.delete_tasks();
         }
       });
     }
     if (window.incrementer["delete_list"] === 0) {
+      _ref2 = DeletedList.all();
+      for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+        del = _ref2[_j];
+        del.destroy();
+      }
       return window.delete_tasks();
     }
   };
   window.delete_tasks = function() {
-    alert("delete tasks");
-    return window.sync_list();
+    var d, del, _i, _j, _len, _len2, _ref, _ref2;
+    window.incrementer["delete_task"] = 0;
+    _ref = Deletion.all();
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      d = _ref[_i];
+      window.incrementer["delete_task"] = window.incrementer["delete_task"] + 1;
+      Task.delete_from_cloud(d, function() {
+        var del, _j, _len2, _ref2;
+        window.incrementer["delete_task"] = window.incrementer["delete_task"] - 1;
+        if (window.incrementer["delete_task"] === 0) {
+          _ref2 = Deletion.all();
+          for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+            del = _ref2[_j];
+            del.destroy();
+          }
+          return window.sync_list();
+        }
+      });
+    }
+    if (window.incrementer["delete_task"] === 0) {
+      _ref2 = Deletion.all();
+      for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+        del = _ref2[_j];
+        del.destroy();
+      }
+      return window.sync_list();
+    }
   };
   window.sync_task = function(tasklist) {
     var request;

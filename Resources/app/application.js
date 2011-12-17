@@ -46,9 +46,15 @@
         return this.item.save();
       },
       destroy: function() {
-        Deletion.create({
-          deletion_id: this.item.synced === true ? this.item.id : void 0
-        });
+        var d;
+        if (this.item.synced === true) {
+          d = Deletion.init({
+            deletion_id: this.item.id,
+            listid: this.item.listid
+          });
+          d.id = this.item.id;
+          d.save();
+        }
         return this.item.destroy();
       },
       edit: function() {
@@ -215,7 +221,8 @@
           tasks = Task.list(this.item.id);
           $.each(tasks, function(key, value) {
             Deletion.create({
-              deletion_id: value.synced === true ? value.id : void 0
+              deletion_id: value.id,
+              listid: value.synced === true ? value.listid : void 0
             });
             return value.destroy();
           });

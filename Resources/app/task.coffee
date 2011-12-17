@@ -109,6 +109,8 @@ Task.extend
     request.execute( (resp) -> 
       console.log(resp) 
       window.delete_response = resp
+      
+      callback()
     )
   
   update_to_cloud: (task, callback) ->
@@ -142,7 +144,7 @@ Task.extend
       duedate: duedate
       listid: task.listid
    
-Deletion = Spine.Model.setup("Deletion", [ "deletion_id" ])
+Deletion = Spine.Model.setup("Deletion", [ "deletion_id", "listid" ])
 Deletion.extend Spine.Model.Local
 DeletedList = Spine.Model.setup("DeletedList", [ "deletion_id" ])
 DeletedList.extend Spine.Model.Local

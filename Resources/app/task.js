@@ -129,7 +129,8 @@
       request = gapi.client.request(request_json);
       return request.execute(function(resp) {
         console.log(resp);
-        return window.delete_response = resp;
+        window.delete_response = resp;
+        return callback();
       });
     },
     update_to_cloud: function(task, callback) {
@@ -165,7 +166,7 @@
       });
     }
   });
-  Deletion = Spine.Model.setup("Deletion", ["deletion_id"]);
+  Deletion = Spine.Model.setup("Deletion", ["deletion_id", "listid"]);
   Deletion.extend(Spine.Model.Local);
   DeletedList = Spine.Model.setup("DeletedList", ["deletion_id"]);
   DeletedList.extend(Spine.Model.Local);
