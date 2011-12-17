@@ -3,9 +3,31 @@
     if ((navigator.onLine === false) || ($("#sync_button").hasClass("disabled"))) {}
   };
   window.initialize_and_sync_list = function() {
-    return window.settingapp.setup_api_on_entry(window.sync_list);
+    return window.settingapp.setup_api_on_entry(window.delete_lists);
   };
   window.incrementer = {};
+  window.delete_lists = function() {
+    var d, _i, _len, _ref;
+    window.incrementer["delete_list"] = 0;
+    _ref = DeletedList.all();
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      d = _ref[_i];
+      window.incrementer["delete_list"] = window.incrementer["delete_list"] + 1;
+      List.delete_from_cloud(d.deletion_id, function() {
+        window.incrementer["delete_list"] = window.incrementer["delete_list"] - 1;
+        if (window.incrementer["delete_list"] === 0) {
+          return window.delete_tasks();
+        }
+      });
+    }
+    if (window.incrementer["delete_list"] === 0) {
+      return window.delete_tasks();
+    }
+  };
+  window.delete_tasks = function() {
+    alert("delete tasks");
+    return window.sync_list();
+  };
   window.sync_task = function(tasklist) {
     var request;
     request = gapi.client.tasks.tasks.list({

@@ -8,10 +8,32 @@ window.new_sync = ->
   #call sync on the list of tasklist
 
 window.initialize_and_sync_list = ->
-  window.settingapp.setup_api_on_entry( window.sync_list )
+  window.settingapp.setup_api_on_entry( window.delete_lists )
 
 window.incrementer = {}
 
+#a function to delete all the list from the cloud that has been deleted locally
+window.delete_lists= () ->
+  window.incrementer["delete_list"] = 0
+  
+  for d in DeletedList.all()
+    window.incrementer["delete_list"] = window.incrementer["delete_list"] + 1
+    List.delete_from_cloud( d.deletion_id,  () ->
+      window.incrementer["delete_list"] = window.incrementer["delete_list"] - 1
+      
+      if window.incrementer["delete_list"] is 0
+        window.delete_tasks()
+    )
+    
+  if window.incrementer["delete_list"] is 0
+    window.delete_tasks()
+  
+#a function to delete all the tasks from the cloud that has been deleted locally
+window.delete_tasks = ( ) ->
+  alert("delete tasks")
+  
+  window.sync_list()
+  
 #syncs a tasks list, assumes that the task list exist in the cloud already
 window.sync_task= (tasklist) ->
   request = gapi.client.tasks.tasks.list( tasklist: tasklist.id )
@@ -52,6 +74,7 @@ window.sync_task= (tasklist) ->
   )
 
 window.sync_list = ->
+  
   if List.exists "@default"
     #find if any of them is the default list, if it is, then sync by replacing our default list with theirs
     #this should only happen once when the user first syncs
@@ -156,6 +179,17 @@ window.local_cloud_sync = (local, cloud, item, callback) ->
       else
         item.update_to_cloud( local_dict[id], callback )
       
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
 window.Sync = ->
   

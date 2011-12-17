@@ -157,6 +157,7 @@ List.extend
   add_from_cloud: (tasklist, callback ) ->
     new_tasklist = List.init( name: tasklist.title, time: (new Date()).toString() )
     new_tasklist.id = tasklist.id
+    new_tasklist.synced = true
     new_tasklist.save()
     
     callback(new_tasklist)
@@ -194,7 +195,7 @@ List.extend
       callback(new_tasklist)
     )  
   
-  delete_from_cloud: (id) ->
+  delete_from_cloud: (id, callback) ->
     request_json = 
       path: "/tasks/v1/users/@me/lists/"+ id
       method: "DELETE"
@@ -205,6 +206,8 @@ List.extend
     request.execute( (resp) -> 
       console.log(resp) 
       window.delete_response = resp
+      
+      callback()
     )  
   
     #delete all it's children tasks too!!

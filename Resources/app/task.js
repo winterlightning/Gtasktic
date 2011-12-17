@@ -179,6 +179,7 @@
         time: (new Date()).toString()
       });
       new_tasklist.id = tasklist.id;
+      new_tasklist.synced = true;
       new_tasklist.save();
       return callback(new_tasklist);
     },
@@ -217,7 +218,7 @@
         return callback(new_tasklist);
       });
     },
-    delete_from_cloud: function(id) {
+    delete_from_cloud: function(id, callback) {
       var request, request_json;
       request_json = {
         path: "/tasks/v1/users/@me/lists/" + id,
@@ -228,7 +229,8 @@
       request = gapi.client.request(request_json);
       return request.execute(function(resp) {
         console.log(resp);
-        return window.delete_response = resp;
+        window.delete_response = resp;
+        return callback();
       });
     },
     update_to_cloud: function(tasklist, callback) {
