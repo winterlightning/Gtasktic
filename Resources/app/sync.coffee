@@ -1,12 +1,4 @@
-window.new_sync = ->
-  if (navigator.onLine == false) or ( $("#sync_button").hasClass("disabled") )
-    return
-
-  #save all the etags? alternative comparing
-  #lists = sync list the list syncs 
-  
-  #call sync on the list of tasklist
-
+#the sync entry point
 window.initialize_and_sync_list = ->
   window.settingapp.setup_api_on_entry( window.delete_lists )
 
