@@ -1,6 +1,6 @@
 #the sync entry point
 window.initialize_and_sync_list = ->
-  window.settingapp.setup_api_on_entry( window.delete_lists )
+  window.settingapp.setup_api_on_entry( window.find_time_difference )
 
 window.time_difference = null
 
@@ -20,6 +20,7 @@ window.find_time_difference = ->
     window.response = resp
     server_time = moment( resp.updated )
     window.time_difference = current_time - server_time
+    window.delete_lists()
   )
 
 window.incrementer = {}
@@ -193,7 +194,7 @@ window.local_cloud_sync = (local, cloud, item, callback) ->
     #if the cloud has a timestamp, then compare it, else just overwrite cloud with local
     if cloud_dict[id].updated?
       local_time = moment(local_dict[id].time)
-      cloud_time = moment(cloud_dict[id].updated)
+      cloud_time = moment(cloud_dict[id].updated) + window.time_difference
       
       console.log(local_time.toString())
       console.log(cloud_time.toString())

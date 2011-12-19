@@ -1,6 +1,6 @@
 (function() {
   window.initialize_and_sync_list = function() {
-    return window.settingapp.setup_api_on_entry(window.delete_lists);
+    return window.settingapp.setup_api_on_entry(window.find_time_difference);
   };
   window.time_difference = null;
   window.find_time_difference = function() {
@@ -19,7 +19,8 @@
       var server_time;
       window.response = resp;
       server_time = moment(resp.updated);
-      return window.time_difference = current_time - server_time;
+      window.time_difference = current_time - server_time;
+      return window.delete_lists();
     });
   };
   window.incrementer = {};
@@ -204,7 +205,7 @@
     for (_j = 0, _len2 = _ref4.length; _j < _len2; _j++) {
       id = _ref4[_j];
       console.log(id);
-      _results.push(cloud_dict[id].updated != null ? (local_time = moment(local_dict[id].time), cloud_time = moment(cloud_dict[id].updated), console.log(local_time.toString()), console.log(cloud_time.toString()), local_time > cloud_time ? item.update_to_cloud(local_dict[id], callback) : item.update_to_local(cloud_dict[id], callback)) : (console.log("no timestamp, local updating to cloud"), typeof parent_id !== "undefined" && parent_id !== null ? item.update_to_cloud(local_dict[id], callback, parent_id) : item.update_to_cloud(local_dict[id], callback)));
+      _results.push(cloud_dict[id].updated != null ? (local_time = moment(local_dict[id].time), cloud_time = moment(cloud_dict[id].updated) + window.time_difference, console.log(local_time.toString()), console.log(cloud_time.toString()), local_time > cloud_time ? item.update_to_cloud(local_dict[id], callback) : item.update_to_local(cloud_dict[id], callback)) : (console.log("no timestamp, local updating to cloud"), typeof parent_id !== "undefined" && parent_id !== null ? item.update_to_cloud(local_dict[id], callback, parent_id) : item.update_to_cloud(local_dict[id], callback)));
     }
     return _results;
   };
