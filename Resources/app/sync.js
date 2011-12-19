@@ -2,6 +2,26 @@
   window.initialize_and_sync_list = function() {
     return window.settingapp.setup_api_on_entry(window.delete_lists);
   };
+  window.time_difference = null;
+  window.find_time_difference = function() {
+    var current_time, request, request_json;
+    current_time = moment();
+    request_json = {
+      path: "/tasks/v1/lists/@default/tasks",
+      method: "POST",
+      params: "",
+      body: {
+        title: "testing"
+      }
+    };
+    request = gapi.client.request(request_json);
+    return request.execute(function(resp) {
+      var server_time;
+      window.response = resp;
+      server_time = moment(resp.updated);
+      return window.time_difference = current_time - server_time;
+    });
+  };
   window.incrementer = {};
   window.delete_lists = function() {
     var d, del, _i, _j, _len, _len2, _ref, _ref2;

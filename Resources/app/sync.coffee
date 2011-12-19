@@ -2,6 +2,26 @@
 window.initialize_and_sync_list = ->
   window.settingapp.setup_api_on_entry( window.delete_lists )
 
+window.time_difference = null
+
+#find the time difference
+#find the time difference between the server and local
+window.find_time_difference = ->
+  current_time = moment()
+  
+  request_json = 
+    path: "/tasks/v1/lists/@default/tasks"
+    method: "POST"
+    params: ""
+    body: { title: "testing" }
+  
+  request = gapi.client.request(request_json)
+  request.execute( (resp) -> 
+    window.response = resp
+    server_time = moment( resp.updated )
+    window.time_difference = current_time - server_time
+  )
+
 window.incrementer = {}
 
 #a function to delete all the list from the cloud that has been deleted locally
