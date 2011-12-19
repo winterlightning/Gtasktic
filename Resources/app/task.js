@@ -47,10 +47,10 @@
       data = {
         title: task.name
       };
-      if (task.duedate != null) {
-        data.due = moment(a.duedate).format("YYYY-MM-DD") + "T12:00:00.000Z";
+      if ((task.duedate != null) && task.duedate !== "") {
+        data.due = moment(task.duedate).format("YYYY-MM-DD") + "T12:00:00.000Z";
       }
-      if (task.note != null) {
+      if ((task.note != null) && task.note !== "") {
         data.notes = task.note;
       }
       if (task.done) {
@@ -137,6 +137,7 @@
       var data, request, request_json;
       data = Task.toCloudStructure(task);
       data.id = task.id;
+      window.updatedata = data;
       request_json = {
         path: "/tasks/v1/lists/" + task.listid + "/tasks/" + task.id,
         method: "PUT",

@@ -33,8 +33,8 @@ Task.extend
   
   toCloudStructure: (task) ->
     data = { title: task.name }
-    data.due = moment(a.duedate).format("YYYY-MM-DD")+"T12:00:00.000Z" if task.duedate?
-    data.notes = task.note if task.note?
+    data.due = moment(task.duedate).format("YYYY-MM-DD")+"T12:00:00.000Z" if task.duedate? and task.duedate isnt ""
+    data.notes = task.note if task.note? and task.note isnt ""
     if task.done
       data.status = "completed"
     else
@@ -116,6 +116,8 @@ Task.extend
   update_to_cloud: (task, callback) ->
     data = Task.toCloudStructure(task)
     data.id = task.id
+    
+    window.updatedata = data
     
     request_json = 
       path: "/tasks/v1/lists/#{ task.listid }/tasks/#{ task.id }"
