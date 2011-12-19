@@ -102,7 +102,8 @@
         data = {
           name: task.name,
           time: task.time,
-          listid: task.listid
+          listid: task.listid,
+          order: task.order
         };
         if (task.duedate != null) {
           data.duedate = task.duedate;

@@ -84,7 +84,7 @@ Task.extend
       #response need to update the local with correct id
       old_id = task.id
       
-      data = { name: task.name, time: task.time, listid: task.listid}
+      data = { name: task.name, time: task.time, listid: task.listid, order: task.order}
       data.duedate = task.duedate if task.duedate?
       data.note = task.note if task.note?
       
