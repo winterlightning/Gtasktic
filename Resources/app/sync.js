@@ -183,7 +183,7 @@
     return [local_dict, local_ids];
   };
   window.local_cloud_sync = function(local, cloud, item, callback) {
-    var cloud_dict, cloud_ids, id, local_dict, local_ids, local_time, _i, _j, _len, _len2, _ref, _ref2, _ref3, _ref4, _results;
+    var cloud_dict, cloud_ids, cloud_time, id, local_dict, local_ids, local_time, _i, _j, _len, _len2, _ref, _ref2, _ref3, _ref4, _results;
     console.log(local);
     console.log(cloud);
     _ref = de_array(local), local_dict = _ref[0], local_ids = _ref[1];
@@ -220,7 +220,7 @@
     for (_j = 0, _len2 = _ref4.length; _j < _len2; _j++) {
       id = _ref4[_j];
       console.log(id);
-      _results.push(cloud_dict[id].updated != null ? (local_time = moment(local_dict[id].time), window.cloud_time = moment(cloud_dict[id].updated).add('milliseconds', window.time_difference), console.log(local_time.toString()), console.log(cloud_time.toString()), local_time > cloud_time ? item.update_to_cloud(local_dict[id], callback) : item.update_to_local(cloud_dict[id], callback)) : (console.log("no timestamp, local updating to cloud"), typeof parent_id !== "undefined" && parent_id !== null ? item.update_to_cloud(local_dict[id], callback, parent_id) : item.update_to_cloud(local_dict[id], callback)));
+      _results.push(cloud_dict[id].updated != null ? (local_time = moment(local_dict[id].time), cloud_time = moment(cloud_dict[id].updated).add('milliseconds', window.time_difference), console.log(local_dict[id]), console.log(local_time.toString()), console.log(cloud_time.toString()), local_time > cloud_time ? item.update_to_cloud(local_dict[id], callback) : item.update_to_local(cloud_dict[id], callback)) : (console.log("no timestamp, local updating to cloud"), typeof parent_id !== "undefined" && parent_id !== null ? item.update_to_cloud(local_dict[id], callback, parent_id) : item.update_to_cloud(local_dict[id], callback)));
     }
     return _results;
   };

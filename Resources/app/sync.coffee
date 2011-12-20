@@ -215,7 +215,9 @@ window.local_cloud_sync = (local, cloud, item, callback) ->
     #if the cloud has a timestamp, then compare it, else just overwrite cloud with local
     if cloud_dict[id].updated?
       local_time = moment(local_dict[id].time)
-      window.cloud_time = moment(cloud_dict[id].updated).add('milliseconds', window.time_difference)
+      cloud_time = moment(cloud_dict[id].updated).add('milliseconds', window.time_difference)
+      
+      console.log (local_dict[id] )
       
       console.log(local_time.toString())
       console.log(cloud_time.toString())

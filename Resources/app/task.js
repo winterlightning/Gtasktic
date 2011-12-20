@@ -71,7 +71,7 @@
       }
       task = Task.init({
         name: value.title,
-        time: (moment(value.updated) + window.time_difference).toString(),
+        time: (moment(value.updated).add('milliseconds', window.time_difference)).toString(),
         synced: true,
         done: value.status === "completed",
         duedate: duedate,
