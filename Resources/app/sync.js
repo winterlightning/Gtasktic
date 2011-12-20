@@ -20,7 +20,16 @@
       window.response = resp;
       server_time = moment(resp.updated);
       window.time_difference = current_time - server_time;
-      return window.delete_lists();
+      request_json = {
+        path: "/tasks/v1/lists/@default/tasks/" + resp.id,
+        method: "DELETE",
+        params: "",
+        body: ""
+      };
+      request = gapi.client.request(request_json);
+      return request.execute(function(resp) {
+        return window.delete_lists();
+      });
     });
   };
   window.incrementer = {};

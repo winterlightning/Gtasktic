@@ -20,7 +20,19 @@ window.find_time_difference = ->
     window.response = resp
     server_time = moment( resp.updated )
     window.time_difference = current_time - server_time
-    window.delete_lists()
+    
+    
+    request_json = 
+      path: "/tasks/v1/lists/@default/tasks/#{ resp.id }"
+      method: "DELETE"
+      params: ""
+      body: ""
+
+    request = gapi.client.request(request_json)
+    request.execute( (resp) -> 
+      window.delete_lists()
+    )
+    
   )
 
 window.incrementer = {}

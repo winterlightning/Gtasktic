@@ -71,7 +71,7 @@
       }
       task = Task.init({
         name: value.title,
-        time: moment(value.updated).toString(),
+        time: (moment(value.updated) + window.time_difference).toString(),
         synced: true,
         done: value.status === "completed",
         duedate: duedate,
@@ -101,7 +101,7 @@
         old_id = task.id;
         data = {
           name: task.name,
-          time: task.time,
+          time: (moment(resp.updated) + window.time_difference).toString(),
           listid: task.listid,
           order: task.order
         };
