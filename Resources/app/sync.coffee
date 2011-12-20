@@ -30,7 +30,7 @@ window.find_time_difference = ->
 
     request = gapi.client.request(request_json)
     request.execute( (resp) -> 
-      window.delete_lists()
+      window.delete_tasks()
     )
     
   )
@@ -48,12 +48,12 @@ window.delete_lists= () ->
       
       if window.incrementer["delete_list"] is 0
         del.destroy() for del in DeletedList.all()
-        window.delete_tasks()
+        window.sync_list()
     )
     
   if window.incrementer["delete_list"] is 0
     del.destroy() for del in DeletedList.all()
-    window.delete_tasks()
+    window.sync_list()
   
 #a function to delete all the tasks from the cloud that has been deleted locally
 window.delete_tasks = () ->
@@ -66,49 +66,58 @@ window.delete_tasks = () ->
       
       if window.incrementer["delete_task"] is 0
         del.destroy() for del in Deletion.all()
-        window.sync_list()
+        window.delete_lists()
     )
     
   if window.incrementer["delete_task"] is 0
     del.destroy() for del in Deletion.all()
-    window.sync_list()
+    window.delete_lists()
   
 #syncs a tasks list, assumes that the task list exist in the cloud already
 window.sync_task= (tasklist) ->
-  request = gapi.client.tasks.tasks.list( tasklist: tasklist.id )
+  request_json = 
+    path: "/tasks/v1/lists/#{ tasklist.id }/tasks"
+    method: "GET"
+    params: ""
+    body: ""
+  
+  request = gapi.client.request(request_json)
   
   #create a counter to increment and decrement when things come back
   window.incrementer[tasklist.id] = 0
   
   request.execute( (resp) -> 
-    console.log(resp) 
-    window.list_response = resp  
     
-    #manually add the listid since the cloud return does not have it
-    cloud_tasks = resp.items
-    for c in cloud_tasks
-      c.listid = tasklist.id
-    
-    local_tasks_for_list = Task.findAllByAttribute("listid", tasklist.id)
-    
-    window.local_cloud_sync( local_tasks_for_list, cloud_tasks, Task, (task)-> 
-      console.log( "CALLBACK called " + window.incrementer[task.listid].toString() )
+    if resp.items?
       
-      if window.incrementer[task.listid] is 0
+      console.log(resp) 
+      window.list_response = resp  
+      
+      #manually add the listid since the cloud return does not have it
+      cloud_tasks = resp.items
+      for c in cloud_tasks
+        c.listid = tasklist.id
+      
+      local_tasks_for_list = Task.findAllByAttribute("listid", tasklist.id)
+      
+      window.local_cloud_sync( local_tasks_for_list, cloud_tasks, Task, (task)-> 
+        console.log( "CALLBACK called " + window.incrementer[task.listid].toString() )
+        
+        if window.incrementer[task.listid] is 0
+          #check if it already exist to avoid making a duplicate
+          if $("#"+task.listid).length > 0
+            List.find(tasklist.id).save()
+          else
+            window.App.render_new List.find(task.listid)
+      )
+      
+      #if no outstanding ajax request, render window
+      if window.incrementer[tasklist.id] is 0
         #check if it already exist to avoid making a duplicate
-        if $("#"+task.listid).length > 0
+        if $("#"+tasklist.id).length > 0
           List.find(tasklist.id).save()
         else
-          window.App.render_new List.find(task.listid)
-    )
-    
-    #if no outstanding ajax request, render window
-    if window.incrementer[tasklist.id] is 0
-      #check if it already exist to avoid making a duplicate
-      if $("#"+tasklist.id).length > 0
-        List.find(tasklist.id).save()
-      else
-        window.App.render_new List.find(tasklist.id)
+          window.App.render_new List.find(tasklist.id)
     
   )
 
@@ -206,7 +215,7 @@ window.local_cloud_sync = (local, cloud, item, callback) ->
     #if the cloud has a timestamp, then compare it, else just overwrite cloud with local
     if cloud_dict[id].updated?
       local_time = moment(local_dict[id].time)
-      cloud_time = moment(cloud_dict[id].updated) + window.time_difference
+      window.cloud_time = moment(cloud_dict[id].updated).add('milliseconds', window.time_difference)
       
       console.log(local_time.toString())
       console.log(cloud_time.toString())

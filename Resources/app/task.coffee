@@ -29,7 +29,7 @@ Task.extend
         note: rec.note
         listid: rec.listid
         time_finished: moment().format('MM/DD/YYYY')
-      rec.destroy()    
+      rec.destroy()
   
   toCloudStructure: (task) ->
     data = { title: task.name }
