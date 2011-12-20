@@ -103,7 +103,8 @@
           name: task.name,
           time: (moment(resp.updated) + window.time_difference).toString(),
           listid: task.listid,
-          order: task.order
+          order: task.order,
+          synced: true
         };
         if (task.duedate != null) {
           data.duedate = task.duedate;
@@ -207,7 +208,8 @@
         old_id = tasklist.id;
         new_tasklist = List.init({
           name: tasklist.name,
-          time: (new Date()).toString()
+          time: (new Date()).toString(),
+          synced: true
         });
         new_tasklist.id = resp.id;
         new_tasklist.save();

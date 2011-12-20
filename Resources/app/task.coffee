@@ -84,7 +84,7 @@ Task.extend
       #response need to update the local with correct id
       old_id = task.id
       
-      data = { name: task.name, time: ( moment(resp.updated) + window.time_difference ).toString(), listid: task.listid, order: task.order}
+      data = { name: task.name, time: ( moment(resp.updated) + window.time_difference ).toString(), listid: task.listid, order: task.order, synced: true}
       data.duedate = task.duedate if task.duedate?
       data.note = task.note if task.note?
       
@@ -185,7 +185,7 @@ List.extend
       #destroy the old tasklist and create one with id corresponding to the new one
       old_id = tasklist.id
       
-      new_tasklist = List.init( name: tasklist.name, time: (new Date()).toString() )
+      new_tasklist = List.init( name: tasklist.name, time: (new Date()).toString(), synced: true )
       new_tasklist.id = resp.id
       new_tasklist.save()
       
