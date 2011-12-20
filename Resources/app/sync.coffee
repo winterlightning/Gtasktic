@@ -21,7 +21,6 @@ window.find_time_difference = ->
     server_time = moment( resp.updated )
     window.time_difference = current_time - server_time
     
-    
     request_json = 
       path: "/tasks/v1/lists/@default/tasks/#{ resp.id }"
       method: "DELETE"
@@ -111,13 +110,13 @@ window.sync_task= (tasklist) ->
             window.App.render_new List.find(task.listid)
       )
       
-      #if no outstanding ajax request, render window
-      if window.incrementer[tasklist.id] is 0
-        #check if it already exist to avoid making a duplicate
-        if $("#"+tasklist.id).length > 0
-          List.find(tasklist.id).save()
-        else
-          window.App.render_new List.find(tasklist.id)
+    #if no outstanding ajax request, render window
+    if window.incrementer[tasklist.id] is 0
+      #check if it already exist to avoid making a duplicate
+      if $("#"+tasklist.id).length > 0
+        List.find(tasklist.id).save()
+      else
+        window.App.render_new List.find(tasklist.id)
     
   )
 

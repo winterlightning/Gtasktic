@@ -122,12 +122,12 @@
             }
           }
         });
-        if (window.incrementer[tasklist.id] === 0) {
-          if ($("#" + tasklist.id).length > 0) {
-            return List.find(tasklist.id).save();
-          } else {
-            return window.App.render_new(List.find(tasklist.id));
-          }
+      }
+      if (window.incrementer[tasklist.id] === 0) {
+        if ($("#" + tasklist.id).length > 0) {
+          return List.find(tasklist.id).save();
+        } else {
+          return window.App.render_new(List.find(tasklist.id));
         }
       }
     });
