@@ -72,7 +72,7 @@ window.delete_tasks = () ->
     del.destroy() for del in Deletion.all()
     window.delete_lists()
   
-#syncs a tasks list, assumes that the task list exist in the cloud already
+#syncs a list's tasks, assumes that the task list exist in the cloud already
 window.sync_task= (tasklist) ->
   request_json = 
     path: "/tasks/v1/lists/#{ tasklist.id }/tasks"
@@ -86,29 +86,28 @@ window.sync_task= (tasklist) ->
   window.incrementer[tasklist.id] = 0
   
   request.execute( (resp) -> 
+    console.log(resp) 
+    window.list_response = resp  
     
-    if resp.items?
-      
-      console.log(resp) 
-      window.list_response = resp  
-      
-      #manually add the listid since the cloud return does not have it
-      cloud_tasks = resp.items
+    #manually add the listid since the cloud return does not have it
+    cloud_tasks = []
+    if resp.items? 
+      cloud_tasks = resp.items 
       for c in cloud_tasks
         c.listid = tasklist.id
+    
+    local_tasks_for_list = Task.findAllByAttribute("listid", tasklist.id)
+    
+    window.local_cloud_sync( local_tasks_for_list, cloud_tasks, Task, (task)-> 
+      console.log( "CALLBACK called " + window.incrementer[task.listid].toString() )
       
-      local_tasks_for_list = Task.findAllByAttribute("listid", tasklist.id)
-      
-      window.local_cloud_sync( local_tasks_for_list, cloud_tasks, Task, (task)-> 
-        console.log( "CALLBACK called " + window.incrementer[task.listid].toString() )
-        
-        if window.incrementer[task.listid] is 0
-          #check if it already exist to avoid making a duplicate
-          if $("#"+task.listid).length > 0
-            List.find(tasklist.id).save()
-          else
-            window.App.render_new List.find(task.listid)
-      )
+      if window.incrementer[task.listid] is 0
+        #check if it already exist to avoid making a duplicate
+        if $("#"+task.listid).length > 0
+          List.find(tasklist.id).save()
+        else
+          window.App.render_new List.find(task.listid)
+    )
       
     #if no outstanding ajax request, render window
     if window.incrementer[tasklist.id] is 0

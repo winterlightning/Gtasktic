@@ -103,26 +103,27 @@
     window.incrementer[tasklist.id] = 0;
     return request.execute(function(resp) {
       var c, cloud_tasks, local_tasks_for_list, _i, _len;
+      console.log(resp);
+      window.list_response = resp;
+      cloud_tasks = [];
       if (resp.items != null) {
-        console.log(resp);
-        window.list_response = resp;
         cloud_tasks = resp.items;
         for (_i = 0, _len = cloud_tasks.length; _i < _len; _i++) {
           c = cloud_tasks[_i];
           c.listid = tasklist.id;
         }
-        local_tasks_for_list = Task.findAllByAttribute("listid", tasklist.id);
-        window.local_cloud_sync(local_tasks_for_list, cloud_tasks, Task, function(task) {
-          console.log("CALLBACK called " + window.incrementer[task.listid].toString());
-          if (window.incrementer[task.listid] === 0) {
-            if ($("#" + task.listid).length > 0) {
-              return List.find(tasklist.id).save();
-            } else {
-              return window.App.render_new(List.find(task.listid));
-            }
-          }
-        });
       }
+      local_tasks_for_list = Task.findAllByAttribute("listid", tasklist.id);
+      window.local_cloud_sync(local_tasks_for_list, cloud_tasks, Task, function(task) {
+        console.log("CALLBACK called " + window.incrementer[task.listid].toString());
+        if (window.incrementer[task.listid] === 0) {
+          if ($("#" + task.listid).length > 0) {
+            return List.find(tasklist.id).save();
+          } else {
+            return window.App.render_new(List.find(task.listid));
+          }
+        }
+      });
       if (window.incrementer[tasklist.id] === 0) {
         if ($("#" + tasklist.id).length > 0) {
           return List.find(tasklist.id).save();
