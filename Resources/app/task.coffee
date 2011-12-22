@@ -23,7 +23,11 @@ Task.extend
   
   logDone: ( id ) ->
     @done(id).forEach (rec) ->
-      Deletion.create deletion_id: rec.id  if rec.synced == true
+      if rec.synced == true
+        d = Deletion.init deletion_id: rec.id, listid: rec.listid 
+        d.id = rec.id
+        d.save()
+      
       Finished.create 
         name: rec.name
         note: rec.note

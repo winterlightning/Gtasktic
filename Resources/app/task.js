@@ -30,9 +30,15 @@
     },
     logDone: function(id) {
       return this.done(id).forEach(function(rec) {
-        Deletion.create({
-          deletion_id: rec.synced === true ? rec.id : void 0
-        });
+        var d;
+        if (rec.synced === true) {
+          d = Deletion.init({
+            deletion_id: rec.id,
+            listid: rec.listid
+          });
+          d.id = rec.id;
+          d.save();
+        }
         Finished.create({
           name: rec.name,
           note: rec.note,
