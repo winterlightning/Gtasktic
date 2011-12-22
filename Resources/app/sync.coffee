@@ -86,7 +86,7 @@ window.sync_task= (tasklist) ->
   window.incrementer[tasklist.id] = 0
   
   request.execute( (resp) -> 
-    console.log(resp) 
+    #console.log(resp) 
     window.list_response = resp  
     
     #manually add the listid since the cloud return does not have it
@@ -99,7 +99,7 @@ window.sync_task= (tasklist) ->
     local_tasks_for_list = Task.findAllByAttribute("listid", tasklist.id)
     
     window.local_cloud_sync( local_tasks_for_list, cloud_tasks, Task, (task)-> 
-      console.log( "CALLBACK called " + window.incrementer[task.listid].toString() )
+      #console.log( "CALLBACK called " + window.incrementer[task.listid].toString() )
       
       if window.incrementer[task.listid] is 0
         #check if it already exist to avoid making a duplicate
@@ -126,7 +126,7 @@ window.sync_list = ->
     #this should only happen once when the user first syncs
     request = gapi.client.tasks.tasklists.get tasklist: "@default"
     request.execute( (resp) -> 
-      console.log(resp) 
+      #console.log(resp) 
       
       initial_list = List.find("@default")
       
@@ -144,18 +144,22 @@ window.sync_list = ->
       #now do the sync 
       request = gapi.client.tasks.tasklists.list()
       request.execute( (resp) -> 
-        console.log(resp) 
+        #console.log(resp) 
         window.list_response = resp  
         window.local_cloud_sync( List.all(), resp.items, List, window.sync_task )
+        
+        #window.local_cloud_sync( List.all(), resp.items, List, (task)-> #console.log("done") )
       )
       
     )  
   else
     request = gapi.client.tasks.tasklists.list()
     request.execute( (resp) -> 
-      console.log(resp) 
+      #console.log(resp) 
       window.list_response = resp  
       window.local_cloud_sync( List.all(), resp.items, List, window.sync_task )
+      #window.local_cloud_sync( List.all(), resp.items, List, (task)->#console.log("done") )
+      true
     )
   
 #inputs: array
@@ -172,8 +176,9 @@ window.de_array = (array) ->
   
 #the item to be synced should be passed as a third param, and function to add/edit/delete should be attached to it.
 window.local_cloud_sync = (local, cloud, item, callback) ->
-  console.log(local)
-  console.log(cloud)
+  
+  ##console.log(local)
+  ##console.log(cloud)
   
   #convert both to sets of ids and dictionaries
   [local_dict, local_ids] = de_array(local)
@@ -184,10 +189,10 @@ window.local_cloud_sync = (local, cloud, item, callback) ->
   
   #process the set of ids that are there locally but not there on the cloud
   #If their synced flag is False, add them, else delete them
-  console.log("there locally, not on the cloud")
+  ##console.log("there locally, not on the cloud")
   for id in ( local_set.difference( cloud_set )._set )
     if local_dict[id].synced is false
-      console.log(id)
+      ##console.log(id)
       window.local_dict = local_dict
     
       item.add_to_cloud(local_dict[id], callback) 
@@ -196,29 +201,29 @@ window.local_cloud_sync = (local, cloud, item, callback) ->
   
   #process the set of ids that are there on the cloud but not there locally
   #Add them back locally since everything deleted should be on the deleted list and taken care of first  
-  console.log("there on the cloud, not local")
+  ##console.log("there on the cloud, not local")
   window.cloud_dict = 
   for id in ( cloud_set.difference( local_set )._set )
-    console.log( id )
+    ##console.log( id )
     
     item.add_from_cloud(cloud_dict[id], callback)
       
   #process the set of ids that are there in the cloud and locally
   #check their timestamps, if local > cloud, write local to cloud, if cloud > local, put it in passback to overwrite local,
   #if cloud == local, do nothing
-  console.log("there on the cloud and local")
+  ##console.log("there on the cloud and local")
   for id in ( cloud_set.intersection( local_set )._set )
-    console.log( id )
+    ##console.log( id )
     
     #if the cloud has a timestamp, then compare it, else just overwrite cloud with local
     if cloud_dict[id].updated?
       local_time = moment(local_dict[id].time)
       cloud_time = moment(cloud_dict[id].updated).add('milliseconds', window.time_difference)
       
-      console.log (local_dict[id] )
+      #console.log (local_dict[id] )
       
-      console.log(local_time.toString())
-      console.log(cloud_time.toString())
+      #console.log(local_time.toString())
+      #console.log(cloud_time.toString())
       
       if local_time > cloud_time
         item.update_to_cloud( local_dict[id], callback )
@@ -226,7 +231,7 @@ window.local_cloud_sync = (local, cloud, item, callback) ->
         item.update_to_local( cloud_dict[id], callback )
         
     else
-      console.log("no timestamp, local updating to cloud")
+      #console.log("no timestamp, local updating to cloud")
       if parent_id?
         item.update_to_cloud( local_dict[id], callback, parent_id )
       else

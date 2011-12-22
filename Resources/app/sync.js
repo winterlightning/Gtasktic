@@ -103,7 +103,6 @@
     window.incrementer[tasklist.id] = 0;
     return request.execute(function(resp) {
       var c, cloud_tasks, local_tasks_for_list, _i, _len;
-      console.log(resp);
       window.list_response = resp;
       cloud_tasks = [];
       if (resp.items != null) {
@@ -115,7 +114,6 @@
       }
       local_tasks_for_list = Task.findAllByAttribute("listid", tasklist.id);
       window.local_cloud_sync(local_tasks_for_list, cloud_tasks, Task, function(task) {
-        console.log("CALLBACK called " + window.incrementer[task.listid].toString());
         if (window.incrementer[task.listid] === 0) {
           if ($("#" + task.listid).length > 0) {
             return List.find(tasklist.id).save();
@@ -141,7 +139,6 @@
       });
       return request.execute(function(resp) {
         var initial_list, new_tasklist, task, _i, _len, _ref;
-        console.log(resp);
         initial_list = List.find("@default");
         new_tasklist = List.init({
           name: resp.title,
@@ -158,7 +155,6 @@
         initial_list.destroy();
         request = gapi.client.tasks.tasklists.list();
         return request.execute(function(resp) {
-          console.log(resp);
           window.list_response = resp;
           return window.local_cloud_sync(List.all(), resp.items, List, window.sync_task);
         });
@@ -166,9 +162,9 @@
     } else {
       request = gapi.client.tasks.tasklists.list();
       return request.execute(function(resp) {
-        console.log(resp);
         window.list_response = resp;
-        return window.local_cloud_sync(List.all(), resp.items, List, window.sync_task);
+        window.local_cloud_sync(List.all(), resp.items, List, window.sync_task);
+        return true;
       });
     }
   };
@@ -185,43 +181,35 @@
   };
   window.local_cloud_sync = function(local, cloud, item, callback) {
     var cloud_dict, cloud_ids, cloud_time, id, local_dict, local_ids, local_time, _i, _j, _len, _len2, _ref, _ref2, _ref3, _ref4, _results;
-    console.log(local);
-    console.log(cloud);
     _ref = de_array(local), local_dict = _ref[0], local_ids = _ref[1];
     _ref2 = de_array(cloud), cloud_dict = _ref2[0], cloud_ids = _ref2[1];
     window.local_set = new Set(local_ids);
     window.cloud_set = new Set(cloud_ids);
-    console.log("there locally, not on the cloud");
     _ref3 = (local_set.difference(cloud_set)._set);
     for (_i = 0, _len = _ref3.length; _i < _len; _i++) {
       id = _ref3[_i];
       if (local_dict[id].synced === false) {
-        console.log(id);
         window.local_dict = local_dict;
         item.add_to_cloud(local_dict[id], callback);
       } else {
         item.find(id).destroy();
       }
     }
-    console.log("there on the cloud, not local");
     window.cloud_dict = (function() {
       var _j, _len2, _ref4, _results;
       _ref4 = (cloud_set.difference(local_set)._set);
       _results = [];
       for (_j = 0, _len2 = _ref4.length; _j < _len2; _j++) {
         id = _ref4[_j];
-        console.log(id);
         _results.push(item.add_from_cloud(cloud_dict[id], callback));
       }
       return _results;
     })();
-    console.log("there on the cloud and local");
     _ref4 = (cloud_set.intersection(local_set)._set);
     _results = [];
     for (_j = 0, _len2 = _ref4.length; _j < _len2; _j++) {
       id = _ref4[_j];
-      console.log(id);
-      _results.push(cloud_dict[id].updated != null ? (local_time = moment(local_dict[id].time), cloud_time = moment(cloud_dict[id].updated).add('milliseconds', window.time_difference), console.log(local_dict[id]), console.log(local_time.toString()), console.log(cloud_time.toString()), local_time > cloud_time ? item.update_to_cloud(local_dict[id], callback) : item.update_to_local(cloud_dict[id], callback)) : (console.log("no timestamp, local updating to cloud"), typeof parent_id !== "undefined" && parent_id !== null ? item.update_to_cloud(local_dict[id], callback, parent_id) : item.update_to_cloud(local_dict[id], callback)));
+      _results.push(cloud_dict[id].updated != null ? (local_time = moment(local_dict[id].time), cloud_time = moment(cloud_dict[id].updated).add('milliseconds', window.time_difference), local_time > cloud_time ? item.update_to_cloud(local_dict[id], callback) : item.update_to_local(cloud_dict[id], callback)) : typeof parent_id !== "undefined" && parent_id !== null ? item.update_to_cloud(local_dict[id], callback, parent_id) : item.update_to_cloud(local_dict[id], callback));
     }
     return _results;
   };
