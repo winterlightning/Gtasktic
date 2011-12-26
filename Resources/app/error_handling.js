@@ -15,6 +15,5 @@
     return xhr.send(submit_data);
   };
   window.onerror = window.myErrorHandler;
-  
-  window.asdfa()
+
 }).call(this);
