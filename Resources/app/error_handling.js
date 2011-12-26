@@ -1,7 +1,7 @@
 (function() {
   window.myErrorHandler = function(errorMsg, url, lineNumber) {
     var submit_data, total_message, xhr;
-    total_message = errorMsg + " " + url + " " + lineNumber;
+    total_message = errorMsg + " " + url + " " + lineNumber + " " + navigator.userAgent;
     total_message = encodeURIComponent(total_message);
     xhr = new XMLHttpRequest();
     xhr.open("POST", "https://docs.google.com/spreadsheet/formResponse");
@@ -15,4 +15,6 @@
     return xhr.send(submit_data);
   };
   window.onerror = window.myErrorHandler;
+  
+  window.asdfa()
 }).call(this);

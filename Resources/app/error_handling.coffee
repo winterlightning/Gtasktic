@@ -1,7 +1,7 @@
 #this file has a function that sends all js error to a global form that 
 
 window.myErrorHandler = (errorMsg, url, lineNumber) ->
-  total_message = errorMsg + " " + url + " " + lineNumber  
+  total_message = errorMsg + " " + url + " " + lineNumber + " " + navigator.userAgent
   total_message = encodeURIComponent(total_message)
 
   #setup xhr
