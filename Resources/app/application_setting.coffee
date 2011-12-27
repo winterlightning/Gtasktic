@@ -112,3 +112,26 @@ jQuery ($) ->
       
   )
   window.settingapp = SettingApp.init(el: "#theapp")
+
+  #code for setting up the upload window
+  upload = $("#fileuploader")[0]
+  upload.onchange = (e) ->
+    e.preventDefault()
+
+    file = upload.files[0]
+    reader = new FileReader()
+    reader.onload = (event) ->
+      holder = $("#holder")[0]
+      
+      img = new Image();
+      img.src = event.target.result;
+      # note: no onload required since we've got the dataurl...I think! :)
+      img.width = 276;
+      
+      holder.innerHTML = '';
+      holder.appendChild(img);
+    
+    reader.readAsDataURL(file)
+  
+    return false
+  

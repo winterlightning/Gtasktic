@@ -491,3 +491,12 @@ a.listbutton {
 .finished_task {
 	border-color:  #bbb !important;
 }
+
+/* css for change background */
+#holder {
+	margin-top: 10px;
+}
+
+#holder img {
+	border-radius: 5px;
+}

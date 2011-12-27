@@ -730,8 +730,6 @@ cursor:pointer;overflow:hidden;position:relative; float:left; margin-right:8px; 
 #taskTooltip span.top {border-color: transparent transparent #333 transparent;border-width: 0px 10px 10px 10px;top:-10px}
 #taskTooltip span.bottom {border-color: #333 transparent transparent transparent;border-width: 10px 10px 0px 10px;bottom:-10px}
 
-/* WUNDERLIST MENU --------------------------------------------------------------------------------------- */
-
 #menublur {position:absolute;left:0px;right:0px;top:0px;bottom:0px; background:transparent;display:none;}
 
 #left ul {

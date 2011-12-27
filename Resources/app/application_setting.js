@@ -1,5 +1,6 @@
 (function() {
   jQuery(function($) {
+    var upload;
     window.SettingApp = Spine.Controller.create({
       events: {
         "click #setting_button": "setting_window",
@@ -103,8 +104,26 @@
         }
       }
     });
-    return window.settingapp = SettingApp.init({
+    window.settingapp = SettingApp.init({
       el: "#theapp"
     });
+    upload = $("#fileuploader")[0];
+    return upload.onchange = function(e) {
+      var file, reader;
+      e.preventDefault();
+      file = upload.files[0];
+      reader = new FileReader();
+      reader.onload = function(event) {
+        var holder, img;
+        holder = $("#holder")[0];
+        img = new Image();
+        img.src = event.target.result;
+        img.width = 276;
+        holder.innerHTML = '';
+        return holder.appendChild(img);
+      };
+      reader.readAsDataURL(file);
+      return false;
+    };
   });
 }).call(this);
