@@ -79,12 +79,6 @@
     curr_list.save();
     return $("#dialog_addlist").dialog("close");
   };
-  window.open_background_dialog = function() {
-    return $("#dialog_changebackground").dialog({
-      modal: true,
-      title: "Change Your Background"
-    });
-  };
   window.getAsText = function(readFile) {
     var reader;
     reader = new FileReader();

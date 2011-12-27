@@ -12,7 +12,6 @@ window.cur = 0
 window.taskdict = {}
 window.obj = null
 
-
 $ ->
   $("#newtaskdate").datepicker 
     constrainInput: true
@@ -67,11 +66,7 @@ window.edit_list = ->
   curr_list.save()
   $("#dialog_addlist").dialog "close"
 
-window.open_background_dialog = ->
-  $("#dialog_changebackground").dialog 
-    modal: true
-    title: "Change Your Background"
-
+#stuff for application background
 window.getAsText = (readFile) ->
   reader = new FileReader()
   reader.onload = (e) ->
