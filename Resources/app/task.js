@@ -1,5 +1,5 @@
 (function() {
-  var DeletedList, Deletion, Finished, Initialized, List, Task, TestStorage, Token, Version, exports;
+  var BackgroundImage, DeletedList, Deletion, Finished, Initialized, List, Task, TestStorage, Token, Version, exports;
   Finished = Spine.Model.setup("Finished", ["name", "done", "time", "duedate", "note", "order", "synced", "listid", "time_finished"]);
   Finished.extend(Spine.Model.Local);
   Task = Spine.Model.setup("Task", ["name", "done", "time", "duedate", "note", "order", "synced", "listid"]);
@@ -272,6 +272,8 @@
   Token.extend(Spine.Model.Local);
   TestStorage = Spine.Model.setup("TestStorage", ["stored"]);
   TestStorage.extend(Spine.Model.Local);
+  BackgroundImage = Spine.Model.setup("BackgroundImage", ["image"]);
+  BackgroundImage.extend(Spine.Model.Local);
   exports = this;
   exports.Deletion = Deletion;
   exports.Task = Task;

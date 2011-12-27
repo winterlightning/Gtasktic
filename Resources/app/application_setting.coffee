@@ -123,6 +123,8 @@ jQuery ($) ->
     reader.onload = (event) ->
       holder = $("#holder")[0]
       
+      window.imageevent = event
+      
       img = new Image();
       img.src = event.target.result;
       # note: no onload required since we've got the dataurl...I think! :)

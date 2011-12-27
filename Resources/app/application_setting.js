@@ -116,6 +116,7 @@
       reader.onload = function(event) {
         var holder, img;
         holder = $("#holder")[0];
+        window.imageevent = event;
         img = new Image();
         img.src = event.target.result;
         img.width = 276;

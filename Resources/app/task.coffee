@@ -246,6 +246,9 @@ Token.extend Spine.Model.Local
 TestStorage = Spine.Model.setup("TestStorage", [ "stored" ])
 TestStorage.extend Spine.Model.Local
 
+BackgroundImage = Spine.Model.setup("BackgroundImage", [ "image" ])
+BackgroundImage.extend Spine.Model.Local
+
 exports = this
 exports.Deletion = Deletion
 exports.Task = Task
