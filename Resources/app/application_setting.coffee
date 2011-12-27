@@ -6,11 +6,15 @@ jQuery ($) ->
       "click #validate_button": "validate_code"
       "click #help_button" : "show_help"
       "click #background_button" : "background_change_window"
+      "click #change_background_button" : "background_change"
     
     background_change_window: ->
       $("#dialog_changebackground").dialog 
         modal: true
         title: "Change Your Background"
+    
+    background_change: ->
+      alert "background change"
     
     setting_window: ->
       $("#dialog").dialog({ modal: true, title: 'Settings for sync' })

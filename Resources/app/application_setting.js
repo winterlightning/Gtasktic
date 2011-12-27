@@ -6,13 +6,17 @@
         "click #setting_button": "setting_window",
         "click #validate_button": "validate_code",
         "click #help_button": "show_help",
-        "click #background_button": "background_change_window"
+        "click #background_button": "background_change_window",
+        "click #change_background_button": "background_change"
       },
       background_change_window: function() {
         return $("#dialog_changebackground").dialog({
           modal: true,
           title: "Change Your Background"
         });
+      },
+      background_change: function() {
+        return alert("background change");
       },
       setting_window: function() {
         return $("#dialog").dialog({

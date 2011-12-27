@@ -258,3 +258,4 @@ exports.Version = Version
 exports.Initialized = Initialized
 exports.Token = Token
 exports.Finished = Finished
+exports.BackgroundImage = BackgroundImage

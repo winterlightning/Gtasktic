@@ -1,6 +1,6 @@
 (function() {
   window.initializeApp = function() {
-    var new_task, new_task_2, new_token, new_version, newlist, set_init;
+    var new_back, new_task, new_task_2, new_token, new_version, newlist, set_init;
     if (Initialized.all().length === 0) {
       delete localStorage["Task"];
       new_version = Version.init({
@@ -42,7 +42,11 @@
         expiration: "",
         refresh_token: ""
       });
-      return new_token.save();
+      new_token.save();
+      new_back = BackgroundImage.init({
+        "image": ""
+      });
+      return new_back.save();
     }
   };
 }).call(this);

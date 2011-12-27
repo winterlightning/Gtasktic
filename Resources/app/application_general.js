@@ -79,26 +79,6 @@
     curr_list.save();
     return $("#dialog_addlist").dialog("close");
   };
-  window.getAsText = function(readFile) {
-    var reader;
-    reader = new FileReader();
-    reader.onload = function(e) {
-      var bin;
-      alert("here 2");
-      bin = e.target.result;
-      return alert(bin);
-    };
-    reader.readAsBinaryString(readFile, "UTF-16");
-    return reader;
-  };
-  window.background_change = function() {
-    var file;
-    file = document.getElementById("background_file").files[0];
-    alert(file);
-    if (file) {
-      return getAsText(file);
-    }
-  };
   window.toggle = function(element_a, element_b, tab_a, tab_b) {
     $(element_a).hide();
     $(element_b).show();

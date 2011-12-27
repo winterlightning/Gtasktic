@@ -65,22 +65,6 @@ window.edit_list = ->
   curr_list.time = (new Date().getTime()).toString()
   curr_list.save()
   $("#dialog_addlist").dialog "close"
-
-#stuff for application background
-window.getAsText = (readFile) ->
-  reader = new FileReader()
-  reader.onload = (e) ->
-    alert "here 2"
-    bin = e.target.result
-    alert bin
-  
-  reader.readAsBinaryString readFile, "UTF-16"
-  reader
-  
-window.background_change = ->
-  file = document.getElementById("background_file").files[0]
-  alert file
-  getAsText file  if file
   
 window.toggle = (element_a, element_b, tab_a, tab_b) ->
   $(element_a).hide()

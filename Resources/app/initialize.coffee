@@ -41,3 +41,7 @@ window.initializeApp = ->
       refresh_token: ""
     )
     new_token.save()
+
+    #initialize the background image that will save the background image
+    new_back = BackgroundImage.init( "image": "" )
+    new_back.save()
