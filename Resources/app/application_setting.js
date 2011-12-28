@@ -1,6 +1,5 @@
 (function() {
   jQuery(function($) {
-    var upload;
     window.SettingApp = Spine.Controller.create({
       events: {
         "click #setting_button": "setting_window",
@@ -8,6 +7,28 @@
         "click #help_button": "show_help",
         "click #background_button": "background_change_window",
         "click #change_background_button": "background_change"
+      },
+      init: function() {
+        var upload;
+        upload = $("#fileuploader")[0];
+        return upload.onchange = function(e) {
+          var file, reader;
+          e.preventDefault();
+          file = upload.files[0];
+          reader = new FileReader();
+          reader.onload = function(event) {
+            var holder, img;
+            holder = $("#holder")[0];
+            window.imageevent = event;
+            img = new Image();
+            img.src = event.target.result;
+            img.width = 276;
+            holder.innerHTML = '';
+            return holder.appendChild(img);
+          };
+          reader.readAsDataURL(file);
+          return false;
+        };
       },
       background_change_window: function() {
         return $("#dialog_changebackground").dialog({
@@ -112,27 +133,8 @@
         }
       }
     });
-    window.settingapp = SettingApp.init({
+    return window.settingapp = SettingApp.init({
       el: "#theapp"
     });
-    upload = $("#fileuploader")[0];
-    return upload.onchange = function(e) {
-      var file, reader;
-      e.preventDefault();
-      file = upload.files[0];
-      reader = new FileReader();
-      reader.onload = function(event) {
-        var holder, img;
-        holder = $("#holder")[0];
-        window.imageevent = event;
-        img = new Image();
-        img.src = event.target.result;
-        img.width = 276;
-        holder.innerHTML = '';
-        return holder.appendChild(img);
-      };
-      reader.readAsDataURL(file);
-      return false;
-    };
   });
 }).call(this);
