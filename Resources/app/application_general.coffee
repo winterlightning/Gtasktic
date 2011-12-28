@@ -4,6 +4,7 @@ List.fetch()
 Token.fetch()
 Finished.fetch()
 Initialized.fetch()
+BackgroundImage.fetch()
 initializeApp()
 
 setting_url = ""
@@ -13,6 +14,10 @@ window.taskdict = {}
 window.obj = null
 
 $ ->
+  #set background image
+  if BackgroundImage.first().image isnt ""
+    $("#bghelp")[0].style.background = 'url(' + BackgroundImage.first().image + ') no-repeat center'
+
   $("#newtaskdate").datepicker 
     constrainInput: true
     buttonImage: "famfamicons/calendar.png"

@@ -14,7 +14,11 @@ jQuery ($) ->
         title: "Change Your Background"
     
     background_change: ->
-      alert "background change"
+      back = BackgroundImage.first()
+      back.image = window.imageevent.target.result
+      back.save()
+      
+      $("#bghelp")[0].style.background = 'url(' + BackgroundImage.first().image + ') no-repeat center'
     
     setting_window: ->
       $("#dialog").dialog({ modal: true, title: 'Settings for sync' })
@@ -130,9 +134,9 @@ jQuery ($) ->
       window.imageevent = event
       
       img = new Image();
-      img.src = event.target.result;
+      img.src = event.target.result
       # note: no onload required since we've got the dataurl...I think! :)
-      img.width = 276;
+      img.width = 276
       
       holder.innerHTML = '';
       holder.appendChild(img);

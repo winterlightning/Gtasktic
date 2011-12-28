@@ -16,7 +16,11 @@
         });
       },
       background_change: function() {
-        return alert("background change");
+        var back;
+        back = BackgroundImage.first();
+        back.image = window.imageevent.target.result;
+        back.save();
+        return $("#bghelp")[0].style.background = 'url(' + BackgroundImage.first().image + ') no-repeat center';
       },
       setting_window: function() {
         return $("#dialog").dialog({

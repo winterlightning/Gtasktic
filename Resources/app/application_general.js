@@ -6,6 +6,7 @@
   Token.fetch();
   Finished.fetch();
   Initialized.fetch();
+  BackgroundImage.fetch();
   initializeApp();
   setting_url = "";
   window.last_opened = "";
@@ -14,6 +15,9 @@
   window.obj = null;
   $(function() {
     var $container;
+    if (BackgroundImage.first().image !== "") {
+      $("#bghelp")[0].style.background = 'url(' + BackgroundImage.first().image + ') no-repeat center';
+    }
     $("#newtaskdate").datepicker({
       constrainInput: true,
       buttonImage: "famfamicons/calendar.png",
