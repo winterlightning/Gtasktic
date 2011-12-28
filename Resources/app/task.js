@@ -81,7 +81,8 @@
         synced: true,
         done: value.status === "completed",
         duedate: duedate,
-        listid: value.listid
+        listid: value.listid,
+        updated: true
       });
       task.id = value.id;
       if (value.hasOwnProperty("notes")) {

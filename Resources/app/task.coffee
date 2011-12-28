@@ -60,6 +60,7 @@ Task.extend
       done: (value.status == "completed")
       duedate: duedate
       listid: value.listid
+      updated: true
     )
     task.id = value.id
     task.note = value.notes  if value.hasOwnProperty("notes")

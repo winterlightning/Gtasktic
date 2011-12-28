@@ -99,7 +99,6 @@
         input_value = this.input.val().replace("'", "''");
         this.wrapper.removeClass("editing");
         if (navigator.onLine) {
-          alert("got here");
           this.item.updateAttributes({
             name: input_value,
             time: moment().toString(),
@@ -110,7 +109,7 @@
           cur_task = this.item;
           window.settingapp.setup_api_on_entry(function() {
             return Task.update_to_cloud(cur_task, function() {
-              return alert("updated to cloud");
+              return console.log("updated to cloud");
             });
           });
         } else {
@@ -251,14 +250,33 @@
       create_new: function() {
         var input_value, new_task, view;
         input_value = this.input.val().replace("'", "''");
-        new_task = Task.create({
-          name: input_value,
-          time: moment().toString(),
-          done: false,
-          order: Task.all().length + 1,
-          synced: false,
-          listid: this.item.id
-        });
+        if (navigator.onLine) {
+          alert("got here");
+          new_task = Task.create({
+            name: input_value,
+            time: moment().toString(),
+            done: false,
+            order: Task.all().length + 1,
+            synced: true,
+            listid: this.item.id,
+            updated: true
+          });
+          window.settingapp.setup_api_on_entry(function() {
+            return Task.add_to_cloud(new_task, function() {
+              return console.log("added to cloud");
+            });
+          });
+        } else {
+          new_task = Task.create({
+            name: input_value,
+            time: moment().toString(),
+            done: false,
+            order: Task.all().length + 1,
+            synced: false,
+            listid: this.item.id,
+            updated: false
+          });
+        }
         view = Tasks.init({
           item: new_task
         });

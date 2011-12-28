@@ -89,7 +89,6 @@ jQuery ($) ->
       
       #check if online or offline, deal with accordingly
       if navigator.onLine
-        alert("got here")
         @item.updateAttributes 
           name: input_value
           time: moment().toString()
@@ -97,7 +96,7 @@ jQuery ($) ->
           note: @textarea.val()
           updated: true
         cur_task = @item
-        window.settingapp.setup_api_on_entry( ()-> Task.update_to_cloud(cur_task, ()-> alert("updated to cloud") ) )
+        window.settingapp.setup_api_on_entry( ()-> Task.update_to_cloud(cur_task, ()-> console.log("updated to cloud") ) )
         
       else
         @item.updateAttributes 
@@ -217,14 +216,29 @@ jQuery ($) ->
     create_new: ->
       input_value = @input.val().replace("'", "''")
       
-      new_task = Task.create(
-        name: input_value
-        time: moment().toString()
-        done: false
-        order: Task.all().length + 1
-        synced: false
-        listid: @item.id
-      )
+      if navigator.onLine
+        alert("got here")
+        new_task = Task.create(
+          name: input_value
+          time: moment().toString()
+          done: false
+          order: Task.all().length + 1
+          synced: true
+          listid: @item.id
+          updated: true
+        )
+        window.settingapp.setup_api_on_entry( ()-> Task.add_to_cloud(new_task, ()-> console.log("added to cloud") ) )
+      else
+        new_task = Task.create(
+          name: input_value
+          time: moment().toString()
+          done: false
+          order: Task.all().length + 1
+          synced: false
+          listid: @item.id
+          updated: false
+        )
+      
       view = Tasks.init(item: new_task)
       @items.append view.render().el
       @input.val ""
