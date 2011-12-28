@@ -41,9 +41,14 @@ jQuery ($) ->
     
     destroy: ->
       if @item.synced == true
-        d = Deletion.init deletion_id: @item.id, listid: @item.listid 
-        d.id = @item.id
-        d.save()
+        cur_task = @item
+        if navigator.onLine
+          window.settingapp.setup_api_on_entry( ()-> Task.delete_from_cloud(cur_task, ()-> console.log("deleted from cloud") ) )
+        
+        else
+          d = Deletion.init deletion_id: @item.id, listid: @item.listid 
+          d.id = @item.id
+          d.save()
         
       @item.destroy()
     

@@ -46,14 +46,23 @@
         return this.item.save();
       },
       destroy: function() {
-        var d;
+        var cur_task, d;
         if (this.item.synced === true) {
-          d = Deletion.init({
-            deletion_id: this.item.id,
-            listid: this.item.listid
-          });
-          d.id = this.item.id;
-          d.save();
+          cur_task = this.item;
+          if (navigator.onLine) {
+            window.settingapp.setup_api_on_entry(function() {
+              return Task.delete_from_cloud(cur_task, function() {
+                return console.log("deleted from cloud");
+              });
+            });
+          } else {
+            d = Deletion.init({
+              deletion_id: this.item.id,
+              listid: this.item.listid
+            });
+            d.id = this.item.id;
+            d.save();
+          }
         }
         return this.item.destroy();
       },
