@@ -95,15 +95,33 @@
         return this.el.addClass("task_selected");
       },
       close: function() {
-        var element, input_value;
+        var cur_task, element, input_value;
         input_value = this.input.val().replace("'", "''");
         this.wrapper.removeClass("editing");
-        this.item.updateAttributes({
-          name: input_value,
-          time: moment().toString(),
-          duedate: this.inputdate.val(),
-          note: this.textarea.val()
-        });
+        if (navigator.onLine) {
+          alert("got here");
+          this.item.updateAttributes({
+            name: input_value,
+            time: moment().toString(),
+            duedate: this.inputdate.val(),
+            note: this.textarea.val(),
+            updated: true
+          });
+          cur_task = this.item;
+          window.settingapp.setup_api_on_entry(function() {
+            return Task.update_to_cloud(cur_task, function() {
+              return alert("updated to cloud");
+            });
+          });
+        } else {
+          this.item.updateAttributes({
+            name: input_value,
+            time: moment().toString(),
+            duedate: this.inputdate.val(),
+            note: this.textarea.val(),
+            updated: false
+          });
+        }
         this.el.addClass("task_selected");
         element = this.el;
         $("li").each(function(idx, value) {

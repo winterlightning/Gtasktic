@@ -2,7 +2,7 @@
   var BackgroundImage, DeletedList, Deletion, Finished, Initialized, List, Task, TestStorage, Token, Version, exports;
   Finished = Spine.Model.setup("Finished", ["name", "done", "time", "duedate", "note", "order", "synced", "listid", "time_finished"]);
   Finished.extend(Spine.Model.Local);
-  Task = Spine.Model.setup("Task", ["name", "done", "time", "duedate", "note", "order", "synced", "listid"]);
+  Task = Spine.Model.setup("Task", ["name", "done", "time", "duedate", "note", "order", "synced", "listid", "updated"]);
   Task.extend(Spine.Model.Local);
   Task.extend({
     active: function(id) {
@@ -179,7 +179,7 @@
   Deletion.extend(Spine.Model.Local);
   DeletedList = Spine.Model.setup("DeletedList", ["deletion_id"]);
   DeletedList.extend(Spine.Model.Local);
-  List = Spine.Model.setup("List", ["name", "description", "synced", "time"]);
+  List = Spine.Model.setup("List", ["name", "description", "synced", "time", "updated"]);
   List.extend(Spine.Model.Local);
   List.extend({
     add_from_cloud: function(tasklist, callback) {

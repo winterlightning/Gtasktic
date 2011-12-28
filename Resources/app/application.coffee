@@ -86,11 +86,26 @@ jQuery ($) ->
       input_value = @input.val().replace("'", "''")
       
       @wrapper.removeClass "editing"
-      @item.updateAttributes 
-        name: input_value
-        time: moment().toString()
-        duedate: @inputdate.val()
-        note: @textarea.val()
+      
+      #check if online or offline, deal with accordingly
+      if navigator.onLine
+        alert("got here")
+        @item.updateAttributes 
+          name: input_value
+          time: moment().toString()
+          duedate: @inputdate.val()
+          note: @textarea.val()
+          updated: true
+        cur_task = @item
+        window.settingapp.setup_api_on_entry( ()-> Task.update_to_cloud(cur_task, ()-> alert("updated to cloud") ) )
+        
+      else
+        @item.updateAttributes 
+          name: input_value
+          time: moment().toString()
+          duedate: @inputdate.val()
+          note: @textarea.val()
+          updated: false
       
       #$(".task_selected").removeClass("task_selected")
       @el.addClass("task_selected")

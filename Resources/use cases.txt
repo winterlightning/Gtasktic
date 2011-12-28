@@ -45,3 +45,17 @@ Add a sync method for the model.
 Write a set of methods to get, edit, and delete these stuff online.
 
 Write tests for these, look at good javascript test libraries.
+
+
+Online and offline syncing:
+If coming from offline: use the sync that we have written.
+
+Sync one at a time with online sync as things are happening?
+
+Setup an update flag, that knows when things locally needs update.
+
+Setup the last etag so we know when cloud is not synced with local.
+
+Better animation for sync icons.
+
+Take care of the client loading.

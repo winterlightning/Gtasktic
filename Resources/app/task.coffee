@@ -1,7 +1,7 @@
 Finished = Spine.Model.setup("Finished", [ "name", "done", "time", "duedate", "note", "order", "synced", "listid", "time_finished" ])
 Finished.extend Spine.Model.Local
 
-Task = Spine.Model.setup("Task", [ "name", "done", "time", "duedate", "note", "order", "synced", "listid" ]) #nestlevel from 0 to whatever
+Task = Spine.Model.setup("Task", [ "name", "done", "time", "duedate", "note", "order", "synced", "listid", "updated" ]) #nestlevel from 0 to whatever
 Task.extend Spine.Model.Local
 Task.extend 
   active: (id) ->
@@ -155,7 +155,7 @@ Deletion.extend Spine.Model.Local
 DeletedList = Spine.Model.setup("DeletedList", [ "deletion_id" ])
 DeletedList.extend Spine.Model.Local
 
-List = Spine.Model.setup("List", [ "name", "description", "synced", "time" ])
+List = Spine.Model.setup("List", [ "name", "description", "synced", "time", "updated" ])
 List.extend Spine.Model.Local
 
 List.extend
