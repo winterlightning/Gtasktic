@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
+    <sdk-version>1.2.0.RC6e</sdk-version>
     <guid>d334920e-6e4d-48a0-b3d3-8cd4e456a8fd</guid>
     <!-- These values are edited/maintained by Titanium Developer -->
     <id>app.gtasktic</id>
@@ -25,7 +26,7 @@
         <min-height>0</min-height>
         <fullscreen>false</fullscreen>
         <resizable>true</resizable>
-        <chrome scrollbar="false">true</chrome> 
+        <chrome scrollbar="false">true</chrome>
         <maximizable>true</maximizable>
         <minimizable>true</minimizable>
         <closeable>true</closeable>

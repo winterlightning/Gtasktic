@@ -28,7 +28,7 @@
 	
 	<script src="app/spine.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/set.js" type="text/javascript" charset="utf-8"></script>
-	<script src="app/spine.model.sqlite.js" type="text/javascript" charset="utf-8"></script>
+	<script src="app/spine.model.local.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/task.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/sync.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/application.js" type="text/javascript" charset="utf-8"></script>
@@ -144,8 +144,6 @@
 				<img class="icon" src="images/16-plus.png" style="" />
 				<span class="text">Add List</span>
 			</a>
-			<!-- <a class="bottombutton" onclick="Sync()">Sync</a> 
-			<a class="bottombutton" onclick="setting_windows()">Settings</a> -->
 		</div>		
 		<div id="right">
 			<div class="listfilter">
@@ -155,7 +153,6 @@
 		</div>
 	</div>
 
-	<!-- Help Overlay -->
 	
 
 	<div id="dialog" style="display: none">
@@ -171,7 +168,6 @@
 		</form>
 		
 		<div id="account-buttons" class="ui-dialog-buttonset">        
-	        <!-- LOGIN BUTTONS -->
 	        <div class="loginbuttons">
 	         	<input class="input-button register button-login" type="submit" id="validate_button" value="Validate Code">          	        
 	        </div>
@@ -219,7 +215,6 @@
 		<input class="input-login" type="text" id="list_description" name="description" placeholder="description"></p>
 		
 		<div id="account-buttons" class="ui-dialog-buttonset">        
-	        <!-- LOGIN BUTTONS -->
 	        <div class="loginbuttons">
 	         	<input class="input-button register button-login" type="submit" id="addlistbutton" onclick="add_list()" value="Add List">  
 	         	<input class="input-button register button-login" type="submit" id="editlistbutton" onclick="edit_list()" value="Save">        	        
@@ -235,14 +230,14 @@
 		<input class="input-login" id="fileuploader" type="file" id="background_file" name="description" placeholder="description"></p>
 		
 		<div id="account-buttons" class="ui-dialog-buttonset">        
-	        <!-- LOGIN BUTTONS -->
+
 	        <div class="loginbuttons">
 	         	<input class="input-button register button-login" type="submit" id="change_background_button" value="Change Background">          	        
 	        </div>
 	    </div>
 	</div>
 
-	<!--- container to hold notifications, and default templates --->
+
 	<div id="container" style="display:none">
 
 		<div id="default">
@@ -272,4 +267,6 @@
 		</div>
 	</div>
 
-<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div></body></html>
+<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>
+
+</body></html>
