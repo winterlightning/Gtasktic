@@ -240,20 +240,30 @@
         return view.edit();
       },
       deletelist: function() {
-        var r, tasks;
+        var cur_id, r, tasks;
         r = confirm("Are you sure you want to delete this list and all it's tasks");
         if (r) {
-          DeletedList.create({
-            deletion_id: this.item.synced === true ? this.item.id : void 0
-          });
-          tasks = Task.list(this.item.id);
-          $.each(tasks, function(key, value) {
-            Deletion.create({
-              deletion_id: value.id,
-              listid: value.synced === true ? value.listid : void 0
+          if (navigator.onLine) {
+            cur_id = this.item.id;
+            $("#syncbutton")[0].src = "images/ajax-loader.gif";
+            window.settingapp.setup_api_on_entry(function() {
+              return List.delete_from_cloud(cur_id, function() {
+                return $("#syncbutton")[0].src = "images/02-redo@2x.png";
+              });
             });
-            return value.destroy();
-          });
+          } else {
+            DeletedList.create({
+              deletion_id: this.item.synced === true ? this.item.id : void 0
+            });
+            tasks = Task.list(this.item.id);
+            $.each(tasks, function(key, value) {
+              Deletion.create({
+                deletion_id: value.id,
+                listid: value.synced === true ? value.listid : void 0
+              });
+              return value.destroy();
+            });
+          }
           this.remove();
           return this.item.destroy();
         }
