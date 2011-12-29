@@ -85,7 +85,18 @@ window.edit_list = ->
   curr_list.name = $("#list_name").val()
   curr_list.description = $("#list_description").val()
   curr_list.time = (new Date().getTime()).toString()
-  curr_list.save()
+  
+  if navigator.onLine
+    curr_list.updated = true
+    curr_list.save()
+    
+    window.settingapp.setup_api_on_entry( ()-> List.update_to_cloud( curr_list, (list)-> $("#syncbutton")[0].src="images/02-redo@2x.png" ) )
+    
+  else  
+    curr_list.updated = false
+    curr_list.save()
+  
+  
   $("#dialog_addlist").dialog "close"
   
 #for calendar
