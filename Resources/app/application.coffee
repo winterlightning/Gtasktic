@@ -43,7 +43,8 @@ jQuery ($) ->
       if @item.synced == true
         cur_task = @item
         if navigator.onLine
-          window.settingapp.setup_api_on_entry( ()-> Task.delete_from_cloud(cur_task, ()-> console.log("deleted from cloud") ) )
+          $("#syncbutton")[0].src="images/ajax-loader.gif"
+          window.settingapp.setup_api_on_entry( ()-> Task.delete_from_cloud(cur_task, ()-> $("#syncbutton")[0].src="images/02-redo@2x.png" ) )
         
         else
           d = Deletion.init deletion_id: @item.id, listid: @item.listid 
@@ -94,6 +95,7 @@ jQuery ($) ->
       
       #check if online or offline, deal with accordingly
       if navigator.onLine
+        $("#syncbutton")[0].src="images/ajax-loader.gif"
         @item.updateAttributes 
           name: input_value
           time: moment().toString()
@@ -101,7 +103,7 @@ jQuery ($) ->
           note: @textarea.val()
           updated: true
         cur_task = @item
-        window.settingapp.setup_api_on_entry( ()-> Task.update_to_cloud(cur_task, ()-> console.log("updated to cloud") ) )
+        window.settingapp.setup_api_on_entry( ()-> Task.update_to_cloud(cur_task, ()-> $("#syncbutton")[0].src="images/02-redo@2x.png" ) )
         
       else
         @item.updateAttributes 

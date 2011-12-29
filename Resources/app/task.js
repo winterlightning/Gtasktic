@@ -156,7 +156,8 @@
       request = gapi.client.request(request_json);
       return request.execute(function(resp) {
         console.log(resp);
-        return window.update_response = resp;
+        window.update_response = resp;
+        return callback();
       });
     },
     update_to_local: function(task, callback) {

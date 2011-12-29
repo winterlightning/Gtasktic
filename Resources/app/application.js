@@ -50,9 +50,10 @@
         if (this.item.synced === true) {
           cur_task = this.item;
           if (navigator.onLine) {
+            $("#syncbutton")[0].src = "images/ajax-loader.gif";
             window.settingapp.setup_api_on_entry(function() {
               return Task.delete_from_cloud(cur_task, function() {
-                return console.log("deleted from cloud");
+                return $("#syncbutton")[0].src = "images/02-redo@2x.png";
               });
             });
           } else {
@@ -108,6 +109,7 @@
         input_value = this.input.val().replace("'", "''");
         this.wrapper.removeClass("editing");
         if (navigator.onLine) {
+          $("#syncbutton")[0].src = "images/ajax-loader.gif";
           this.item.updateAttributes({
             name: input_value,
             time: moment().toString(),
@@ -118,7 +120,7 @@
           cur_task = this.item;
           window.settingapp.setup_api_on_entry(function() {
             return Task.update_to_cloud(cur_task, function() {
-              return console.log("updated to cloud");
+              return $("#syncbutton")[0].src = "images/02-redo@2x.png";
             });
           });
         } else {
