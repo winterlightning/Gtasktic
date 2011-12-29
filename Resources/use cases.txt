@@ -52,7 +52,7 @@ If coming from offline: use the sync that we have written.
 
 Sync one at a time with online sync as things are happening?
 
-Setup an update flag, that knows when things locally needs update.
+Setup an update flag, that knows when things locally needs update. When you enter the program or when you come from offline to online, sync everything.
 
 Setup the last etag so we know when cloud is not synced with local.
 
