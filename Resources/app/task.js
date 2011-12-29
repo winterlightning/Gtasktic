@@ -68,6 +68,7 @@
     },
     add_from_cloud: function(value, callback) {
       var duedate, task;
+      console.log("add from cloud");
       if (value.title === "") {
         return true;
       }
@@ -92,6 +93,7 @@
     },
     add_to_cloud: function(task, callback) {
       var data, request, request_json;
+      console.log("add to cloud");
       data = Task.toCloudStructure(task);
       request_json = {
         path: "/tasks/v1/lists/" + task.listid + "/tasks",
@@ -129,6 +131,7 @@
     },
     delete_from_cloud: function(task, callback) {
       var request, request_json;
+      console.log("delete from cloud");
       request_json = {
         path: "/tasks/v1/lists/" + task.listid + "/tasks/" + task.id,
         method: "DELETE",
@@ -144,6 +147,7 @@
     },
     update_to_cloud: function(task, callback) {
       var data, request, request_json;
+      console.log("update to cloud");
       data = Task.toCloudStructure(task);
       data.id = task.id;
       window.updatedata = data;
@@ -162,6 +166,7 @@
     },
     update_to_local: function(task, callback) {
       var duedate, local_task;
+      console.log("update to local");
       local_task = Task.find(task.id);
       duedate = null;
       if (task.hasOwnProperty("due")) {

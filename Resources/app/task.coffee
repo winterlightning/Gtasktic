@@ -47,6 +47,7 @@ Task.extend
     data
   
   add_from_cloud: (value, callback) ->
+    console.log("add from cloud")
     if value.title is ""
       return true
     
@@ -68,6 +69,7 @@ Task.extend
   
   #sync process
   add_to_cloud: (task, callback) -> #tasks needs to at least have a name and listid attribute
+    console.log("add to cloud")
     #manually create the request since the api shit is not working
     data = Task.toCloudStructure(task)
     
@@ -104,6 +106,7 @@ Task.extend
     )
   
   delete_from_cloud: (task, callback) ->
+    console.log("delete from cloud")
     request_json = 
       path: "/tasks/v1/lists/#{ task.listid }/tasks/#{ task.id }"
       method: "DELETE"
@@ -119,6 +122,8 @@ Task.extend
     )
   
   update_to_cloud: (task, callback) ->
+    console.log("update to cloud")
+    
     data = Task.toCloudStructure(task)
     data.id = task.id
     
@@ -139,6 +144,8 @@ Task.extend
     )    
   
   update_to_local: (task, callback) ->
+    console.log("update to local")
+    
     local_task = Task.find(task.id)
     
     duedate = null
