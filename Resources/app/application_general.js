@@ -64,13 +64,29 @@
     var description, name, newlist;
     name = $("#list_name").val();
     description = $("#list_description").val();
-    newlist = List.init({
-      name: name,
-      description: description,
-      time: (new Date().getTime()).toString(),
-      synced: false
-    });
-    newlist.save();
+    if (navigator.onLine) {
+      newlist = List.init({
+        name: name,
+        description: description,
+        time: (new Date().getTime()).toString(),
+        synced: true
+      });
+      newlist.save();
+      window.settingapp.setup_api_on_entry(function() {
+        return List.add_to_cloud(newlist, function(list) {
+          window.App.render_new(list);
+          return $("#syncbutton")[0].src = "images/02-redo@2x.png";
+        });
+      });
+    } else {
+      newlist = List.init({
+        name: name,
+        description: description,
+        time: (new Date().getTime()).toString(),
+        synced: false
+      });
+      newlist.save();
+    }
     window.App.render_new(newlist);
     return $("#dialog_addlist").dialog("close");
   };

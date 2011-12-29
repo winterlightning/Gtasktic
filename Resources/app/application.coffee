@@ -212,9 +212,10 @@ jQuery ($) ->
       r = confirm("Are you sure you want to delete this list and all it's tasks")
       if r
         if navigator.onLine
-          cur_id = @item.id
-          $("#syncbutton")[0].src="images/ajax-loader.gif"
-          window.settingapp.setup_api_on_entry( ()-> List.delete_from_cloud( cur_id, ()-> $("#syncbutton")[0].src="images/02-redo@2x.png" ) )
+          if @item.synced
+            cur_id = @item.id
+            $("#syncbutton")[0].src="images/ajax-loader.gif"
+            window.settingapp.setup_api_on_entry( ()-> List.delete_from_cloud( cur_id, ()-> $("#syncbutton")[0].src="images/02-redo@2x.png" ) )
           
         else  
           DeletedList.create deletion_id: @item.id  if @item.synced == true
