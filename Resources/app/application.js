@@ -259,10 +259,10 @@
         }
       },
       create_new: function() {
-        var input_value, new_task, view;
+        var input_value, new_task, this_list, view;
         input_value = this.input.val().replace("'", "''");
         if (navigator.onLine) {
-          alert("got here");
+          $("#syncbutton")[0].src = "images/ajax-loader.gif";
           new_task = Task.create({
             name: input_value,
             time: moment().toString(),
@@ -272,9 +272,15 @@
             listid: this.item.id,
             updated: true
           });
+          this_list = this.items;
           window.settingapp.setup_api_on_entry(function() {
-            return Task.add_to_cloud(new_task, function() {
-              return console.log("added to cloud");
+            return Task.add_to_cloud(new_task, function(new_task) {
+              var view;
+              $("#syncbutton")[0].src = "images/02-redo@2x.png";
+              view = Tasks.init({
+                item: new_task
+              });
+              return this_list.append(view.render().el);
             });
           });
         } else {

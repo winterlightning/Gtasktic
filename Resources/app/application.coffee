@@ -224,7 +224,7 @@ jQuery ($) ->
       input_value = @input.val().replace("'", "''")
       
       if navigator.onLine
-        alert("got here")
+        $("#syncbutton")[0].src="images/ajax-loader.gif"
         new_task = Task.create(
           name: input_value
           time: moment().toString()
@@ -234,7 +234,12 @@ jQuery ($) ->
           listid: @item.id
           updated: true
         )
-        window.settingapp.setup_api_on_entry( ()-> Task.add_to_cloud(new_task, ()-> console.log("added to cloud") ) )
+        this_list = @items
+        window.settingapp.setup_api_on_entry( ()-> Task.add_to_cloud(new_task, (new_task)-> 
+          $("#syncbutton")[0].src="images/02-redo@2x.png" 
+          view = Tasks.init(item: new_task)
+          this_list.append view.render().el
+        ) )
       else
         new_task = Task.create(
           name: input_value
