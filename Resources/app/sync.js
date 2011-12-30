@@ -1,6 +1,7 @@
 (function() {
   window.initialize_and_sync_list = function() {
     if (navigator.onLine) {
+      $("#syncbutton")[0].src = "images/ajax-loader.gif";
       return window.settingapp.setup_api_on_entry(window.find_time_difference);
     }
   };
@@ -126,11 +127,14 @@
       });
       if (window.incrementer[tasklist.id] === 0) {
         if ($("#" + tasklist.id).length > 0) {
-          return List.find(tasklist.id).save();
+          List.find(tasklist.id).save();
         } else {
-          return window.App.render_new(List.find(tasklist.id));
+          window.App.render_new(List.find(tasklist.id));
         }
       }
+      return window.check_no_incoming_calls(function() {
+        return $("#syncbutton")[0].src = "images/02-redo@2x.png";
+      });
     });
   };
   window.sync_list = function() {
@@ -214,6 +218,18 @@
       _results.push(cloud_dict[id].updated != null ? (local_time = moment(local_dict[id].time), cloud_time = moment(cloud_dict[id].updated).add('milliseconds', window.time_difference), local_time > cloud_time ? item.update_to_cloud(local_dict[id], callback) : item.update_to_local(cloud_dict[id], callback)) : typeof parent_id !== "undefined" && parent_id !== null ? item.update_to_cloud(local_dict[id], callback, parent_id) : item.update_to_cloud(local_dict[id], callback));
     }
     return _results;
+  };
+  window.check_no_incoming_calls = function(callback) {
+    var key, sum, value, _len, _ref;
+    sum = 0;
+    _ref = window.incrementer;
+    for (value = 0, _len = _ref.length; value < _len; value++) {
+      key = _ref[value];
+      sum = value + sum;
+    }
+    if (sum === 0) {
+      return callback();
+    }
   };
   window.online = function(event) {
     if (navigator.onLine) {

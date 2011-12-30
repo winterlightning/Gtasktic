@@ -62,3 +62,9 @@ Take care of the client loading.
 
 SYNCED = whether this model has ever been created in the cloud
 UPDATED = whether this model is has been updated in the cloud
+
+
+UI improvements:
+
+Black bar on the side?
+

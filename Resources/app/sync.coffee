@@ -1,6 +1,7 @@
 #the sync entry point
 window.initialize_and_sync_list = ->
   if navigator.onLine
+    $("#syncbutton")[0].src="images/ajax-loader.gif"
     window.settingapp.setup_api_on_entry( window.find_time_difference )
 
 window.time_difference = null
@@ -117,6 +118,8 @@ window.sync_task= (tasklist) ->
         List.find(tasklist.id).save()
       else
         window.App.render_new List.find(tasklist.id)
+    
+    window.check_no_incoming_calls( ()-> $("#syncbutton")[0].src="images/02-redo@2x.png" )
     
   )
 
@@ -237,8 +240,15 @@ window.local_cloud_sync = (local, cloud, item, callback) ->
         item.update_to_cloud( local_dict[id], callback, parent_id )
       else
         item.update_to_cloud( local_dict[id], callback )
-      
+
+#function to check there is no more incoming calls left from syncing      
+window.check_no_incoming_calls= (callback)->
+  sum = 0
+  for key, value in window.incrementer
+    sum = value + sum
   
+  if sum is 0 
+    callback()
 
 #add stuff for online and offline checking
 window.online = (event) ->
