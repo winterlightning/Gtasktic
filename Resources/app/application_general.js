@@ -1,5 +1,5 @@
 (function() {
-  var setting_url;
+  var setting_url, ti_window;
   Task.fetch();
   Deletion.fetch();
   List.fetch();
@@ -122,4 +122,6 @@
     $(".filterselected").removeClass("filterselected");
     return $("#allbutton").addClass("filterselected");
   };
+  ti_window = Titanium.UI.currentWindow;
+  ti_window.height = 510;
 }).call(this);

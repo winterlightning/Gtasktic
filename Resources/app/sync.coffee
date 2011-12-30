@@ -268,13 +268,18 @@ window.online = (event) ->
     $("#sync_button").removeClass("disabled")
     
     $(document).ready(() ->
+      #first time online
       if not window.gapi_loaded
         dynamic_load_gapi( "window.initialize_and_sync_list()" )
         window.gapi_loaded = true
+      #offline and online again
+      else
+        window.initialize_and_sync_list()
+        #if Task.synced().length >= 1 or List.synced().length >= 1 
     )
     
     #check if anything needs syncing, if anything does, do a general sync
-    #if Task.synced().length >= 1 or List.synced().length >= 1 
+    #
   
   else
     $("#sync_button").addClass("disabled")

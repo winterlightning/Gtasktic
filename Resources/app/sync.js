@@ -253,6 +253,8 @@
         if (!window.gapi_loaded) {
           dynamic_load_gapi("window.initialize_and_sync_list()");
           return window.gapi_loaded = true;
+        } else {
+          return window.initialize_and_sync_list();
         }
       });
     } else {
