@@ -113,3 +113,6 @@ window.show_all_div = ->
   $(".filterselected").removeClass "filterselected"
   $("#allbutton").addClass "filterselected"
   
+#set window height to match gradient
+ti_window = Titanium.UI.currentWindow
+ti_window.height = 510
