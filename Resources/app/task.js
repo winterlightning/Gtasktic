@@ -20,6 +20,11 @@
         return item.listid === id;
       });
     },
+    synced: function() {
+      return this.select(function(item) {
+        return !item.synced || !item.updated;
+      });
+    },
     destroyDone: function(id) {
       return this.done(id).forEach(function(rec) {
         Deletion.create({
@@ -113,7 +118,8 @@
           time: (moment(resp.updated) + window.time_difference).toString(),
           listid: task.listid,
           order: task.order,
-          synced: true
+          synced: true,
+          updated: true
         };
         if (task.duedate != null) {
           data.duedate = task.duedate;
@@ -197,8 +203,14 @@
       });
       new_tasklist.id = tasklist.id;
       new_tasklist.synced = true;
+      new_tasklist.updated = true;
       new_tasklist.save();
       return callback(new_tasklist);
+    },
+    synced: function() {
+      return this.select(function(item) {
+        return !item.synced || !item.updated;
+      });
     },
     add_to_cloud: function(tasklist, callback) {
       var request, request_json;
@@ -222,7 +234,8 @@
         new_tasklist = List.init({
           name: tasklist.name,
           time: (new Date()).toString(),
-          synced: true
+          synced: true,
+          updated: true
         });
         new_tasklist.id = resp.id;
         new_tasklist.save();

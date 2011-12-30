@@ -16,6 +16,10 @@ Task.extend
     @select (item) ->
       item.listid == id
   
+  synced: () ->
+    @select (item) ->
+      not item.synced or not item.updated
+  
   destroyDone: (id) ->
     @done(id).forEach (rec) ->
       Deletion.create deletion_id: rec.id  if rec.synced == true
@@ -91,7 +95,7 @@ Task.extend
       #response need to update the local with correct id
       old_id = task.id
       
-      data = { name: task.name, time: ( moment(resp.updated) + window.time_difference ).toString(), listid: task.listid, order: task.order, synced: true}
+      data = { name: task.name, time: ( moment(resp.updated) + window.time_difference ).toString(), listid: task.listid, order: task.order, synced: true, updated: true}
       data.duedate = task.duedate if task.duedate?
       data.note = task.note if task.note?
       
@@ -175,9 +179,14 @@ List.extend
     new_tasklist = List.init( name: tasklist.title, time: (new Date()).toString() )
     new_tasklist.id = tasklist.id
     new_tasklist.synced = true
+    new_tasklist.updated = true
     new_tasklist.save()
     
     callback(new_tasklist)
+
+  synced: () ->
+    @select (item) ->
+      not item.synced or not item.updated
 
   add_to_cloud: (tasklist, callback) ->
     if tasklist.id is "@default"
@@ -198,7 +207,7 @@ List.extend
       #destroy the old tasklist and create one with id corresponding to the new one
       old_id = tasklist.id
       
-      new_tasklist = List.init( name: tasklist.name, time: (new Date()).toString(), synced: true )
+      new_tasklist = List.init( name: tasklist.name, time: (new Date()).toString(), synced: true, updated: true )
       new_tasklist.id = resp.id
       new_tasklist.save()
       

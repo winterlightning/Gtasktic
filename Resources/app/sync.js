@@ -217,7 +217,10 @@
   };
   window.online = function(event) {
     if (navigator.onLine) {
-      return $("#sync_button").removeClass("disabled");
+      $("#sync_button").removeClass("disabled");
+      if (Task.synced().length >= 1 || List.synced().length >= 1) {
+        return window.settingapp.setup_api_on_entry(window.find_time_difference);
+      }
     } else {
       return $("#sync_button").addClass("disabled");
     }

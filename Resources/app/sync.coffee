@@ -244,6 +244,11 @@ window.local_cloud_sync = (local, cloud, item, callback) ->
 window.online = (event) ->
   if navigator.onLine
     $("#sync_button").removeClass("disabled")
+  
+    #check if anything needs syncing, if anything does, do a general sync
+    if Task.synced().length >= 1 or List.synced().length >= 1
+      window.settingapp.setup_api_on_entry( window.find_time_difference )
+  
   else
     $("#sync_button").addClass("disabled")
 
