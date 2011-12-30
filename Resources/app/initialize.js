@@ -4,7 +4,7 @@
     if (Initialized.all().length === 0) {
       delete localStorage["Task"];
       new_version = Version.init({
-        number: "0.2"
+        number: "2.0"
       });
       new_version.save();
       set_init = Initialized.init({
@@ -37,6 +37,18 @@
       });
       new_task.save();
       new_task_2.save();
+      new_token = Token.init({
+        current_token: "",
+        expiration: "",
+        refresh_token: ""
+      });
+      new_token.save();
+      new_back = BackgroundImage.init({
+        "image": ""
+      });
+      new_back.save();
+    }
+    if (Version.first().number === "0.2") {
       new_token = Token.init({
         current_token: "",
         expiration: "",

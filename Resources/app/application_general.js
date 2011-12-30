@@ -6,6 +6,7 @@
   Token.fetch();
   Finished.fetch();
   Initialized.fetch();
+  Version.fetch();
   BackgroundImage.fetch();
   initializeApp();
   setting_url = "";

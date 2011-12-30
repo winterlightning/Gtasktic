@@ -4,6 +4,7 @@ List.fetch()
 Token.fetch()
 Finished.fetch()
 Initialized.fetch()
+Version.fetch()
 BackgroundImage.fetch()
 initializeApp()
 
