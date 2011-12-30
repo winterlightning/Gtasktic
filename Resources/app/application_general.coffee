@@ -27,7 +27,7 @@ $ ->
     onSelect: (dateText, inst) ->
       $(this).parent().parent().find(".showdate").html dateText  if $(this).parent().parent().find(".showdate").length == 1
   
-  $container = $("#container").notify()
+  window.container = $("#container").notify()
   $("#calendar").fullCalendar events: window.rendering_cal_process
   $("#calendarview").hide()
   updateItems()
@@ -40,7 +40,7 @@ $ ->
   shortcut.add "delete", pressed_delete, disable_in_input: "true"
 
 window.create = (template, vars, opts) ->
-  $container.notify "create", template, vars, opts
+  window.container.notify "create", template, vars, opts
 
 window.addlist_window = ->
   $("#list_name").val ""
@@ -114,5 +114,5 @@ window.show_all_div = ->
   $("#allbutton").addClass "filterselected"
   
 #set window height to match gradient
-ti_window = Titanium.UI.currentWindow
-ti_window.height = 510
+#ti_window = Titanium.UI.currentWindow
+#ti_window.height = 510

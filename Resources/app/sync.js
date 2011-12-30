@@ -1,6 +1,6 @@
 (function() {
   window.initialize_and_sync_list = function() {
-    if (navigator.onLine) {
+    if (navigator.onLine && Token.first().refresh_token !== "") {
       $("#syncbutton")[0].src = "images/ajax-loader.gif";
       return window.settingapp.setup_api_on_entry(window.find_time_difference);
     }
@@ -14,13 +14,13 @@
       method: "POST",
       params: "",
       body: {
-        title: "testing"
+        title: "testing time"
       }
     };
     request = gapi.client.request(request_json);
     return request.execute(function(resp) {
       var server_time;
-      window.response = resp;
+      console.log(resp);
       server_time = moment(resp.updated);
       window.time_difference = current_time - server_time;
       request_json = {
@@ -231,12 +231,37 @@
       return callback();
     }
   };
+  window.loadJS = function(file) {
+    var jsElm;
+    jsElm = document.createElement("script");
+    jsElm.type = "application/javascript";
+    jsElm.src = file;
+    return window.document.body.appendChild(jsElm);
+  };
+  window.dynamic_load_gapi = function(callback) {
+    var xhr;
+    xhr = new XMLHttpRequest();
+    xhr.open("GET", "https://apis.google.com/js/client.js", true);
+    xhr.send(null);
+    return xhr.onreadystatechange = function(status, response) {
+      var a;
+      if (xhr.readyState !== 4) {
+        return;
+      }
+      eval(xhr.response);
+      return a = setTimeout(callback(), 3000);
+    };
+  };
+  window.gapi_loaded = false;
   window.online = function(event) {
     if (navigator.onLine) {
       $("#sync_button").removeClass("disabled");
-      if (Task.synced().length >= 1 || List.synced().length >= 1) {
-        return window.settingapp.setup_api_on_entry(window.find_time_difference);
-      }
+      return $(document).ready(function() {
+        if (!window.gapi_loaded) {
+          dynamic_load_gapi(window.initialize_and_sync_list);
+          return window.gapi_loaded = true;
+        }
+      });
     } else {
       return $("#sync_button").addClass("disabled");
     }

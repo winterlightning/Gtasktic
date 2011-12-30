@@ -1,5 +1,5 @@
 (function() {
-  var setting_url, ti_window;
+  var setting_url;
   Task.fetch();
   Deletion.fetch();
   List.fetch();
@@ -14,7 +14,6 @@
   window.taskdict = {};
   window.obj = null;
   $(function() {
-    var $container;
     if (BackgroundImage.first().image !== "") {
       $("#bghelp")[0].style.background = 'url(' + BackgroundImage.first().image + ') no-repeat center';
     }
@@ -30,7 +29,7 @@
         }
       }
     });
-    $container = $("#container").notify();
+    window.container = $("#container").notify();
     $("#calendar").fullCalendar({
       events: window.rendering_cal_process
     });
@@ -49,7 +48,7 @@
     });
   });
   window.create = function(template, vars, opts) {
-    return $container.notify("create", template, vars, opts);
+    return window.container.notify("create", template, vars, opts);
   };
   window.addlist_window = function() {
     $("#list_name").val("");
@@ -123,6 +122,4 @@
     $(".filterselected").removeClass("filterselected");
     return $("#allbutton").addClass("filterselected");
   };
-  ti_window = Titanium.UI.currentWindow;
-  ti_window.height = 510;
 }).call(this);

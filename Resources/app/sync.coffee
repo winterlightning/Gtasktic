@@ -1,6 +1,6 @@
 #the sync entry point
 window.initialize_and_sync_list = ->
-  if navigator.onLine
+  if navigator.onLine and Token.first().refresh_token isnt ""
     $("#syncbutton")[0].src="images/ajax-loader.gif"
     window.settingapp.setup_api_on_entry( window.find_time_difference )
 
@@ -15,11 +15,11 @@ window.find_time_difference = ->
     path: "/tasks/v1/lists/@default/tasks"
     method: "POST"
     params: ""
-    body: { title: "testing" }
+    body: { title: "testing time" }
   
   request = gapi.client.request(request_json)
   request.execute( (resp) -> 
-    window.response = resp
+    console.log(resp)
     server_time = moment( resp.updated )
     window.time_difference = current_time - server_time
     
@@ -250,14 +250,38 @@ window.check_no_incoming_calls= (callback)->
   if sum is 0 
     callback()
 
+#dynamically load a js file
+window.loadJS= (file) ->
+  jsElm = document.createElement("script")
+  jsElm.type = "application/javascript"
+  jsElm.src = file
+  window.document.body.appendChild(jsElm)
+
+window.dynamic_load_gapi = ( callback )->
+  xhr = new XMLHttpRequest()
+  xhr.open("GET", "https://apis.google.com/js/client.js", true)
+  xhr.send(null)
+  xhr.onreadystatechange = (status, response) ->
+      if (xhr.readyState != 4)
+          return;
+      eval(xhr.response)
+      a = setTimeout(callback(), 3000)
+
+window.gapi_loaded = false
 #add stuff for online and offline checking
 window.online = (event) ->
   if navigator.onLine
     $("#sync_button").removeClass("disabled")
-  
+    
+    $(document).ready(() ->
+      if not window.gapi_loaded
+        #window.loadJS("https://apis.google.com/js/client.js")
+        dynamic_load_gapi( window.initialize_and_sync_list )
+        window.gapi_loaded = true
+    )
+    
     #check if anything needs syncing, if anything does, do a general sync
-    if Task.synced().length >= 1 or List.synced().length >= 1
-      window.settingapp.setup_api_on_entry( window.find_time_difference )
+    #if Task.synced().length >= 1 or List.synced().length >= 1 
   
   else
     $("#sync_button").addClass("disabled")
@@ -266,3 +290,5 @@ addEvent(window, 'online', online);
 addEvent(window, 'offline', online);
 
 online(type: 'ready' )
+
+
