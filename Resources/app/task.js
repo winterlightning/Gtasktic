@@ -167,7 +167,9 @@
       return request.execute(function(resp) {
         console.log(resp);
         window.update_response = resp;
-        return callback();
+        task.updated = true;
+        task.save();
+        return callback(task);
       });
     },
     update_to_local: function(task, callback) {

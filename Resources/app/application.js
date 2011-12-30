@@ -41,9 +41,23 @@
         return this;
       },
       toggle: function() {
+        var cur_task;
         this.item.done = !this.item.done;
         this.item.time = moment().toString();
-        return this.item.save();
+        if (navigator.onLine) {
+          $("#syncbutton")[0].src = "images/ajax-loader.gif";
+          this.item.updated = true;
+          this.item.save();
+          cur_task = this.item;
+          return window.settingapp.setup_api_on_entry(function() {
+            return Task.update_to_cloud(cur_task, function() {
+              return $("#syncbutton")[0].src = "images/02-redo@2x.png";
+            });
+          });
+        } else {
+          this.item.updated = false;
+          return this.item.save();
+        }
       },
       destroy: function() {
         var cur_task, d;

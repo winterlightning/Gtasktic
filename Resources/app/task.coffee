@@ -144,7 +144,9 @@ Task.extend
     request.execute( (resp) -> 
       console.log(resp) 
       window.update_response = resp
-      callback()
+      task.updated = true
+      task.save()
+      callback(task)
     )    
   
   update_to_local: (task, callback) ->

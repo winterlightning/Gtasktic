@@ -37,7 +37,17 @@ jQuery ($) ->
     toggle: ->
       @item.done = not @item.done
       @item.time = moment().toString()
-      @item.save()
+      
+      if navigator.onLine
+        $("#syncbutton")[0].src="images/ajax-loader.gif"
+        
+        @item.updated = true
+        @item.save()
+        cur_task = @item
+        window.settingapp.setup_api_on_entry( ()-> Task.update_to_cloud(cur_task, ()-> $("#syncbutton")[0].src="images/02-redo@2x.png" ) )
+      else
+        @item.updated = false
+        @item.save()
     
     destroy: ->
       if @item.synced == true
