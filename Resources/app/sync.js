@@ -231,13 +231,6 @@
       return callback();
     }
   };
-  window.loadJS = function(file) {
-    var jsElm;
-    jsElm = document.createElement("script");
-    jsElm.type = "application/javascript";
-    jsElm.src = file;
-    return window.document.body.appendChild(jsElm);
-  };
   window.dynamic_load_gapi = function(callback) {
     var xhr;
     xhr = new XMLHttpRequest();
@@ -249,7 +242,7 @@
         return;
       }
       eval(xhr.response);
-      return a = setTimeout(callback(), 3000);
+      return a = setTimeout(callback, 2000);
     };
   };
   window.gapi_loaded = false;
@@ -258,7 +251,7 @@
       $("#sync_button").removeClass("disabled");
       return $(document).ready(function() {
         if (!window.gapi_loaded) {
-          dynamic_load_gapi(window.initialize_and_sync_list);
+          dynamic_load_gapi("window.initialize_and_sync_list()");
           return window.gapi_loaded = true;
         }
       });

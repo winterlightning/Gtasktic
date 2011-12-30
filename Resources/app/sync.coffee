@@ -251,12 +251,6 @@ window.check_no_incoming_calls= (callback)->
     callback()
 
 #dynamically load a js file
-window.loadJS= (file) ->
-  jsElm = document.createElement("script")
-  jsElm.type = "application/javascript"
-  jsElm.src = file
-  window.document.body.appendChild(jsElm)
-
 window.dynamic_load_gapi = ( callback )->
   xhr = new XMLHttpRequest()
   xhr.open("GET", "https://apis.google.com/js/client.js", true)
@@ -265,7 +259,7 @@ window.dynamic_load_gapi = ( callback )->
       if (xhr.readyState != 4)
           return;
       eval(xhr.response)
-      a = setTimeout(callback(), 3000)
+      a = setTimeout(callback, 2000)
 
 window.gapi_loaded = false
 #add stuff for online and offline checking
@@ -275,8 +269,7 @@ window.online = (event) ->
     
     $(document).ready(() ->
       if not window.gapi_loaded
-        #window.loadJS("https://apis.google.com/js/client.js")
-        dynamic_load_gapi( window.initialize_and_sync_list )
+        dynamic_load_gapi( "window.initialize_and_sync_list()" )
         window.gapi_loaded = true
     )
     
