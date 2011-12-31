@@ -34,9 +34,16 @@ jQuery ($) ->
         return false
     
     background_change_window: ->
-      $("#dialog_changebackground").dialog 
+      $("#dialog_changebackground").dialog(
+        title: 'Change Background'
+        autoOpen: true
         modal: true
-        title: "Change Your Background"
+        buttons:
+          'Change Background': () ->
+            window.settingapp.background_change()
+            $(this).dialog("close")
+      )
+    
     
     background_change: ->
       back = BackgroundImage.first()
@@ -46,7 +53,14 @@ jQuery ($) ->
       $("#bghelp")[0].style.background = 'url(' + BackgroundImage.first().image + ') no-repeat center'
     
     setting_window: ->
-      $("#dialog").dialog({ modal: true, title: 'Settings for sync' })
+      $("#dialog").dialog( 
+        modal: true, 
+        title: 'Settings for sync' 
+        buttons:
+          'Validate Code': () ->
+            window.settingapp.validate_code()
+            $(this).dialog("close")            
+      )
     
     show_help: ->
       $("#dialog_help").dialog({ modal: true, title: 'Help Tips' })

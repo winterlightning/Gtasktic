@@ -5,7 +5,7 @@
 	<title>GTasktic</title>
 
 	<link type="text/css" rel="stylesheet" href="css/wunderlist.css">
-	<link type="text/css" rel="stylesheet" href="css/dialogs.css">
+	<link type="text/css" rel="stylesheet" href="css/custom-theme/jquery-ui-1.8.16.custom.css">
 	<link type="text/css" rel="stylesheet" href="css/ui.notify.css">
 	
 	<script src="lib/json2.js" type="text/javascript" charset="utf-8"></script>
@@ -22,13 +22,11 @@
 	<script src="lib/dateformat.js" type="text/javascript" charset="utf-8"></script>
 	<script src="lib/jquery.notify.min.js" type="text/javascript" charset="utf-8"></script>
 	
-	<!-- <script src="https://apis.google.com/js/client.js?onload=initialize_and_sync_list"></script> -->
-	
 	<script src="lib/moment.min.js" type="text/javascript" charset="utf-8"></script>
 	
 	<script src="app/spine.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/set.js" type="text/javascript" charset="utf-8"></script>
-	<script src="app/spine.model.sqlite.js" type="text/javascript" charset="utf-8"></script>
+	<script src="app/spine.model.local.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/task.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/sync.js" type="text/javascript" charset="utf-8"></script>
 	<script src="app/application.js" type="text/javascript" charset="utf-8"></script>
@@ -157,21 +155,15 @@
 
 	<div id="dialog" style="display: none">
 		<p>Go to the following link, login your google account and grant access: 
-		<a id="authlink" onclick="window.settingapp.open_validation_window()">authorization link</a><br />
-		<p>Copy and paste the validation code from Google; Paste it into here and press validate. <br />
+		<a id="authlink" onclick="window.settingapp.open_validation_window()" style="color: #0064CD">authorization link</a></p>
+		<p>Copy and paste the validation code from Google; Paste it into here and press validate. </p>
 		<form id="auth_submit">
-			<input class="input-login" type="text" id="validation" name="code" placeholder="Validation Code"></p>
+			<input class="xlarge" type="text" id="validation" name="code" placeholder="Validation Code"></p>
 			<input type="text" style="display: none" name="client_id" value="784374432524.apps.googleusercontent.com" />
 			<input type="text" style="display: none" name="client_secret" value="u4K1AZXSj8P9hIlEddLsMi6d"/>
 			<input type="text" style="display: none" name="grant_type" value="authorization_code" />
 			<input type="text" style="display: none" name="redirect_uri" value="urn:ietf:wg:oauth:2.0:oob" />
 		</form>
-		
-		<div id="account-buttons" class="ui-dialog-buttonset">        
-	        <div class="loginbuttons">
-	         	<input class="input-button register button-login" type="submit" id="validate_button" value="Validate Code">          	        
-	        </div>
-	    </div>
 	</div>
 
 	<div id="dialog_help" style="display: none">
@@ -228,13 +220,7 @@
 		
 		<p>Choose an image file: <br />
 		<input class="input-login" id="fileuploader" type="file" id="background_file" name="description" placeholder="description"></p>
-		
-		<div id="account-buttons" class="ui-dialog-buttonset">        
-
-	        <div class="loginbuttons">
-	         	<input class="input-button register button-login" type="submit" id="change_background_button" value="Change Background">          	        
-	        </div>
-	    </div>
+				    
 	</div>
 
 

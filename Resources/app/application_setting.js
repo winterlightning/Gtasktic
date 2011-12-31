@@ -32,8 +32,15 @@
       },
       background_change_window: function() {
         return $("#dialog_changebackground").dialog({
+          title: 'Change Background',
+          autoOpen: true,
           modal: true,
-          title: "Change Your Background"
+          buttons: {
+            'Change Background': function() {
+              window.settingapp.background_change();
+              return $(this).dialog("close");
+            }
+          }
         });
       },
       background_change: function() {
@@ -46,7 +53,13 @@
       setting_window: function() {
         return $("#dialog").dialog({
           modal: true,
-          title: 'Settings for sync'
+          title: 'Settings for sync',
+          buttons: {
+            'Validate Code': function() {
+              window.settingapp.validate_code();
+              return $(this).dialog("close");
+            }
+          }
         });
       },
       show_help: function() {
