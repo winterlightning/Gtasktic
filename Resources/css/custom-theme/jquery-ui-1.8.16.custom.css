@@ -1147,3 +1147,9 @@ textarea,
    overflow: visible;
 }
 
+.ui-widget input[type="file"] {
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #EEEEEE;
+	margin-top: 5px;
+}
