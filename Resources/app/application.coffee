@@ -284,7 +284,12 @@ jQuery ($) ->
         modal: true
         title: "Edit this list"
         dialogClass: "editing"
+        buttons:
+          'Edit List': () ->
+            add_list()
+            $(this).dialog("close")
       )
+
       d.data "id", @item.id
     
     attach: ->

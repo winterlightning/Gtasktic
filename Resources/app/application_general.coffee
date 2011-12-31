@@ -50,6 +50,10 @@ window.addlist_window = ->
     modal: true
     title: "Add A New List"
     dialogClass: "adding"
+    buttons:
+      'Add List': () ->
+        add_list()
+        $(this).dialog("close")
 
 window.add_list = ->
   name = $("#list_name").val()

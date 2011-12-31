@@ -57,7 +57,13 @@
     return $("#dialog_addlist").dialog({
       modal: true,
       title: "Add A New List",
-      dialogClass: "adding"
+      dialogClass: "adding",
+      buttons: {
+        'Add List': function() {
+          add_list();
+          return $(this).dialog("close");
+        }
+      }
     });
   };
   window.add_list = function() {

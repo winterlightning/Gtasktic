@@ -338,7 +338,13 @@
         d = $("#dialog_addlist").dialog({
           modal: true,
           title: "Edit this list",
-          dialogClass: "editing"
+          dialogClass: "editing",
+          buttons: {
+            'Edit List': function() {
+              add_list();
+              return $(this).dialog("close");
+            }
+          }
         });
         return d.data("id", this.item.id);
       },
