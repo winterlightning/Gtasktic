@@ -394,6 +394,7 @@ a.listbutton {
 	text-shadow: rgba(255, 255, 255, 0.5) 0 1px 0;
 	-webkit-border-radius: 8px;
 	vertical-align: middle;
+	float: right;
 }
 
 .listfilter button:hover, .listfilter button.filterselected {
