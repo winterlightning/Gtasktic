@@ -672,11 +672,10 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 .ui-dialog .ui-dialog-titlebar { /*padding: .4em 1em;*/
 
   position: relative;
-  padding:5px 15px;
 
   border:0px 0px 0px 1px solid;
   border-color: white;
-  padding: 5px 15px;
+  padding: 0px 7px;
   font-size: 18px;
   text-decoration:none;
   background:none;
@@ -689,7 +688,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
   -khtml-border-bottom-left-radius: 0px;
   border-bottom-left-radius: 0px;
 
-  border-bottom:1px solid #ccc;
+  border-bottom: 0px solid #ccc;
 
 }
 .ui-dialog .ui-dialog-title {
@@ -1076,7 +1075,7 @@ textarea,
 .uneditable-input {
   display: inline-block;
   width: 210px;
-  /*height: 30px; */
+  /*height: 30px;*/
   padding: 4px;
   font-size: 13px;
   line-height: 18px;
