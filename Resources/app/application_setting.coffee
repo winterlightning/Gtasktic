@@ -101,6 +101,11 @@ jQuery ($) ->
       $("#dialog").dialog("close")
     
     setup_api_on_entry: ( callback ) ->
+      #if token not there, just return
+      if Token.first().refresh_token is ""
+        $("#syncbutton")[0].src="images/02-redo@2x.png"
+        return true
+      
       #if token not expired, set token and load api
       current_token = Token.first()
       expiration = moment( current_token.expiration )

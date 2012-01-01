@@ -103,6 +103,10 @@
       },
       setup_api_on_entry: function(callback) {
         var current_token, data, expiration, now, xhr;
+        if (Token.first().refresh_token === "") {
+          $("#syncbutton")[0].src = "images/02-redo@2x.png";
+          return true;
+        }
         current_token = Token.first();
         expiration = moment(current_token.expiration);
         now = moment();
