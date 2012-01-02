@@ -178,6 +178,7 @@ jQuery ($) ->
       @addAll()
       @el.addClass "firstlist"  if @item.id == "@default"
       @renderCount()
+      
       tab_el = $(".listfilter")
       tab_id = "l" + (String(@item.id).replace("@", ""))
       $("#" + tab_id).remove()
@@ -186,6 +187,7 @@ jQuery ($) ->
       @tab = $(String("#" + tab_id))
       this_element = "#" + @item.id
       this_tab = @tab
+      
       @tab.click ->
         $(".listdiv").hide()
         if this_element == "#@default"
@@ -295,11 +297,33 @@ jQuery ($) ->
     attach: ->
       @el.find(".roundedlist").sortable update: (event, ui) ->
         $(".roundedlist li").each (index) ->
-          current = Task.find($(this).data("id"))
-          current.order = $(this).index()
-          current.listid = ($(this).parent().parent())[0].id
-          current.time = moment().toString()
-          current.save()
+          #on change to a different list, you have to things to create a new task in a different list and delete the old task
+          if navigator.onLine
+            alert("too")
+            
+          else          
+            current = Task.find($(this).data("id"))
+            current_list_id = ($(this).parent().parent())[0].id
+            
+            if current.listid isnt ($(this).parent().parent())[0].id
+              new_task = Task.init( 
+                name: current.name
+                time: moment().toString()
+                done: current.done
+                order: $(this).index()
+                synced: false
+                listid: ($(this).parent().parent())[0].id
+                updated: false
+              )
+              new_task.save()
+              current.destroy()
+              if List.exists(current_list_id)
+                 new_list = List.find(current_list_id)
+                 new_list.save()
+            else
+              current.order = $(this).index()
+              current.save()  
+                               
       connectWith: ".connectedsortable"
       
       @el.find(".addinputs").toggle()

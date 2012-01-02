@@ -129,6 +129,8 @@
     $(".filterselected").removeClass("filterselected");
     return $("#allbutton").addClass("filterselected");
   };
-  ti_window = Titanium.UI.currentWindow;
-  ti_window.height = 510;
+  if (typeof Titanium !== "undefined" && Titanium !== null) {
+    ti_window = Titanium.UI.currentWindow;
+    ti_window.height = 510;
+  }
 }).call(this);

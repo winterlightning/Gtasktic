@@ -352,12 +352,33 @@
         this.el.find(".roundedlist").sortable({
           update: function(event, ui) {
             return $(".roundedlist li").each(function(index) {
-              var current;
-              current = Task.find($(this).data("id"));
-              current.order = $(this).index();
-              current.listid = ($(this).parent().parent())[0].id;
-              current.time = moment().toString();
-              return current.save();
+              var current, current_list_id, new_list, new_task;
+              if (navigator.onLine) {
+                return alert("too");
+              } else {
+                current = Task.find($(this).data("id"));
+                current_list_id = ($(this).parent().parent())[0].id;
+                if (current.listid !== ($(this).parent().parent())[0].id) {
+                  new_task = Task.init({
+                    name: current.name,
+                    time: moment().toString(),
+                    done: current.done,
+                    order: $(this).index(),
+                    synced: false,
+                    listid: ($(this).parent().parent())[0].id,
+                    updated: false
+                  });
+                  new_task.save();
+                  current.destroy();
+                  if (List.exists(current_list_id)) {
+                    new_list = List.find(current_list_id);
+                    return new_list.save();
+                  }
+                } else {
+                  current.order = $(this).index();
+                  return current.save();
+                }
+              }
             });
           },
           connectWith: ".connectedsortable"

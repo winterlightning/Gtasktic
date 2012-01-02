@@ -123,7 +123,6 @@ jQuery ($) ->
           console.log("api loaded")
           callback()
         )
-        
       
       else
         console.log("token expired")
