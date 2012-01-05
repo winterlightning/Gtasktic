@@ -28,9 +28,15 @@ Task.extend
   logDone: ( id ) ->
     @done(id).forEach (rec) ->
       if rec.synced == true
-        d = Deletion.init deletion_id: rec.id, listid: rec.listid 
-        d.id = rec.id
-        d.save()
+        cur_task = rec
+        if navigator.onLine
+          $("#syncbutton")[0].src="images/ajax-loader.gif"
+          window.settingapp.setup_api_on_entry( ()-> Task.delete_from_cloud(cur_task, ()-> $("#syncbutton")[0].src="images/02-redo@2x.png" ) )
+        
+        else
+          d = Deletion.init deletion_id: rec.id, listid: rec.listid 
+          d.id = rec.id
+          d.save()
       
       Finished.create 
         name: rec.name
