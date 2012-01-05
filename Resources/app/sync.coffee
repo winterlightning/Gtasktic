@@ -112,14 +112,22 @@ window.sync_task= (tasklist) ->
     )
       
     #if no outstanding ajax request, render window
-    if window.incrementer[tasklist.id] is 0
+    #if window.incrementer[tasklist.id] is 0
       #check if it already exist to avoid making a duplicate
-      if $("#"+tasklist.id).length > 0
-        List.find(tasklist.id).save()
-      else
-        window.App.render_new List.find(tasklist.id)
+    #  if $("#"+tasklist.id).length > 0
+    #    List.find(tasklist.id).save()
+    #   else
+    #    window.App.render_new List.find(tasklist.id)
     
-    window.check_no_incoming_calls( ()-> $("#syncbutton")[0].src="images/02-redo@2x.png" )
+    window.check_no_incoming_calls( ()-> 
+      for tasklist in List.all()
+        if $("#"+tasklist.id).length > 0
+          List.find(tasklist.id).save()
+        else
+          window.App.render_new List.find(tasklist.id)
+      
+      $("#syncbutton")[0].src="images/02-redo@2x.png" 
+    )
     
   )
 

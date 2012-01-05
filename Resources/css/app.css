@@ -486,8 +486,10 @@ a.listbutton {
 /*css for calendar*/
 .finished_task .fc-event-skin {
 	border-color:  #bbb !important;
-	background-color: #bbb !important;
+	/* background: -webkit-linear-gradient(#CACACA, #eee, #CACACA); */
+	background: -webkit-gradient(linear, left top, left bottom, from(#EDEDED), to(white));
 	color: #444 !important;
+	color: #999;
 }
 
 .finished_task {
@@ -518,7 +520,7 @@ a.listbutton {
 
 
 /*input color change and height change*/
-input[type="text"] {
+.addform input[type="text"] {
 	font-size: 12px;
 	line-height: 12px;
 	color: #eee;
