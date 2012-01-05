@@ -288,7 +288,7 @@ jQuery ($) ->
         dialogClass: "editing"
         buttons:
           'Edit List': () ->
-            add_list()
+            edit_list()
             $(this).dialog("close")
       )
 

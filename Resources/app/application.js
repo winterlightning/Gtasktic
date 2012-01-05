@@ -341,7 +341,7 @@
           dialogClass: "editing",
           buttons: {
             'Edit List': function() {
-              add_list();
+              edit_list();
               return $(this).dialog("close");
             }
           }
