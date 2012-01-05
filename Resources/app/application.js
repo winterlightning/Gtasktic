@@ -352,9 +352,40 @@
         this.el.find(".roundedlist").sortable({
           update: function(event, ui) {
             return $(".roundedlist li").each(function(index) {
-              var current, current_list_id, new_list, new_task;
+              var current, current_list_id, new_list, new_task, this_list;
               if (navigator.onLine) {
-                return alert("too");
+                current = Task.find($(this).data("id"));
+                current_list_id = ($(this).parent().parent())[0].id;
+                if (current.listid !== ($(this).parent().parent())[0].id) {
+                  $("#syncbutton")[0].src = "images/ajax-loader.gif";
+                  new_task = Task.init({
+                    name: current.name,
+                    time: moment().toString(),
+                    done: current.done,
+                    order: $(this).index(),
+                    synced: false,
+                    listid: ($(this).parent().parent())[0].id,
+                    updated: false
+                  });
+                  new_task.save();
+                  this_list = List.find(current_list_id);
+                  this_list.save();
+                  window.settingapp.setup_api_on_entry(function() {
+                    return Task.add_to_cloud(new_task, function(new_task) {
+                      $("#syncbutton")[0].src = "images/02-redo@2x.png";
+                      return this_list.save();
+                    });
+                  });
+                  window.settingapp.setup_api_on_entry(function() {
+                    return Task.delete_from_cloud(current, function() {
+                      return console.log("old task deleted");
+                    });
+                  });
+                  return current.destroy();
+                } else {
+                  current.order = $(this).index();
+                  return current.save();
+                }
               } else {
                 current = Task.find($(this).data("id"));
                 current_list_id = ($(this).parent().parent())[0].id;

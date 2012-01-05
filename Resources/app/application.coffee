@@ -299,8 +299,38 @@ jQuery ($) ->
         $(".roundedlist li").each (index) ->
           #on change to a different list, you have to things to create a new task in a different list and delete the old task
           if navigator.onLine
-            alert("too")
+            current = Task.find($(this).data("id"))
+            current_list_id = ($(this).parent().parent())[0].id
             
+            if current.listid isnt ($(this).parent().parent())[0].id
+              $("#syncbutton")[0].src="images/ajax-loader.gif"
+              new_task = Task.init( 
+                name: current.name
+                time: moment().toString()
+                done: current.done
+                order: $(this).index()
+                synced: false
+                listid: ($(this).parent().parent())[0].id
+                updated: false
+              )
+              new_task.save()
+              
+              this_list = List.find(current_list_id)
+              this_list.save()
+              
+              window.settingapp.setup_api_on_entry( ()-> Task.add_to_cloud(new_task, (new_task)-> 
+                $("#syncbutton")[0].src="images/02-redo@2x.png" 
+                this_list.save()
+              ) )
+              
+              window.settingapp.setup_api_on_entry( () -> Task.delete_from_cloud(current, ()-> console.log("old task deleted") ) )
+              
+              current.destroy()
+              
+            else
+              current.order = $(this).index()
+              current.save() 
+                            
           else          
             current = Task.find($(this).data("id"))
             current_list_id = ($(this).parent().parent())[0].id
