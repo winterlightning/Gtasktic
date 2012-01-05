@@ -515,3 +515,12 @@ a.listbutton {
 	position: relative !important; 
 	top: 40px !important;
 }
+
+
+/*input color change and height change*/
+input[type="text"] {
+	font-size: 12px;
+	line-height: 12px;
+	color: #eee;
+	margin-left: 5px;
+}
