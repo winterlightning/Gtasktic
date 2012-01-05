@@ -91,7 +91,9 @@ jQuery ($) ->
           
           create "default", 
             title: "Validation succeeded"
-            text: "You can now sync your list"
+            text: "Your list will now auto sync"
+            
+          initialize_and_sync_list()
           
       xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
       xhr.send(form_data)

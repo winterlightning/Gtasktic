@@ -90,10 +90,11 @@
             current_token.expiration = now.toString();
             current_token.refresh_token = window.obj['refresh_token'];
             current_token.save();
-            return create("default", {
+            create("default", {
               title: "Validation succeeded",
-              text: "You can now sync your list"
+              text: "Your list will now auto sync"
             });
+            return initialize_and_sync_list();
           }
         };
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
