@@ -18,7 +18,7 @@ Build for store:
 
 2. Build package
 
-sudo /Library/Application\ Support/Titanium/sdk/osx/1.2.0.RC4/tibuild.py -d . -t bundle -j -p PACKAGE -n --appstore Gtasktic/
+sudo /Library/Application\ Support/Titanium/sdk/osx/1.2.0.RC6e/tibuild.py -d . -t bundle -j -p PACKAGE -n --appstore Gtasktic/
 
 3. chmod the permissions
 sudo chmod -R 777 Gtasktic.app
