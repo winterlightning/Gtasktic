@@ -1,6 +1,14 @@
 normal build:
 /Library/Application\ Support/Titanium/sdk/osx/1.2.0.RC6e/tibuild.py -d . -t bundle -j -p PACKAGE -r Gtasktic/
 
+Do all this before building
+cat css/dialogs.css css/tipsy.css css/ui.notify.css css/wunderlist.css css/app.css > alldacss.css
+
+coffee -j all.js --compile app/spine app/set app/spine.model.local app/task app/sync app/application app/application_setting app/calendar app/initialize app/error_handling app/application_general app/hotkeys
+
+cat lib/json2.js lib/jquery.tmpl.js lib/jquery.ui.1.8.10.min.js lib/jquery.async.js lib/shortcuts.js lib/encoder.js lib/dateformat.js lib/jquery.notify.min.js > alllibs.js
+
+
 Build for store:
 
 1. Change application version number in the xml
@@ -21,11 +29,3 @@ codesign -f -v -s "3rd Party Mac Developer Application: Ray Wang" Gtasktic.app
 6. productbuild package
 
 productbuild --component Gtasktic.app /Applications --sign "3rd Party Mac Developer Installer: Ray Wang" --product Gtasktic.app/Contents/Info.plist Gtasktic.pkg
-
-
-
-cat css/dialogs.css css/tipsy.css css/ui.notify.css css/wunderlist.css css/app.css > alldacss.css
-
-coffee -j all.js --compile app/set app/spine app/spine.model.sqlite app/application_general app/task app/application app/hotkeys app/application_setting app/sync app/util app/calendar app/initialize
-
-cat lib/json2.js lib/jquery.tmpl.js lib/jquery.ui.1.8.10.min.js lib/jquery.async.js lib/shortcuts.js lib/encoder.js lib/dateformat.js lib/jquery.notify.min.js > alllibs.js

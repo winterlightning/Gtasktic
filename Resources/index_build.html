@@ -1,0 +1,240 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+	<title>GTasktic</title>
+
+	<link type="text/css" rel="stylesheet" href="css/wunderlist.css">
+	<link type="text/css" rel="stylesheet" href="css/custom-theme/jquery-ui-1.8.16.custom.css">
+	<link type="text/css" rel="stylesheet" href="css/ui.notify.css">
+	
+	<script src="lib/json2.js" type="text/javascript" charset="utf-8"></script>
+  	<script type="text/javascript" src="lib/jquery-1.6.min.js"></script>
+	<script src="lib/jquery.tmpl.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/jsutil5.js" type="text/javascript" charset="utf-8"></script>
+
+	<!-- Loading external libraries -->
+	<script type="text/javascript" src="lib/jquery.ui.1.8.10.min.js"></script>
+	<script type="text/javascript" src="lib/jquery.async.js"></script>
+	<script type="text/javascript" src="lib/shortcuts.js"></script>
+	<script type="text/javascript" src="lib/encoder.js"></script>
+	<script src="lib/dateformat.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/jquery.notify.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/moment.min.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script src="allcomp.js" type="text/javascript" charset="utf-8"></script>
+
+	<!-- fullcalendar shizzle -->
+	<link rel='stylesheet' type='text/css' href='fullcalendar/fullcalendar.css' />
+	<script type='text/javascript' src='fullcalendar/fullcalendar.js'></script>
+
+	<script type="text/x-jquery-tmpl" id="taskTemplate">
+		<div class="item {{if done}}done{{/if}}">
+		  <div class="view" title="Double click to edit...">
+		    <input type="checkbox" {{if done}}checked="checked"{{/if}}> 
+		    <span>${name}</span>{{if note}}<img src="famfamicons/note.png" class="noteimage" />{{/if}} <span class="duedate">${duedate}</span> 
+		    <input type="hidden" class="id" value="${id}" />
+		    <a class="destroy"></a>
+		  </div>
+		  
+		  <div class="edit">
+  			<form class="edittask_form">
+	  			<table class="editform">
+	  				<tr>
+	  					<td class="header"><input type="checkbox" {{if done}}checked="checked"{{/if}}></td>
+	  					<td><input class="name" type="text" value="${name}"></td>
+	  				</tr>
+	  				<tr>
+	  					<td class="header" style="vertical-align: top;"><img src="famfamicons/note.png" /></td>
+	  					<td><textarea class="note" rows="2" placeholder="Add a note here" >${note}</textarea></td>
+	  				</tr>
+	  				<tr>
+	  					<td class="header last"><img src="famfamicons/calendar.png" /></td>
+	  					<td class="last"><input type="text" class="datepicker" placeholder="Due date" value="${duedate}" /><input class="editsave" type="submit" value="Save" /></td>
+	  				</tr>
+	  			</table>
+  			</form>
+		  </div>
+		</div>
+	</script>
+
+	<script type="text/x-jquery-tmpl" id="listTemplate">
+	  <div id="${id}" class="listdiv">
+	  	  <div class="list_header">
+	  	  	  <h1 class="title" style="">${name}</h1>
+		      <div class="list_bar">
+		      	<a class="deletelist"><img src="famfamicons/delete.png" height="14px"/></a>
+		      	<a class="editlist"><img src="famfamicons/pencil.png" height="14px"/></a>
+		      </div>
+		      <div class="count listbutton" style="float: right;"><span class="countVal"></span> left</div>
+	      </div>
+	      
+	      <div class="items roundedlist connectedsortable" id="${id}_actual"></div>
+	      
+      	  <footer>
+      	  	<a class="clear listbutton" style="">Log completed</a>
+	        <a class="addtoggle listbutton">Add Tasks</a>
+	        <div class="addinputs" style="display: inline-block;">
+	        	<a class="doneadding listbutton">Done Adding</a>
+				<form class="addform" style="display: inline-block"><input type="text" class="addtasks" style="border: 0px;" placeholder="Add your task here and hit Return for entry" /></form>
+	      	</div>
+	      </footer>
+      </div>
+	</script>
+
+	<link type="text/css" rel="stylesheet" href="css/app.css">
+
+</head>
+
+<body id="theapp">
+
+	<div id="bghelp" style="background-image: url('linen.gif'); background-attachment: fixed; background-origin: initial; background-clip: initial; background-color: rgb(0, 0, 0); display: block; background-position: bottom center; background-repeat: no-repeat no-repeat; top: 40px;"></div>
+	
+	<header id="title">
+		<div id="buttonbar">
+			<a id="listtab" class="filter roundedleft active" onclick="toggle('#calendarview', '#views', '#calendartab','#listtab')"><img src="images/align_just_icon_16.png" height="11px" style="vertical-align: top; margin-right: 2px;" /> Your Lists</a>
+			<a id="calendartab" class="roundedright filter" onclick="toggle('#views', '#calendarview', '#listtab', '#calendartab')"><img src="images/calendar_1_icon_16.png" height="11px" style="vertical-align: top; margin-right: 2px;" />Your Calendars</a>				
+		</div>
+		
+		<div id="iconbar">
+			<a id="sync_button" onclick="window.initialize_and_sync_list()" ><img title="Sync" class="icon" id="syncbutton" src="images/02-redo@2x.png" height="16" /> </a>
+			<a id="setting_button"><img title="Settings" class="icon" src="images/cog_icon_16.png" /></a>
+			<a id="background_button"><img class="icon" src="images/picture_icon_16.png" /></a>
+			<a id="help_button"><img title="Help" class="icon" src="images/59-info@2x.png"  height="16"  /></a>
+		</div>
+   	</header>
+	
+	<div id="content" style="left: 0px; display: block; right: 0px;">
+
+		  <div id="views">
+		    <div id="tasks">
+		     
+		      <div id="listsoftasks">
+		      </div>
+		      
+		    </div>
+		  </div>		
+				
+		  <div id="calendarview" style="font-size: 14px">
+		  	<div id='calendar'></div>
+		  </div>
+	</div>
+	
+	<div id="menublur"></div>
+
+	<div id="bottombar">
+		<div id="left">
+			<a onclick="addlist_window()" class="bottom_button">
+				<img class="icon" src="images/16-plus.png" style="" />
+				<span class="text">Add List</span>
+			</a>
+		</div>		
+		<div id="right">
+			<div class="listfilter">
+				<span class="divider"></span>
+				<button class="filterselected" onclick="show_all_div()" id="allbutton" >all</button>
+			</div>
+		</div>
+	</div>
+
+	
+
+	<div id="dialog" style="display: none">
+		<p>Go to the following link, login your google account and grant access: 
+		<a id="authlink" onclick="window.settingapp.open_validation_window()" style="color: #0064CD">authorization link</a></p>
+		<br />
+		<p>Copy and paste the validation code from Google; Paste it into here and press validate. </p>
+		<br />
+		<form id="auth_submit">
+			<input class="xlarge" type="text" id="validation" name="code" placeholder="Validation Code"></p>
+			<input type="text" style="display: none" name="client_id" value="784374432524.apps.googleusercontent.com" />
+			<input type="text" style="display: none" name="client_secret" value="u4K1AZXSj8P9hIlEddLsMi6d"/>
+			<input type="text" style="display: none" name="grant_type" value="authorization_code" />
+			<input type="text" style="display: none" name="redirect_uri" value="urn:ietf:wg:oauth:2.0:oob" />
+		</form>
+	</div>
+
+	<div id="dialog_help" style="display: none">
+		<p>
+			<table style="font-size: 12px" id="hotkeytable">
+			  <tr>
+			  	<thead><strong>Hotkeys</strong></thead>
+			  </tr>
+			  <tr>
+			    <td>↑</td>
+			    <td>Move selection up</td>
+			  </tr>
+			  <tr>
+			    <td>↓</td>
+			    <td>Move selection down</td>
+			  </tr>
+			  <tr>
+			    <td>Enter &nbsp;</td>
+			    <td>Open or close the currently selected task</td>
+			  </tr>
+			  <tr>
+			    <td>Del &nbsp;</td>
+			    <td>Delete the currently selected task</td>
+			  </tr>
+			</table>
+			<br />
+			<strong>Entering a new task:</strong> 
+			Click on the add list button. Enter your task name and press <span class="keyboard">Enter</span> to save the task. You can do so continously until you finish adding all your tasks.
+			<br />
+			<br />
+			<strong>Editing a task:</strong>
+			Double click on a task; Or hit the Enter key on the currently selected task. Hit the Enter key again to save.
+		</p>			
+		<br />
+	</div>
+
+	<div id="dialog_addlist" style="display: none">
+		<p>Name of the list: <br />
+		<input class="input-login" type="text" id="list_name" name="name" placeholder="name"></p>
+		<br />
+		<p>Description for the list: <br />
+		<input class="input-login" type="text" id="list_description" name="description" placeholder="description"></p>
+	    
+	</div>
+
+	<div id="dialog_changebackground" style="display: none">
+		<div id="holder" style="min-height: 100px; background-color: #eee; border-radius: 5px"></div>
+		<br />
+		<p>Choose an image file: <br />
+		<input class="input-login" id="fileuploader" type="file" id="background_file" name="description" placeholder="description"></p>
+				    
+	</div>
+
+
+	<div id="container" style="display:none">
+
+		<div id="default">
+			<h1>#{title}</h1>
+			<p>#{text}</p>
+		</div>
+
+		<div id="sticky">
+			<a class="ui-notify-close ui-notify-cross" href="#">x</a>
+			<h1>#{title}</h1>
+			<p>#{text}</p>
+		</div>
+
+		<div id="withIcon">
+			<a class="ui-notify-close ui-notify-cross" href="#">x</a>
+			<div style="float:left;margin:0 10px 0 0"><img src="#{icon}" alt="warning" /></div>
+			<h1>#{title}</h1>
+			<p>#{text}</p>
+		</div>
+
+		<div id="buttons">
+			<h1>#{title}</h1>
+			<p>#{text}</p>
+			<p style="margin-top:10px;text-align:center">
+				<input type="button" class="confirm" value="Close Dialog" />
+			</p>
+		</div>
+	</div>
+
+<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>
+
+</body></html>
