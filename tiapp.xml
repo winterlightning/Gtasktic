@@ -9,7 +9,7 @@
     <publisher>raywang</publisher>
     <url>http://</url>
     <description>not specified</description>
-    <icon>cloud_ok.png</icon>
+    <icon>cloud_logo.png</icon>
     <copyright>2011 by raywang</copyright>
     <analytics>false</analytics>
     <update-monitor>false</update-monitor>
@@ -17,7 +17,7 @@
     <window>
         <id>initial</id>
         <title>Gtasktic</title>
-        <url>app://index_build.html</url>
+        <url>app://index.html</url>
         <width>700</width>
         <max-width>3000</max-width>
         <min-width>0</min-width>

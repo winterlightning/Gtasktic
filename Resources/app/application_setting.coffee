@@ -10,13 +10,18 @@ jQuery ($) ->
     
     init: ->
       #code for setting up the upload window
+      window.there_upload_pic = false
+      
       upload = $("#fileuploader")[0]
       upload.onchange = (e) ->
         e.preventDefault()
     
         file = upload.files[0]
         reader = new FileReader()
+        window.there_upload_pic = false
+        
         reader.onload = (event) ->
+          window.there_upload_pic = true
           holder = $("#holder")[0]
           
           window.imageevent = event
@@ -40,8 +45,11 @@ jQuery ($) ->
         modal: true
         buttons:
           'Change Background': () ->
-            window.settingapp.background_change()
-            $(this).dialog("close")
+            if window.there_upload_pic
+              window.settingapp.background_change()
+              $(this).dialog("close")
+            else
+              alert("Load an image or wait for image to complete loading")
       )
     
     
