@@ -68,3 +68,14 @@ UI improvements:
 
 Black bar on the side?
 
+#Subtasks 
+
+subtasks should be structured as two data values
+-parent_id
+-level, how nested a row is
+
+based on it's level, render a css class
+
+When rendering, if a task has a parentid, it has to render underneath the parent
+
+Tab should make an task the child of what's on top of it in order unless the other task is of a lower level, then it's traced to the one on top

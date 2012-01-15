@@ -8,6 +8,7 @@ coffee -j all.js --compile app/spine app/set app/spine.model.local app/task app/
 
 coffee -j all.js --compile app/spine app/set app/spine.model.sqlite app/task app/sync app/application app/application_setting app/calendar app/initialize app/error_handling app/application_general app/hotkeys
 
+uglifyjs -o allcomp.js  all.js
 
 cat lib/json2.js lib/jquery.tmpl.js lib/jquery.ui.1.8.10.min.js lib/jquery.async.js lib/shortcuts.js lib/encoder.js lib/dateformat.js lib/jquery.notify.min.js > alllibs.js
 

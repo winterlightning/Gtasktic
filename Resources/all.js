@@ -1765,14 +1765,17 @@
       },
       init: function() {
         var upload;
+        window.there_upload_pic = false;
         upload = $("#fileuploader")[0];
         return upload.onchange = function(e) {
           var file, reader;
           e.preventDefault();
           file = upload.files[0];
           reader = new FileReader();
+          window.there_upload_pic = false;
           reader.onload = function(event) {
             var holder, img;
+            window.there_upload_pic = true;
             holder = $("#holder")[0];
             window.imageevent = event;
             img = new Image();
@@ -1792,8 +1795,12 @@
           modal: true,
           buttons: {
             'Change Background': function() {
-              window.settingapp.background_change();
-              return $(this).dialog("close");
+              if (window.there_upload_pic) {
+                window.settingapp.background_change();
+                return $(this).dialog("close");
+              } else {
+                return alert("Load an image or wait for image to complete loading");
+              }
             }
           }
         });
