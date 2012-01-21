@@ -84,8 +84,6 @@ jQuery ($) ->
       xhr.onreadystatechange = (status, response) ->
         if xhr.readyState is 4
           window.obj = $.parseJSON(window.xhr.response)
-          gapi.auth.setToken(window.obj);
-          gapi.client.load("tasks", "v1", -> console.log("api loaded"));
           
           #1. Set the access token as the current token
           #2. Set the refresh token 
@@ -124,15 +122,9 @@ jQuery ($) ->
       
       if now < expiration
         console.log("token not expired")
-        gapi.auth.setToken
-          access_token: current_token.current_token
-          expires_in: 3600
-          token_type: "Bearer"
           
-        gapi.client.load("tasks", "v1", -> 
-          console.log("api loaded")
-          callback()
-        )
+        callback()
+      
       
       else
         console.log("token expired")
@@ -152,11 +144,6 @@ jQuery ($) ->
         xhr.onreadystatechange = (status, response) ->
           if xhr.readyState is 4
             window.obj = $.parseJSON(window.xhr.response)
-            gapi.auth.setToken(window.obj);
-            gapi.client.load("tasks", "v1", -> 
-              console.log("api loaded")
-              callback()
-            )
             
             #1. Set the access token as the current token
             #2. Set the refresh token 
@@ -166,7 +153,7 @@ jQuery ($) ->
             now = moment().add('seconds', window.obj['expires_in']);
             current_token.expiration = now.toString()
             current_token.save()
-            
+            callback()
         
         xhr.send(data)
         window.xhr = xhr

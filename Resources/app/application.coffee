@@ -98,7 +98,7 @@ jQuery ($) ->
 
      @el.addClass "task_selected"
 
-    close: ->
+    close: (e) -> 
       input_value = @input.val().replace("'", "''")
       
       @wrapper.removeClass "editing"

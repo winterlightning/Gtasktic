@@ -118,7 +118,7 @@
         });
         return this.el.addClass("task_selected");
       },
-      close: function() {
+      close: function(e) {
         var cur_task, element, input_value;
         input_value = this.input.val().replace("'", "''");
         this.wrapper.removeClass("editing");
@@ -154,6 +154,7 @@
           }
         });
         window.last_opened = "";
+        e.returnValue = false;
         return false;
       },
       remove: function() {
