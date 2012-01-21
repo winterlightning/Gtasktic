@@ -124,8 +124,6 @@ jQuery ($) ->
         console.log("token not expired")
           
         callback()
-      
-      
       else
         console.log("token expired")
       

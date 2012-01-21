@@ -87,10 +87,6 @@
           var current_token, now;
           if (xhr.readyState === 4) {
             window.obj = $.parseJSON(window.xhr.response);
-            gapi.auth.setToken(window.obj);
-            gapi.client.load("tasks", "v1", function() {
-              return console.log("api loaded");
-            });
             current_token = Token.first();
             current_token.current_token = window.obj['access_token'];
             now = moment().add('seconds', window.obj['expires_in']);
@@ -120,15 +116,7 @@
         now = moment();
         if (now < expiration) {
           console.log("token not expired");
-          gapi.auth.setToken({
-            access_token: current_token.current_token,
-            expires_in: 3600,
-            token_type: "Bearer"
-          });
-          return gapi.client.load("tasks", "v1", function() {
-            console.log("api loaded");
-            return callback();
-          });
+          return callback();
         } else {
           console.log("token expired");
           xhr = new XMLHttpRequest();
@@ -141,16 +129,12 @@
           xhr.onreadystatechange = function(status, response) {
             if (xhr.readyState === 4) {
               window.obj = $.parseJSON(window.xhr.response);
-              gapi.auth.setToken(window.obj);
-              gapi.client.load("tasks", "v1", function() {
-                console.log("api loaded");
-                return callback();
-              });
               current_token = Token.first();
               current_token.current_token = window.obj['access_token'];
               now = moment().add('seconds', window.obj['expires_in']);
               current_token.expiration = now.toString();
-              return current_token.save();
+              current_token.save();
+              return callback();
             }
           };
           xhr.send(data);

@@ -154,7 +154,6 @@
           }
         });
         window.last_opened = "";
-        e.returnValue = false;
         return false;
       },
       remove: function() {
