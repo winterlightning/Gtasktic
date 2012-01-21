@@ -234,32 +234,10 @@
       return callback();
     }
   };
-  window.dynamic_load_gapi = function(callback) {
-    var xhr;
-    xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://apis.google.com/js/client.js", true);
-    xhr.send(null);
-    return xhr.onreadystatechange = function(status, response) {
-      var a;
-      if (xhr.readyState !== 4) {
-        return;
-      }
-      eval(xhr.response);
-      return a = setTimeout(callback, 2000);
-    };
-  };
   window.gapi_loaded = false;
   window.online = function(event) {
     if (navigator.onLine) {
-      $("#sync_button").removeClass("disabled");
-      return $(document).ready(function() {
-        if (!window.gapi_loaded) {
-          dynamic_load_gapi("window.initialize_and_sync_list()");
-          return window.gapi_loaded = true;
-        } else {
-          return window.initialize_and_sync_list();
-        }
-      });
+      return $("#sync_button").removeClass("disabled");
     } else {
       return $("#sync_button").addClass("disabled");
     }

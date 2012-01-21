@@ -62,7 +62,7 @@ Task.extend
       return true
     
     duedate = null
-    duedate = (new Date(value.due)).format("mm/dd/yyyy")  if value.hasOwnProperty("due")    
+    duedate = moment(value.due).format("MM/DD/YYYY") if value.hasOwnProperty("due")    
     
     task = Task.init(
       name: value.title
@@ -89,7 +89,7 @@ Task.extend
       params: ""
       body: data
     
-    request = gapi.client.request(request_json)
+    request = new GoogleRequest(request_json)
     
     #increment the incrementor to keep track of outstanding requests
     window.incrementer[task.listid] = window.incrementer[task.listid] + 1
@@ -123,7 +123,7 @@ Task.extend
       params: ""
       body: ""
 
-    request = gapi.client.request(request_json)
+    request = new GoogleRequest(request_json)
     request.execute( (resp) -> 
       console.log(resp) 
       window.delete_response = resp
@@ -145,7 +145,7 @@ Task.extend
       params: ""
       body: data
     
-    request = gapi.client.request(request_json)
+    request = new GoogleRequest(request_json)
     
     request.execute( (resp) -> 
       console.log(resp) 
@@ -207,7 +207,7 @@ List.extend
       params: ""
       body:  title: tasklist.name
     
-    request = gapi.client.request(request_json)
+    request = new GoogleRequest(request_json)
     request.execute( (resp) -> 
       console.log(resp) 
       window.add_response = resp
@@ -236,7 +236,7 @@ List.extend
       params: ""
       body:  ""
     
-    request = gapi.client.request(request_json)
+    request = new GoogleRequest(request_json)
     request.execute( (resp) -> 
       console.log(resp) 
       window.delete_response = resp
@@ -253,13 +253,20 @@ List.extend
       params: ""
       body:  { id: tasklist.id, kind: "tasks#taskList", title: tasklist.name }
     
-    request = gapi.client.request(request_json)
+    request = new GoogleRequest(request_json)
     request.execute( (resp) -> 
       console.log(resp) 
       window.update_response = resp
     
       callback(tasklist)  
     )
+
+  update_to_local: (tasklist, callback) ->
+    t = List.find(tasklist.id)
+    t.name = tasklist.title
+    t.save()
+    
+    callback(tasklist) 
 
 Version = Spine.Model.setup("Version", [ "number" ])
 Version.extend Spine.Model.Local

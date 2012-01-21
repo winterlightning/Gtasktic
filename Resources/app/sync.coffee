@@ -258,37 +258,11 @@ window.check_no_incoming_calls= (callback)->
   if sum is 0 
     callback()
 
-#dynamically load a js file
-window.dynamic_load_gapi = ( callback )->
-  xhr = new XMLHttpRequest()
-  xhr.open("GET", "https://apis.google.com/js/client.js", true)
-  xhr.send(null)
-  xhr.onreadystatechange = (status, response) ->
-      if (xhr.readyState != 4)
-          return;
-      eval(xhr.response)
-      a = setTimeout(callback, 2000)
-
 window.gapi_loaded = false
 #add stuff for online and offline checking
 window.online = (event) ->
   if navigator.onLine
     $("#sync_button").removeClass("disabled")
-    
-    $(document).ready(() ->
-      #first time online
-      if not window.gapi_loaded
-        dynamic_load_gapi( "window.initialize_and_sync_list()" )
-        window.gapi_loaded = true
-      #offline and online again
-      else
-        window.initialize_and_sync_list()
-        #if Task.synced().length >= 1 or List.synced().length >= 1 
-    )
-    
-    #check if anything needs syncing, if anything does, do a general sync
-    #
-  
   else
     $("#sync_button").addClass("disabled")
 

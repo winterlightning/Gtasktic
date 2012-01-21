@@ -89,7 +89,7 @@
       }
       duedate = null;
       if (value.hasOwnProperty("due")) {
-        duedate = (new Date(value.due)).format("mm/dd/yyyy");
+        duedate = moment(value.due).format("MM/DD/YYYY");
       }
       task = Task.init({
         name: value.title,
@@ -116,7 +116,7 @@
         params: "",
         body: data
       };
-      request = gapi.client.request(request_json);
+      request = new GoogleRequest(request_json);
       window.incrementer[task.listid] = window.incrementer[task.listid] + 1;
       return request.execute(function(resp) {
         var new_task, old_id;
@@ -154,7 +154,7 @@
         params: "",
         body: ""
       };
-      request = gapi.client.request(request_json);
+      request = new GoogleRequest(request_json);
       return request.execute(function(resp) {
         console.log(resp);
         window.delete_response = resp;
@@ -173,7 +173,7 @@
         params: "",
         body: data
       };
-      request = gapi.client.request(request_json);
+      request = new GoogleRequest(request_json);
       return request.execute(function(resp) {
         console.log(resp);
         window.update_response = resp;
@@ -237,7 +237,7 @@
           title: tasklist.name
         }
       };
-      request = gapi.client.request(request_json);
+      request = new GoogleRequest(request_json);
       return request.execute(function(resp) {
         var new_tasklist, old_id, task, _i, _len, _ref;
         console.log(resp);
@@ -269,7 +269,7 @@
         params: "",
         body: ""
       };
-      request = gapi.client.request(request_json);
+      request = new GoogleRequest(request_json);
       return request.execute(function(resp) {
         console.log(resp);
         window.delete_response = resp;
@@ -288,12 +288,19 @@
           title: tasklist.name
         }
       };
-      request = gapi.client.request(request_json);
+      request = new GoogleRequest(request_json);
       return request.execute(function(resp) {
         console.log(resp);
         window.update_response = resp;
         return callback(tasklist);
       });
+    },
+    update_to_local: function(tasklist, callback) {
+      var t;
+      t = List.find(tasklist.id);
+      t.name = tasklist.title;
+      t.save();
+      return callback(tasklist);
     }
   });
   Version = Spine.Model.setup("Version", ["number"]);
