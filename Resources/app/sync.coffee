@@ -17,7 +17,7 @@ window.find_time_difference = ->
     params: ""
     body: { title: "testing time" }
   
-  request = gapi.client.request(request_json)
+  request = new GoogleRequest(request_json)
   request.execute( (resp) -> 
     console.log(resp)
     server_time = moment( resp.updated )
@@ -29,7 +29,7 @@ window.find_time_difference = ->
       params: ""
       body: ""
 
-    request = gapi.client.request(request_json)
+    request = new GoogleRequest(request_json)
     request.execute( (resp) -> 
       window.delete_tasks()
     )
@@ -82,7 +82,7 @@ window.sync_task= (tasklist) ->
     params: ""
     body: ""
   
-  request = gapi.client.request(request_json)
+  request = new GoogleRequest(request_json)
   
   #create a counter to increment and decrement when things come back
   window.incrementer[tasklist.id] = 0
@@ -136,7 +136,13 @@ window.sync_list = ->
   if List.exists "@default"
     #find if any of them is the default list, if it is, then sync by replacing our default list with theirs
     #this should only happen once when the user first syncs
-    request = gapi.client.tasks.tasklists.get tasklist: "@default"
+    request_json = 
+      path: "/tasks/v1/users/@me/lists/@default"
+      method: "GET"
+      params: ""
+      body: ""
+      
+    request = new GoogleRequest(request_json)
     request.execute( (resp) -> 
       #console.log(resp) 
       
@@ -154,7 +160,13 @@ window.sync_list = ->
       initial_list.destroy()  
       
       #now do the sync 
-      request = gapi.client.tasks.tasklists.list()
+      request_json = 
+        path: "/tasks/v1/users/@me/lists"
+        method: "GET"
+        params: ""
+        body: ""
+      
+      request = new GoogleRequest(request_json)
       request.execute( (resp) -> 
         #console.log(resp) 
         window.list_response = resp  
@@ -165,7 +177,13 @@ window.sync_list = ->
       
     )  
   else
-    request = gapi.client.tasks.tasklists.list()
+    request_json = 
+      path: "/tasks/v1/users/@me/lists"
+      method: "GET"
+      params: ""
+      body: ""
+    
+    request = new GoogleRequest(request_json)
     request.execute( (resp) -> 
       #console.log(resp) 
       window.list_response = resp  
@@ -258,7 +276,6 @@ window.check_no_incoming_calls= (callback)->
   if sum is 0 
     callback()
 
-window.gapi_loaded = false
 #add stuff for online and offline checking
 window.online = (event) ->
   if navigator.onLine

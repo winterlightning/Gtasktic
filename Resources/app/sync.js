@@ -17,7 +17,7 @@
         title: "testing time"
       }
     };
-    request = gapi.client.request(request_json);
+    request = new GoogleRequest(request_json);
     return request.execute(function(resp) {
       var server_time;
       console.log(resp);
@@ -29,7 +29,7 @@
         params: "",
         body: ""
       };
-      request = gapi.client.request(request_json);
+      request = new GoogleRequest(request_json);
       return request.execute(function(resp) {
         return window.delete_tasks();
       });
@@ -102,7 +102,7 @@
       params: "",
       body: ""
     };
-    request = gapi.client.request(request_json);
+    request = new GoogleRequest(request_json);
     window.incrementer[tasklist.id] = 0;
     return request.execute(function(resp) {
       var c, cloud_tasks, local_tasks_for_list, _i, _len;
@@ -141,11 +141,15 @@
     });
   };
   window.sync_list = function() {
-    var request;
+    var request, request_json;
     if (List.exists("@default")) {
-      request = gapi.client.tasks.tasklists.get({
-        tasklist: "@default"
-      });
+      request_json = {
+        path: "/tasks/v1/users/@me/lists/@default",
+        method: "GET",
+        params: "",
+        body: ""
+      };
+      request = new GoogleRequest(request_json);
       return request.execute(function(resp) {
         var initial_list, new_tasklist, task, _i, _len, _ref;
         initial_list = List.find("@default");
@@ -162,14 +166,26 @@
           task.save();
         }
         initial_list.destroy();
-        request = gapi.client.tasks.tasklists.list();
+        request_json = {
+          path: "/tasks/v1/users/@me/lists",
+          method: "GET",
+          params: "",
+          body: ""
+        };
+        request = new GoogleRequest(request_json);
         return request.execute(function(resp) {
           window.list_response = resp;
           return window.local_cloud_sync(List.all(), resp.items, List, window.sync_task);
         });
       });
     } else {
-      request = gapi.client.tasks.tasklists.list();
+      request_json = {
+        path: "/tasks/v1/users/@me/lists",
+        method: "GET",
+        params: "",
+        body: ""
+      };
+      request = new GoogleRequest(request_json);
       return request.execute(function(resp) {
         window.list_response = resp;
         window.local_cloud_sync(List.all(), resp.items, List, window.sync_task);
@@ -234,7 +250,6 @@
       return callback();
     }
   };
-  window.gapi_loaded = false;
   window.online = function(event) {
     if (navigator.onLine) {
       return $("#sync_button").removeClass("disabled");
