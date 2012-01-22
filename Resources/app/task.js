@@ -188,7 +188,7 @@
       local_task = Task.find(task.id);
       duedate = null;
       if (task.hasOwnProperty("due")) {
-        duedate = (new Date(task.due)).format("mm/dd/yyyy");
+        duedate = moment(task.due).add("minutes", moment().zone()).format("MM/DD/YYYY");
       }
       return local_task.updateAttributes({
         name: task.title,
